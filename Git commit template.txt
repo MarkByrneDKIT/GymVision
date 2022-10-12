@@ -1,0 +1,14 @@
+<type>[area]: <description>
+
+types = 
+fix - fixed a bug or error
+feature - added something new
+
+area =
+Backend
+Frontend
+Security
+Database
+Documentation
+
+example - fix[Backend]: fixed problem with API requests
