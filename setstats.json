@@ -1,0 +1,41 @@
+[
+{"type":"header","version":"5.2.0","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"setstats"},
+{"type":"table","name":"comments","database":"setstats","data":
+[
+{"comment_id":"1","comment_text":"TEST TEST TEST COMMENT","user_id_created":"2","likes":"23"}
+]
+}
+,{"type":"table","name":"current_lift_details","database":"setstats","data":
+[
+{"lift_id":"1","user_id":"1","type_of_lift":"deadlift","reps":"10","sets":"1"}
+]
+}
+,{"type":"table","name":"gym_buddies","database":"setstats","data":
+[
+
+]
+}
+,{"type":"table","name":"lift_history","database":"setstats","data":
+[
+{"lift_id":"1","reps":"10","sets":"1"}
+]
+}
+,{"type":"table","name":"users","database":"setstats","data":
+[
+{"user_id":"1","user_name":"Mark Byrne","user_password":"Password1","user_email":"markbyrne@gmail.com"},
+{"user_id":"2","user_name":"Richard Collins","user_password":"Password2","user_email":"richardcollins@icloud.com"},
+{"user_id":"3","user_name":"Liam Denning","user_password":"Password3?","user_email":"liamDenning@yahoo.co.uk"},
+{"user_id":"4","user_name":"Himansh Arora","user_password":"Password4!","user_email":"himansh1234@dkit.student.ie"}
+]
+}
+,{"type":"table","name":"user_details","database":"setstats","data":
+[
+{"user_id":"1","user_bio":"When I first began my adventure with fitness I was anything but the picture of health. I was very overweight and I realized it was because of eating fast food and drinking pop and beer on a regular ba","user_fave_lift":"Deadlift","user_age":"21","comment_id":"0"},
+{"user_id":"2","user_bio":"Learning about the benefits of Metabolic Training and HIIT entirely transformed my body. What I enjoy the most about it is that there is minimal or even NO equipment required and you can do it anytime","user_fave_lift":"Benchpress","user_age":"22","comment_id":"0"},
+{"user_id":"3","user_bio":"For me, a healthy lifestyle is much more than just lifting weights. It’s about stretching, warming up, eating healthily, and getting necessary rest and enough sleep. I love helping others see and expe","user_fave_lift":"Squat","user_age":"25","comment_id":"0"},
+{"user_id":"4","user_bio":"Ten years ago I was overweight, lethargic, and with very low self-esteem. Today, I am the fittest I have ever been. I’ve managed to lose 50 pounds and turn my life by 180 degrees. Now, I find joy in u","user_fave_lift":"Bicep Curl","user_age":"32","comment_id":"0"},
+{"user_id":"1","user_bio":"TEST TEST TEST TEST","user_fave_lift":"Deadlift","user_age":"21","comment_id":"1"}
+]
+}
+]
