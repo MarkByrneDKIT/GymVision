@@ -1,6 +1,8 @@
+GitHub commit template
+-------------------------------------------------------------------
 <type>[area]: <description>
 
-types = 
+type = 
 fix - fixed a bug or error
 feature - added something new
 
@@ -11,4 +13,6 @@ Security
 Database
 Documentation
 
-example - fix[Backend]: fixed problem with API requests
+-------------------------------------------------------------------
+EXAMPLE - Fix[Backend]: Fixed problem with API requests
+-------------------------------------------------------------------
