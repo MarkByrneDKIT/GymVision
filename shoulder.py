@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from flask import Flask
-import threading, time, sys
+import threading
 from flask_restful import Api, Resource
 
 app = Flask(__name__)
@@ -33,7 +33,7 @@ def collect_data():
     mp_pose = mp.solutions.pose
     
     direction = None
-    message = None
+    # message = None
  
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5 ) as pose:
         while cap.isOpened():
@@ -46,8 +46,7 @@ def collect_data():
 
             try:
                 global count
-                landmarks = results.pose_landmarks.landmark
-
+                landmarks = results.pose_landmarks.landmar
                 shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
                 elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
                 wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
@@ -61,20 +60,18 @@ def collect_data():
                 if angle < 90 and direction == "up":
                     direction="down"
                     count+=1
-                    print("captured:", count)
             except:
                 pass
 
 class PublishData(Resource):
     global count
     def get(self):
-        print("published:", count)
         return{"Rep": count}
 
 api.add_resource(PublishData, "/")
 collect = threading.Thread(target=collect_data)
-start = threading.Thread(target=start_server)
+server = threading.Thread(target=start_server)
 
 if __name__ == "__main__":  
     collect.start()
-    start.start()
+    server.start()
