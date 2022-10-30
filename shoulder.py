@@ -8,7 +8,9 @@ from flask_restful import Api, Resource
 app = Flask(__name__)
 api = Api(app)
 
-count = 0
+rep = 0
+set = 0
+message = None
 
 def start_server():
     app.run()
@@ -26,51 +28,67 @@ def calculate_angle(a,b,c):
     
     return angle
 
-cap = cv2.VideoCapture(0)   
-
 def collect_data():
     mp_drawing = mp.solutions.drawing_utils
     mp_pose = mp.solutions.pose
-    
+
+    cap = cv2.VideoCapture(0)   
+
+    global rep
+    global message
+    global set
     direction = None
-    # message = None
- 
+    
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5 ) as pose:
         while cap.isOpened():
-            success, im = cap.read()
-            im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
-            im.flags.writeable = False
-            results = pose.process(im)
-            im.flags.writeable = True
-            im = cv2.cvtColor(im, cv2.COLOR_RGB2BGR)
+            
+            success, image = cap.read()
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            image.flags.writeable = False
+            results = pose.process(image)
+            image.flags.writeable = True
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
             try:
-                global count
-                landmarks = results.pose_landmarks.landmar
+                landmarks = results.pose_landmarks.landmark
                 shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
                 elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
-                wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
-                # wrist_pos = landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y
-                # shoulder_pos = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
+                right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+                left_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+
+                shoulder_pos = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
                 
-                angle = calculate_angle(shoulder, elbow, wrist)   
+                angle = calculate_angle(shoulder, elbow, right_wrist)   
 
                 if angle <= 160 and angle >= 150:
                     direction = "up"
                 if angle < 90 and direction == "up":
                     direction="down"
-                    count+=1
+                    rep+=1
+
+                if rep == 12:
+                    rep = 0
+                    set+=1
+
+                if left_wrist[1] > shoulder_pos - .025:
+                    message = "TOO LOW"
+                else:
+                    message = "OK"
+                
             except:
                 pass
 
 class PublishData(Resource):
-    global count
+    global rep
+    global set
+    global message
     def get(self):
-        return{"Rep": count}
+        return{"Rep": rep, "Set": set, "Message": message}
 
 api.add_resource(PublishData, "/")
-collect = threading.Thread(target=collect_data)
+
 server = threading.Thread(target=start_server)
+collect = threading.Thread(target=collect_data)
 
 if __name__ == "__main__":  
     collect.start()
