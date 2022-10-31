@@ -34,13 +34,11 @@ def collect_data():
 
     cap = cv2.VideoCapture(0)   
 
-    global rep
-    global message
-    global set
+    global rep, set, message
     direction = None
     
-    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5 ) as pose:
-        while cap.isOpened():
+    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+        while cap.isOpened():   
             
             success, image = cap.read()
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -79,9 +77,7 @@ def collect_data():
                 pass
 
 class PublishData(Resource):
-    global rep
-    global set
-    global message
+    global rep, set, message
     def get(self):
         return{"Rep": rep, "Set": set, "Message": message}
 
