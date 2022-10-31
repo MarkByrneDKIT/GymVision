@@ -1,0 +1,19 @@
+{
+  "name": "setstats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.0",
+    "mongoose": "^6.6.7",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20"
+  }
+}
