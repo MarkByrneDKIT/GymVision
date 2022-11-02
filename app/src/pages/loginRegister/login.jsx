@@ -11,7 +11,7 @@ export default function Login() {
                 </div>
                 <div className="loginRight">
                     <div className="loginBox">
-                    <form className="loginBox" onSubmit={handleClick}>
+                    <form className="loginBox">
                         <input placeholder="Email" type="email" className="loginInput" />
                         <input
                             placeholder="Password"
