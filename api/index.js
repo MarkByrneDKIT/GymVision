@@ -14,7 +14,6 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true}, ()=>{
 })
 
 
-//middleware
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
