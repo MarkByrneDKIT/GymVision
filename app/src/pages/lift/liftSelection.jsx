@@ -1,6 +1,8 @@
 import "./lift.css"
 
+
 export default function LiftSelection() {
+
     return(
 
         <div>
