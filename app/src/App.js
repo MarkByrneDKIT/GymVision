@@ -6,6 +6,7 @@ import{
   Routes,
   Route
 } from "react-router-dom";
+import LiftSelection from './pages/lift/liftSelection';
 
 function App() {
   //reactrouter.com quick start
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
+        <Route path="/liftSelection" element={<LiftSelection />}/>
       </Routes>
      </Router>
   );
