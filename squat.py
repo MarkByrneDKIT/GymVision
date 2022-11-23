@@ -6,6 +6,7 @@ import threading
 import math as m
 import time
 import matplotlib.pyplot as plt
+import secrets
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
@@ -14,6 +15,8 @@ cap2 = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 rep = 0 
 set = 0
+
+graph = secrets.token_hex(8)
 
 def findAngle(x1, y1, x2, y2):
     theta = m.acos( (y2-y1)*(-y1) / (m.sqrt(
@@ -144,12 +147,12 @@ def front_cam():
                     direction="up"
                     rep+=1
 
-                if rep == 3:
+                if rep == 12:
                     rep = 0
                     plt.xlabel('Time (Secs)')
                     plt.ylabel('Height (Pixels)')
                     plt.plot(x, y)
-                    plt.savefig(f'graph{set}.jpg')
+                    plt.savefig(graph, format='jpg')
                     x = []
                     y = []
                     set += 1 
@@ -175,7 +178,7 @@ def front_cam():
 t1 = threading.Thread(target=side_cam)
 t2 = threading.Thread(target=front_cam)
 
-t1.start()
-#t2.start()
+#t1.start()
+t2.start()
 
 cv2.destroyAllWindows()
