@@ -1,4 +1,3 @@
-from cgitb import enable
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -7,16 +6,43 @@ import math as m
 import time
 import matplotlib.pyplot as plt
 import secrets
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0)
 cap2 = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 rep = 0 
 set = 0
 
 graph = secrets.token_hex(8)
+errorImage = secrets.token_hex(9)
+
+def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
+    if l_shoulder[0] > (l_knee[0] + 20):
+        s_message = "Shoulders are too far forward"
+        cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
+
+    elif l_shoulder[0] < (l_knee[0] - 20):
+        s_message = "Shoulders are too far back"
+        cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
+    else:
+        s_message = 'Good'
+        cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
+
+    if l_knee[0] > (l_foot[0] + 40):
+        k_message = "Knees are too far forward"
+        cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
+    elif l_knee[0] < (l_foot[0] - 40):
+        k_message = "Knees are too far back"
+        cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
+    else:
+        k_message = "Good"
+        cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
+
+    return {'Shoulder': s_message, 'Knee': k_message }
+
 
 def findAngle(x1, y1, x2, y2):
     theta = m.acos( (y2-y1)*(-y1) / (m.sqrt(
@@ -24,7 +50,7 @@ def findAngle(x1, y1, x2, y2):
     degree = int(180/m.pi)*theta
     return degree
 
-def calculate_angle(a,b,c):
+def calculateAngle(a,b,c):
     a = np.array(a)
     b = np.array(b)
     c = np.array(c)
@@ -38,9 +64,11 @@ def calculate_angle(a,b,c):
     return angle
 
 def side_cam():
-    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
+    badFormTimer = 0
 
+    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         while cap.isOpened():
+            
             ret, image = cap.read()
             h, w = image.shape[:2]
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -50,6 +78,7 @@ def side_cam():
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
             try:
+                global rep, set
                 landmarks = results.pose_landmarks.landmark
 
                 l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
@@ -62,38 +91,29 @@ def side_cam():
                     mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2)
                 )
 
-                print(r_shoulder)
-
-                
-                cv2.rectangle(image, (0,0), (490,50), (245, 117,16), -1)   
-
                 cv2.line(image, (l_foot[0] +40, 0), (l_foot[0] +40, 640), (0, 150, 0), 5)
                 cv2.line(image, (l_foot[0] -40, 0), (l_foot[0] -40, 640), (0, 150, 0), 5)
 
-                if l_shoulder[0] > (l_knee[0] + 20):
-                    s_message = "Shoulders are too far forward"
-                    cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
-                elif l_shoulder[0] < (l_knee[0] - 20):
-                    s_message = "Shoulders are too far back"
-                    cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
+                cv2.rectangle(image, (0,0), (490,50), (245, 117,16), -1)  
+
+                feedback = checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image)
+
+                if feedback['Shoulder'] != "Good" and feedback['Knee'] != "Good":
+                    badFormTimer+=1
                 else:
-                    s_message = 'Good'
-                    cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
+                    badFormTimer=0
 
-                if l_knee[0] > (l_foot[0] + 40):
-                    k_message = "Knees are too far forward"
-                    cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
-                elif l_knee[0] < (l_foot[0] - 40):
-                    k_message = "Knees are too far back"
-                    cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
-                else:
-                    k_message = "Good"
-                    cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
+                if badFormTimer == 70:
+                    cv2.imwrite(f"{errorImage}.jpg", image)
 
-                message = {'Shoulder': s_message, 'Knee': k_message}
+                cv2.putText(image, str(feedback['Shoulder']), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+                cv2.putText(image, str(feedback['Knee']), (10,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
 
-                cv2.putText(image, str(message['Shoulder']), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
-                cv2.putText(image, str(message['Knee']), (10,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+                message = {
+                    'Rep': rep,
+                    'Set': set, 
+                    'Feedback': feedback
+                }
 
             except:
                 pass
@@ -109,8 +129,7 @@ def front_cam():
     y = []
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
-        start_time = time.time()
-        print(start_time)
+        startTime = time.time()
 
         while cap2.isOpened():
             ret, image = cap2.read()
@@ -121,7 +140,7 @@ def front_cam():
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-            elapsed_time = round(time.time() - start_time, 2)
+            elapsed_time = round(time.time() - startTime, 2)
 
             try:
                 global rep, set
@@ -131,7 +150,7 @@ def front_cam():
                 l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
                 l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
                 
-                angle = calculate_angle(l_hip, l_knee, l_foot)   
+                angle = calculateAngle(l_hip, l_knee, l_foot)   
 
                 cv2.putText(image, str(angle),
                                 tuple(np.multiply(l_knee, [640, 480]).astype(int)),
@@ -178,7 +197,7 @@ def front_cam():
 t1 = threading.Thread(target=side_cam)
 t2 = threading.Thread(target=front_cam)
 
-#t1.start()
-t2.start()
+t1.start()
+#t2.start()
 
 cv2.destroyAllWindows()
