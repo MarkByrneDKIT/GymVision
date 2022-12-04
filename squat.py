@@ -43,6 +43,14 @@ def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
 
     return {'Shoulder': s_message, 'Knee': k_message }
 
+def checkTilt(l_shoulder, r_shoulder):
+    if l_shoulder[1] > (r_shoulder[1] + (r_shoulder[1] / 25)):
+        message = "Tilting to left"
+    elif r_shoulder[1] > (l_shoulder[1] + (l_shoulder[1] / 25)):
+        message = "Tilting to right"
+    else:
+        message = "Straight"
+    return message
 
 def findAngle(x1, y1, x2, y2):
     theta = m.acos( (y2-y1)*(-y1) / (m.sqrt(
@@ -146,10 +154,13 @@ def front_cam():
                 global rep, set
                 landmarks = results.pose_landmarks.landmark
 
+                l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
+                r_shoulder = (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y * h))
                 l_hip = (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y * h))
                 l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
                 l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
                 
+                tilt = checkTilt(l_shoulder, r_shoulder)
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
 
                 cv2.putText(image, str(angle),
@@ -197,7 +208,7 @@ def front_cam():
 t1 = threading.Thread(target=side_cam)
 t2 = threading.Thread(target=front_cam)
 
-t1.start()
-#t2.start()
+#t1.start()
+t2.start()
 
 cv2.destroyAllWindows()
