@@ -11,7 +11,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 cap = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap2 = cv2.VideoCapture(1)
 
 rep = 0 
 set = 0
@@ -99,8 +99,8 @@ def side_cam():
                     mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2)
                 )
 
-                cv2.line(image, (l_foot[0] +40, 0), (l_foot[0] +40, 640), (0, 150, 0), 5)
-                cv2.line(image, (l_foot[0] -40, 0), (l_foot[0] -40, 640), (0, 150, 0), 5)
+                cv2.line(image, (l_foot[0] +40, 0), (l_foot[0] +40, 640), (0, 150, 0), 1)
+                cv2.line(image, (l_foot[0] -40, 0), (l_foot[0] -40, 640), (0, 150, 0), 1)
 
                 cv2.rectangle(image, (0,0), (490,50), (245, 117,16), -1)  
 
@@ -111,11 +111,11 @@ def side_cam():
                 else:
                     badFormTimer=0
 
-                if badFormTimer == 70:
-                    cv2.imwrite(f"{errorImage}.jpg", image)
-
                 cv2.putText(image, str(feedback['Shoulder']), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
                 cv2.putText(image, str(feedback['Knee']), (10,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+
+                if badFormTimer == 70:
+                    cv2.imwrite(f"{errorImage}.jpg", image)
 
                 message = {
                     'Rep': rep,
@@ -203,12 +203,10 @@ def front_cam():
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
-
-
 t1 = threading.Thread(target=side_cam)
 t2 = threading.Thread(target=front_cam)
 
-#t1.start()
-t2.start()
+t1.start()
+#t2.start()
 
 cv2.destroyAllWindows()
