@@ -17,13 +17,16 @@ export default function Squat() {
           )
         
       }
+      function continuousGet(){
+
+      }
     return(
                 <div>
-                <h1>Height:<span id="h"></span></h1>
-				<h1>Rep:<span id="r"></span></h1>
-				<h1>Set:<span id="s"></span></h1>
+				        <h1>Rep:<span id="r"></span></h1>
+				        <h1>Set:<span id="s"></span></h1>
                 <form onSubmit={handleClick}>
                 <button type="submit">Get data</button>
+                <input type="checkbox" id="lifting"/>
                 </form>
                 </div>
     );
