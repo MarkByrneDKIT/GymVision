@@ -15,11 +15,13 @@ cap2 = cv2.VideoCapture(1)
 
 rep = 0 
 set = 0
+tilt = None
 
 graph = secrets.token_hex(8)
 errorImage = secrets.token_hex(9)
 
 def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
+    global tilt
     if l_shoulder[0] > (l_knee[0] + 20):
         s_message = "Shoulders are too far forward"
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
@@ -41,7 +43,7 @@ def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
         k_message = "Good"
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
 
-    return {'Shoulder': s_message, 'Knee': k_message }
+    return {'Shoulder': s_message, 'Knee': k_message, 'tilt': tilt}
 
 def checkTilt(l_shoulder, r_shoulder):
     if l_shoulder[1] > (r_shoulder[1] + (r_shoulder[1] / 25)):
@@ -151,7 +153,7 @@ def front_cam():
             elapsed_time = round(time.time() - startTime, 2)
 
             try:
-                global rep, set
+                global rep, set, tilt
                 landmarks = results.pose_landmarks.landmark
 
                 l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
