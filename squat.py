@@ -46,10 +46,10 @@ def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     return {'Shoulder': s_message, 'Knee': k_message, 'tilt': tilt}
 
 def checkTilt(l_shoulder, r_shoulder):
-    if l_shoulder[1] > (r_shoulder[1] + (r_shoulder[1] / 25)):
-        message = "Tilting to left"
-    elif r_shoulder[1] > (l_shoulder[1] + (l_shoulder[1] / 25)):
+    if l_shoulder[1] > (r_shoulder[1] + (r_shoulder[1] * .10)):
         message = "Tilting to right"
+    elif r_shoulder[1] > (l_shoulder[1] + (l_shoulder[1] * .10)):
+        message = "Tilting to left"
     else:
         message = "Straight"
     return message
@@ -81,6 +81,7 @@ def side_cam():
             
             ret, image = cap.read()
             h, w = image.shape[:2]
+            image = cv2.flip(image,1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
             results = pose.process(image)
@@ -125,6 +126,8 @@ def side_cam():
                     'Feedback': feedback
                 }
 
+                print(message)
+
             except:
                 pass
 
@@ -144,6 +147,7 @@ def front_cam():
         while cap2.isOpened():
             ret, image = cap2.read()
             h, w = image.shape[:2]
+            image = cv2.flip(image,1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
             results = pose.process(image)
@@ -209,6 +213,6 @@ t1 = threading.Thread(target=side_cam)
 t2 = threading.Thread(target=front_cam)
 
 t1.start()
-#t2.start()
+t2.start()
 
 cv2.destroyAllWindows()
