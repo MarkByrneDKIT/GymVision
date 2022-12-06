@@ -6,6 +6,11 @@ import math as m
 import time
 import matplotlib.pyplot as plt
 import secrets
+from flask import Flask
+from flask_restful import Api, Resource
+
+app = Flask(__name__)
+api = Api(app)
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -16,9 +21,13 @@ cap2 = cv2.VideoCapture(1)
 rep = 0 
 set = 0
 tilt = None
+message = None
 
 graph = secrets.token_hex(8)
 errorImage = secrets.token_hex(9)
+
+def start_server():
+    app.run()
 
 def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     global tilt
@@ -89,7 +98,7 @@ def side_cam():
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
             try:
-                global rep, set
+                global rep, set, message
                 landmarks = results.pose_landmarks.landmark
 
                 l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
@@ -125,8 +134,6 @@ def side_cam():
                     'Set': set, 
                     'Feedback': feedback
                 }
-
-                print(message)
 
             except:
                 pass
@@ -209,10 +216,20 @@ def front_cam():
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
-t1 = threading.Thread(target=side_cam)
-t2 = threading.Thread(target=front_cam)
+class PublishData(Resource):
+    global message
+    def get(self):
+        return message
 
-t1.start()
-t2.start()
+api.add_resource(PublishData, "/")
+
+server = threading.Thread(target=start_server)
+sideCam = threading.Thread(target=side_cam)
+frontCam = threading.Thread(target=front_cam)
+
+if __name__ == "__main__":  
+    sideCam.start()
+    frontCam.start()
+    server.start()
 
 cv2.destroyAllWindows()
