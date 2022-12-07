@@ -4,13 +4,13 @@ import Register from './pages/loginRegister/register'
 import LiftSelection from './pages/lift/liftSelection'
 import Squat from './pages/lift/squat'
 import Deadlift from './pages/lift/deadlift'
+import Homepage from './pages/homepage'
 
 import{
   BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
-
 
 function App() {
   //reactrouter.com quick start
@@ -22,6 +22,7 @@ function App() {
         <Route path="/liftSelection" element={<LiftSelection />}/>
         <Route path="/deadlift" element={<Deadlift />}/>
         <Route path="/squat" element={<Squat />}/>
+        <Route path="/home" element={<Homepage />}/>
       </Routes>
      </Router>
   );

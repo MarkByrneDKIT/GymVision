@@ -35,7 +35,7 @@ export default function Deadlift() {
               const interval = setInterval(() => {
                 console.log("a");
                 axios
-                .get("http://localhost:5000")
+                .get("https://fd8b-193-1-45-253.eu.ngrok.io")
                 .then( function(response){
                   console.log(response.data)
                   var rep =response.data["Rep"]
