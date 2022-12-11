@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import secrets
 from flask import Flask
 from flask_restful import Api, Resource
+import csv
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -22,12 +24,45 @@ rep = 0
 set = 0
 tilt = None
 message = None
+LshoulderSideArray = ["Left Shoulder"]
+RshoulderSideArray = ["Right Shoulder"]
+LKneeSideArray = ["Left Knee"]
+LfootSideArray = ["Left Foot"]
+
+LshoulderArray = ["Left Shoulder"]
+RshoulderArray = ["Right Shoulder"]
+LKneeArray = ["Left Knee"]
+LfootArray = ["Left Foot"]
+repArray = ["Rep"]
+setArray = ["Set"]
+
 
 graph = secrets.token_hex(8)
 errorImage = secrets.token_hex(9)
 
 def start_server():
     app.run()
+def write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray):
+    with open("FrontCam.csv", 'w') as file:     # a = append    w = write
+        writer = csv.writer(file)
+        writer.writerow(repArray)
+        writer.writerow(setArray)
+        writer.writerow(LshoulderArray)
+        writer.writerow(RshoulderArray)
+        writer.writerow(LKneeArray)
+        writer.writerow(LfootArray)
+
+
+def write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray):
+    with open("SideCam.csv", 'w') as file:     # a = append    w = write
+        writer = csv.writer(file)
+        writer.writerow(repArray)
+        writer.writerow(setArray)
+        writer.writerow(LshoulderSideArray)
+        writer.writerow(RshoulderSideArray)
+        writer.writerow(LKneeSideArray)
+        writer.writerow(LfootSideArray)
+
 
 def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     global tilt
@@ -106,6 +141,13 @@ def side_cam():
                 l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
                 l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
 
+                LshoulderSideArray.append(l_shoulder)
+                LKneeSideArray.append(l_knee)
+                LfootSideArray.append(l_foot)
+                RshoulderSideArray.append(r_shoulder)
+                repArray.append(rep)
+                setArray.append(set)
+
                 mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                     mp_drawing.DrawingSpec(color=(185,191,184), thickness=1, circle_radius=4),
                     mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2)
@@ -141,6 +183,7 @@ def side_cam():
             cv2.imshow('Side cam', image)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
+                write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray)
                 break
 
 def front_cam():
@@ -173,8 +216,20 @@ def front_cam():
                 l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
                 l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
                 
+                LshoulderArray.append(l_shoulder)
+                LKneeArray.append(l_knee)
+                LfootArray.append(l_foot)
+                RshoulderArray.append(r_shoulder)
+                repArray.append(rep)
+                setArray.append(set)
+
                 tilt = checkTilt(l_shoulder, r_shoulder)
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
+
+                print(l_shoulder)
+
+
+
 
                 cv2.putText(image, str(angle),
                                 tuple(np.multiply(l_knee, [640, 480]).astype(int)),
@@ -214,6 +269,7 @@ def front_cam():
             cv2.imshow('Front cam', image)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
+                write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray)
                 break
 
 class PublishData(Resource):
