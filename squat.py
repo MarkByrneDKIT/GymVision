@@ -35,6 +35,7 @@ LKneeArray = ["Left Knee"]
 LfootArray = ["Left Foot"]
 repArray = ["Rep"]
 setArray = ["Set"]
+tiltArray = ["Tilt"]
 
 
 graph = secrets.token_hex(8)
@@ -42,11 +43,12 @@ errorImage = secrets.token_hex(9)
 
 def start_server():
     app.run()
-def write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray):
+def write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray):
     with open("FrontCam.csv", 'w') as file:     # a = append    w = write
         writer = csv.writer(file)
         writer.writerow(repArray)
         writer.writerow(setArray)
+        writer.writerow(tiltArray)
         writer.writerow(LshoulderArray)
         writer.writerow(RshoulderArray)
         writer.writerow(LKneeArray)
@@ -226,6 +228,8 @@ def front_cam():
                 tilt = checkTilt(l_shoulder, r_shoulder)
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
 
+                tiltArray.append(tilt)
+
                 print(l_shoulder)
 
 
@@ -269,7 +273,7 @@ def front_cam():
             cv2.imshow('Front cam', image)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray)
+                write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
 
 class PublishData(Resource):
