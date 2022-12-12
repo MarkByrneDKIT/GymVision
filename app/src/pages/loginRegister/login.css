@@ -1,7 +1,7 @@
 .login {
     width: 100vw;
     height: 100vh;
-    background-color: #f0f2f5;
+    background-color: #5092f7;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,9 +11,10 @@
     width: 70%;
     height: 70%;
     display: flex;
-    /* border:#1775ee 5px; */
+     border:#1775ee 5px;  
   }
-  
+ 
+
   .loginLeft,
   .loginRight {
     flex: 1;
@@ -23,11 +24,18 @@
   }
   
   .loginLogo {
-    font-size: 50px;
+    font-size: 80px;
     font-weight: 800;
     color: #1775ee;
     margin-bottom: 10px;
-  }
+      width: 80%;
+      align-self: center;
+      height: 50px;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+    }
+  
   
   .loginDesc {
     font-size: 24px;
@@ -60,7 +68,7 @@
       border-radius: 10px;
       border: none;
       background-color: #1775ee;
-      color: white;
+      color: rgb(5, 4, 4);
       font-size: 20px;
       font-weight: 500;
       cursor: pointer;
@@ -78,8 +86,10 @@
       border-radius: 10px;
       border: none;
       background-color: #42b72a;
-      color: white;
+      color: rgb(126, 7, 7);
       font-size: 20px;
       font-weight: 500;
       cursor: pointer;
   }
+
+ 
