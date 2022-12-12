@@ -14,6 +14,7 @@ export default function Homepage() {
         
         <li><Link to="/deadlift">Deadlift</Link></li>
         <li><Link to="/squat">Squat</Link></li>
+        <li><Link to="/shoulderpress">Shoulder Press</Link></li>
         <li><Link to="/register">Register</Link></li>
         <li><Link to="/login">Login</Link></li>
         {/* <Link to="/liftselection">Deadlift</Link> */}

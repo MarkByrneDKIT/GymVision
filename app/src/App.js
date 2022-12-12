@@ -5,12 +5,14 @@ import LiftSelection from './pages/lift/liftSelection'
 import Squat from './pages/lift/squat'
 import Deadlift from './pages/lift/deadlift'
 import Homepage from './pages/homepage'
+import ShoulderPress from './pages/lift/shoulderPress'
 
 import{
   BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
+import ShoulderPress from './pages/lift/shoulderPress'
 
 function App() {
   //reactrouter.com quick start
@@ -23,6 +25,7 @@ function App() {
         <Route path="/deadlift" element={<Deadlift />}/>
         <Route path="/squat" element={<Squat />}/>
         <Route path="/home" element={<Homepage />}/>
+        <Route path="/shoulderpress" element={<ShoulderPress />}/>
       </Routes>
      </Router>
   );
