@@ -6,13 +6,14 @@ form {
   
   /* Set a style for all buttons */
   button {
-    background-color: #274690;
+    background-color: #38accf;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
+    font-size: large;
   }
   
   /* Add a hover effect for buttons */
@@ -23,7 +24,7 @@ form {
   /* Extra style for the cancel button (red) */
   .cancelbtn {
     width: auto;
-    padding: 10px 18px;
+    padding: 100px 180px;
     background-color: #f44336;
   }
 
@@ -31,4 +32,32 @@ form {
   .start-button{
     position: center;
     }
- 
+
+    .loginLogo {
+      font-size: 80px;
+      font-weight: 8000;
+      color: #1775ee;
+      margin-bottom: 120px;
+        width: 100%;
+        align-self: center;
+        height: 50px;
+        border-radius: 10px;
+        text-align: center;
+        position: relative;
+        box-sizing: border-box;
+      }
+
+      .PickLift{
+        font-size: 30px;
+        font-weight: 800;
+width: 100%;
+text-align: center;
+        position: relative;
+color: black;
+      }
+
+      .button2{
+        font-size: larger;
+        padding: 0%;
+        color: #000;
+      }
