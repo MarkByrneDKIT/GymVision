@@ -229,12 +229,7 @@ def front_cam():
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
 
                 tiltArray.append(tilt)
-
-                print(l_shoulder)
-
-
-
-
+                
                 cv2.putText(image, str(angle),
                                 tuple(np.multiply(l_knee, [640, 480]).astype(int)),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
@@ -254,7 +249,7 @@ def front_cam():
                     plt.xlabel('Time (Secs)')
                     plt.ylabel('Height (Pixels)')
                     plt.plot(x, y)
-                    plt.savefig(graph, format='jpg')
+                    plt.savefig(f'{graph}.jpg')
                     x = []
                     y = []
                     set += 1 
