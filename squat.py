@@ -18,7 +18,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 cap = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(1)
+cap2 = cv2.VideoCapture(0)
 
 rep = 0 
 set = 0
@@ -226,10 +226,14 @@ def front_cam():
                 setArray.append(set)
 
                 tilt = checkTilt(l_shoulder, r_shoulder)
+                if tilt == "Tilting to right":
+                    cv2.circle(image, l_shoulder, 40, (0,0,255), -1)
+                elif tilt == "Tilting to left":
+                    cv2.circle(image, r_shoulder, 40, (0,0,255), -1)
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
 
                 tiltArray.append(tilt)
-                
+
                 cv2.putText(image, str(angle),
                                 tuple(np.multiply(l_knee, [640, 480]).astype(int)),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
@@ -283,8 +287,8 @@ sideCam = threading.Thread(target=side_cam)
 frontCam = threading.Thread(target=front_cam)
 
 if __name__ == "__main__":  
-    sideCam.start()
+    #sideCam.start()
     frontCam.start()
-    server.start()
+    #server.start()
 
 cv2.destroyAllWindows()
