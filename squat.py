@@ -17,8 +17,8 @@ api = Api(app)
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-cap = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(0)
+side_cam = cv2.VideoCapture(0)
+front_cam = cv2.VideoCapture(0)
 
 rep = 0 
 set = 0
@@ -123,9 +123,9 @@ def side_cam():
     badFormTimer = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
-        while cap.isOpened():
+        while side_cam.isOpened():
             
-            ret, image = cap.read()
+            ret, image = side_cam.read()
             h, w = image.shape[:2]
             image = cv2.flip(image,1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -196,8 +196,8 @@ def front_cam():
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         startTime = time.time()
 
-        while cap2.isOpened():
-            ret, image = cap2.read()
+        while front_cam.isOpened():
+            ret, image = front_cam.read()
             h, w = image.shape[:2]
             image = cv2.flip(image,1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
