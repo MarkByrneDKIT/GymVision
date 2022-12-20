@@ -17,9 +17,6 @@ api = Api(app)
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-side_cam = cv2.VideoCapture(0)
-front_cam = cv2.VideoCapture(0)
-
 rep = 0 
 set = 0
 tilt = None
@@ -92,9 +89,12 @@ def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     return {'Shoulder': s_message, 'Knee': k_message, 'tilt': tilt}
 
 def checkTilt(l_shoulder, r_shoulder):
-    if l_shoulder[1] > (r_shoulder[1] + (r_shoulder[1] * .10)):
+    l_tilt = (l_shoulder[1] + (l_shoulder[1] * .10))
+    r_tilt = (r_shoulder[1] + (r_shoulder[1] * .10))
+
+    if l_shoulder[1] > r_tilt:
         message = "Tilting to right"
-    elif r_shoulder[1] > (l_shoulder[1] + (l_shoulder[1] * .10)):
+    elif r_shoulder[1] > l_tilt:
         message = "Tilting to left"
     else:
         message = "Straight"
@@ -123,9 +123,9 @@ def side_cam():
     badFormTimer = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
-        while side_cam.isOpened():
+        while cap.isOpened():
             
-            ret, image = side_cam.read()
+            ret, image = cap.read()
             h, w = image.shape[:2]
             image = cv2.flip(image,1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -196,8 +196,8 @@ def front_cam():
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         startTime = time.time()
 
-        while front_cam.isOpened():
-            ret, image = front_cam.read()
+        while cap2.isOpened():
+            ret, image = cap2.read()
             h, w = image.shape[:2]
             image = cv2.flip(image,1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -225,11 +225,20 @@ def front_cam():
                 repArray.append(rep)
                 setArray.append(set)
 
-                tilt = checkTilt(l_shoulder, r_shoulder)
-                if tilt == "Tilting to right":
-                    cv2.circle(image, l_shoulder, 40, (0,0,255), -1)
-                elif tilt == "Tilting to left":
-                    cv2.circle(image, r_shoulder, 40, (0,0,255), -1)
+                tilt_message = checkTilt(l_shoulder, r_shoulder)
+                if tilt_message == "Tilting to right":
+                    if counter != 30:
+                        counter+= 2
+                    cv2.circle(image, l_shoulder, (10+counter), (0,0,255), -1)
+                elif tilt_message == "Tilting to left":
+                    if counter != 30:
+                        counter+= 2
+                    
+                    cv2.circle(image, r_shoulder, (10+counter), (0,0,255), -1)
+
+                    print(counter)
+                else:
+                    counter = 0
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
 
                 tiltArray.append(tilt)
@@ -274,6 +283,9 @@ def front_cam():
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
+
+# cap = cv2.VideoCapture(-1)
+cap2 = cv2.VideoCapture(-1)
 
 class PublishData(Resource):
     global message
