@@ -270,8 +270,8 @@ def front_cam():
             except:
                 pass
 
-            cv2.rectangle(image, (0,0), (255,73), (245, 117,16),-1)     
-            cv2.putText(image, str(rep), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)   
+            cv2.rectangle(image, (0,0), (230,73), (245, 117,16),-1)     
+            cv2.putText(image, (f"Rep: {rep}"), (10,55), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)   
 
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                             mp_drawing.DrawingSpec(color=(29,162,7), thickness=2, circle_radius=4),
