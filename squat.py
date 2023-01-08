@@ -9,7 +9,6 @@ import secrets
 from flask import Flask
 from flask_restful import Api, Resource
 import csv
-import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -65,28 +64,35 @@ def write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, Lf
 
 def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     global tilt
+    colour = (255,255,255)
     if l_shoulder[0] > (l_knee[0] + 20):
-        s_message = "Shoulders are too far forward"
+        s_message = "Shoulders: <--"
+        s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
 
     elif l_shoulder[0] < (l_knee[0] - 20):
-        s_message = "Shoulders are too far back"
+        s_message = "Shoulders: -->"
+        s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     else:
-        s_message = 'Good'
+        s_message = 'Shoulders: Good'
+        s_colour = (0,255,0)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
 
     if l_knee[0] > (l_foot[0] + 40):
-        k_message = "Knees are too far forward"
+        k_message = "Knees:    <--"
+        k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     elif l_knee[0] < (l_foot[0] - 40):
-        k_message = "Knees are too far back"
+        k_message = "Knees:    -->"
+        k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     else:
-        k_message = "Good"
+        k_message = "Knees:    Good"
+        k_colour = (0,255,0)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
 
-    return {'Shoulder': s_message, 'Knee': k_message, 'tilt': tilt}
+    return s_message, k_message, tilt, s_colour, k_colour
 
 def checkTilt(l_shoulder, r_shoulder):
     l_tilt = (l_shoulder[1] + (l_shoulder[1] * .10))
@@ -158,17 +164,17 @@ def side_cam():
                 cv2.line(image, (l_foot[0] +40, 0), (l_foot[0] +40, 640), (0, 150, 0), 1)
                 cv2.line(image, (l_foot[0] -40, 0), (l_foot[0] -40, 640), (0, 150, 0), 1)
 
-                cv2.rectangle(image, (0,0), (490,50), (245, 117,16), -1)  
+                cv2.rectangle(image, (0,0), (300,55), (245, 117,16), -1)  
 
-                feedback = checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image)
+                s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image)
 
-                if feedback['Shoulder'] != "Good" and feedback['Knee'] != "Good":
+                if s_message != "Good" and k_message != "Good":
                     badFormTimer+=1
                 else:
                     badFormTimer=0
 
-                cv2.putText(image, str(feedback['Shoulder']), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
-                cv2.putText(image, str(feedback['Knee']), (10,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+                cv2.putText(image, str(s_message), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, s_colour, 2, cv2.LINE_AA)
+                cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
 
                 if badFormTimer == 70:
                     cv2.imwrite(f"{errorImage}.jpg", image)
@@ -176,7 +182,7 @@ def side_cam():
                 message = {
                     'Rep': rep,
                     'Set': set, 
-                    'Feedback': feedback
+                    'Feedback': {'Shoulder': s_message, 'Knee': k_message, 'tilt': tilt}
                 }
 
             except:
@@ -235,8 +241,6 @@ def front_cam():
                         counter+= 2
                     
                     cv2.circle(image, r_shoulder, (10+counter), (0,0,255), -1)
-
-                    print(counter)
                 else:
                     counter = 0
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
@@ -270,8 +274,10 @@ def front_cam():
             except:
                 pass
 
-            cv2.rectangle(image, (0,0), (230,73), (245, 117,16),-1)     
-            cv2.putText(image, (f"Rep: {rep}"), (10,55), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)   
+            cv2.rectangle(image, (0,0), (150,70), (245, 117,16),-1)     
+            cv2.putText(image, (f"Set: {set}"), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
+            cv2.putText(image, (f"Rep: {rep}"), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
+            
 
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                             mp_drawing.DrawingSpec(color=(29,162,7), thickness=2, circle_radius=4),
@@ -285,7 +291,7 @@ def front_cam():
                 break
 
 # cap = cv2.VideoCapture(-1)
-cap2 = cv2.VideoCapture(-1)
+cap2 = cv2.VideoCapture(0)
 
 class PublishData(Resource):
     global message
@@ -299,7 +305,7 @@ sideCam = threading.Thread(target=side_cam)
 frontCam = threading.Thread(target=front_cam)
 
 if __name__ == "__main__":  
-    #sideCam.start()
+    sideCam.start()
     frontCam.start()
     #server.start()
 
