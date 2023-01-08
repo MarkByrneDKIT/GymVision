@@ -6,13 +6,13 @@ import Squat from './pages/lift/squat'
 import Deadlift from './pages/lift/deadlift'
 import Homepage from './pages/homepage'
 import ShoulderPress from './pages/lift/shoulderPress'
+import History from './pages/lift/history'
 
 import{
   BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
-import ShoulderPress from './pages/lift/shoulderPress'
 
 function App() {
   //reactrouter.com quick start
@@ -26,6 +26,7 @@ function App() {
         <Route path="/squat" element={<Squat />}/>
         <Route path="/home" element={<Homepage />}/>
         <Route path="/shoulderpress" element={<ShoulderPress />}/>
+        <Route path="/history" element={<History />}/>
       </Routes>
      </Router>
   );

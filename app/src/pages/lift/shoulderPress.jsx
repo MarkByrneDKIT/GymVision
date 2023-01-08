@@ -15,10 +15,16 @@ export default function ShoulderPress() {
       e.preventDefault();
         if (status === 'off') {
             setStatus('on');
+            axios.post("https://d5d1-64-43-163-23.eu.ngrok.io", {
+              status: 'on'
+            })
           }
           // If the status is "on", set it to "off"
           else if (status === 'on') {
             setStatus('off');
+            axios.post("https://d5d1-64-43-163-23.eu.ngrok.io", {
+              status: 'on'
+            })
           }
     }
 
@@ -35,7 +41,7 @@ export default function ShoulderPress() {
               const interval = setInterval(() => {
                 console.log("a");
                 axios
-                .get("https://fd8b-193-1-45-253.eu.ngrok.io")
+                .get("https://d5d1-64-43-163-23.eu.ngrok.io")
                 .then( function(response){
                   console.log(response.data)
                   var rep =response.data["Rep"]
