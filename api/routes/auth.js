@@ -26,8 +26,8 @@ router.post("/register", async (req,res)=>{
 //LOGIN
 router.post("/login", async (req, res) => {
     try {
-        const email = await User.findOne({ email: req.body.email });
-        !email && res.status(404).send("User does not exist");
+        const user = await User.findOne({ username: req.body.username });
+        !user && res.status(404).send("User does not exist");
 
         const password = await User.findOne({ password: req.body.password });
         !password && res.status(400).json("Incorrect password");
