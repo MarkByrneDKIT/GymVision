@@ -9,6 +9,8 @@ import secrets
 from flask import Flask
 from flask_restful import Api, Resource
 import csv
+from pymongo import MongoClient
+import gridfs
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,6 +22,7 @@ rep = 0
 set = 0
 tilt = None
 message = None
+connection = MongoClient('mongodb+srv://SetStatsAdmin:SetStats123@cluster0.cgmbyt4.mongodb.net/?retryWrites=true&w=majority')
 LshoulderSideArray = ["Left Shoulder"]
 RshoulderSideArray = ["Right Shoulder"]
 LKneeSideArray = ["Left Knee"]
@@ -33,12 +36,9 @@ repArray = ["Rep"]
 setArray = ["Set"]
 tiltArray = ["Tilt"]
 
-
-graph = secrets.token_hex(8)
-errorImage = secrets.token_hex(9)
-
 def start_server():
     app.run()
+
 def write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray):
     with open("FrontCam.csv", 'w') as file:     # a = append    w = write
         writer = csv.writer(file)
@@ -64,7 +64,6 @@ def write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, Lf
 
 def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     global tilt
-    colour = (255,255,255)
     if l_shoulder[0] > (l_knee[0] + 20):
         s_message = "Shoulders: <--"
         s_colour = (0,0,255)
@@ -125,6 +124,17 @@ def calculateAngle(a,b,c):
     
     return angle
 
+def sendImage(image):
+    global connection
+    database = connection['images']
+
+    fs = gridfs.GridFS(database)
+
+    with open(image, 'rb') as f:
+        contents = f.read()
+
+    fs.put(contents, filename=image)
+
 def side_cam():
     badFormTimer = 0
 
@@ -168,7 +178,7 @@ def side_cam():
 
                 s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image)
 
-                if s_message != "Good" and k_message != "Good":
+                if s_message != "Shoulders: Good" and k_message != "Knees:    Good":
                     badFormTimer+=1
                 else:
                     badFormTimer=0
@@ -177,7 +187,10 @@ def side_cam():
                 cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
 
                 if badFormTimer == 70:
+                    errorImage = secrets.token_hex(9)
                     cv2.imwrite(f"{errorImage}.jpg", image)
+                    file=(f"{errorImage}.jpg")
+                    sendImage(file)
 
                 message = {
                     'Rep': rep,
@@ -266,10 +279,13 @@ def front_cam():
                     plt.xlabel('Time (Secs)')
                     plt.ylabel('Height (Pixels)')
                     plt.plot(x, y)
+                    graph = secrets.token_hex(8)
                     plt.savefig(f'{graph}.jpg')
+                    file=(f'{graph}.jpg')
                     x = []
                     y = []
                     set += 1 
+                    sendImage(file)
 
             except:
                 pass
@@ -290,7 +306,7 @@ def front_cam():
                 write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
 
-# cap = cv2.VideoCapture(-1)
+cap = cv2.VideoCapture(0)
 cap2 = cv2.VideoCapture(0)
 
 class PublishData(Resource):
@@ -305,8 +321,9 @@ sideCam = threading.Thread(target=side_cam)
 frontCam = threading.Thread(target=front_cam)
 
 if __name__ == "__main__":  
+    connection = MongoClient('mongodb+srv://SetStatsAdmin:SetStats123@cluster0.cgmbyt4.mongodb.net/?retryWrites=true&w=majority')
     sideCam.start()
-    frontCam.start()
-    #server.start()
+    #frontCam.start()
+    server.start()
 
 cv2.destroyAllWindows()
