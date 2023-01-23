@@ -22,6 +22,7 @@ rep = 0
 set = 0
 tilt = None
 message = None
+images=[]
 connection = MongoClient('mongodb+srv://SetStatsAdmin:SetStats123@cluster0.cgmbyt4.mongodb.net/?retryWrites=true&w=majority')
 LshoulderSideArray = ["Left Shoulder"]
 RshoulderSideArray = ["Right Shoulder"]
@@ -35,9 +36,6 @@ LfootArray = ["Left Foot"]
 repArray = ["Rep"]
 setArray = ["Set"]
 tiltArray = ["Tilt"]
-
-def start_server():
-    app.run()
 
 def write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray):
     with open("FrontCam.csv", 'w') as file:     # a = append    w = write
@@ -124,19 +122,21 @@ def calculateAngle(a,b,c):
     
     return angle
 
-def sendImage(image):
-    global connection
+def sendImages(images):
+    global connection 
     database = connection['images']
 
     fs = gridfs.GridFS(database)
 
-    with open(image, 'rb') as f:
-        contents = f.read()
+    for image in images:
+        with open(image, 'rb') as f:
+            contents = f.read()
 
-    fs.put(contents, filename=image)
+        fs.put(contents, filename=image)
 
 def side_cam():
     badFormTimer = 0
+    global images
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         while cap.isOpened():
@@ -186,11 +186,12 @@ def side_cam():
                 cv2.putText(image, str(s_message), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, s_colour, 2, cv2.LINE_AA)
                 cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
 
-                if badFormTimer == 700:
+                if badFormTimer == 70:
                     errorImage = secrets.token_hex(9)
                     cv2.imwrite(f"{errorImage}.jpg", image)
                     file=(f"{errorImage}.jpg")
-                    sendImage(file)
+                    images.append(file)
+                    
 
                 message = {
                     'Rep': rep,
@@ -228,7 +229,7 @@ def front_cam():
             elapsed_time = round(time.time() - startTime, 2)
 
             try:
-                global rep, set, tilt
+                global rep, set, tilt, images
                 landmarks = results.pose_landmarks.landmark
 
                 l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
@@ -285,7 +286,7 @@ def front_cam():
                     x = []
                     y = []
                     set += 1 
-                    sendImage(file)
+                    images.append(file)
 
             except:
                 pass
@@ -306,7 +307,7 @@ def front_cam():
                 write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cap2 = cv2.VideoCapture(0)
 
 class PublishData(Resource):
@@ -314,7 +315,11 @@ class PublishData(Resource):
     def get(self):
         return message
 
+def start_server():
+    app.run()
+
 def main():
+    global images
     run_event = threading.Event()
     run_event.set()
     api.add_resource(PublishData, "/")
@@ -322,10 +327,9 @@ def main():
     server = threading.Thread(target=start_server)
     sideCam = threading.Thread(target=side_cam)
     frontCam = threading.Thread(target=front_cam)
-
-    connection = MongoClient('mongodb+srv://SetStatsAdmin:SetStats123@cluster0.cgmbyt4.mongodb.net/?retryWrites=true&w=majority')
     sideCam.start()
     #frontCam.start()
+    server.setDaemon(True)
     server.start()
     
     try: 
@@ -335,11 +339,14 @@ def main():
         print("Attempting to close threads.")
         run_event.clear()
         sideCam.join()
-        #frontCam.join()
-        server.shutdown()
-        server.join()
+        #frontCam.join()        
         print("Threads successfully closed.")
         cv2.destroyAllWindows()
+        print("Sending images to database")
+        if len(images) != 0:
+            sendImages(images)
+        print("All images have been successfully sent")    
+
 
 if __name__ == "__main__":  
     main()
