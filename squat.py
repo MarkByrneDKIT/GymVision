@@ -186,7 +186,7 @@ def side_cam():
                 cv2.putText(image, str(s_message), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, s_colour, 2, cv2.LINE_AA)
                 cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
 
-                if badFormTimer == 70:
+                if badFormTimer == 700:
                     errorImage = secrets.token_hex(9)
                     cv2.imwrite(f"{errorImage}.jpg", image)
                     file=(f"{errorImage}.jpg")
@@ -314,16 +314,32 @@ class PublishData(Resource):
     def get(self):
         return message
 
-api.add_resource(PublishData, "/")
+def main():
+    run_event = threading.Event()
+    run_event.set()
+    api.add_resource(PublishData, "/")
 
-server = threading.Thread(target=start_server)
-sideCam = threading.Thread(target=side_cam)
-frontCam = threading.Thread(target=front_cam)
+    server = threading.Thread(target=start_server)
+    sideCam = threading.Thread(target=side_cam)
+    frontCam = threading.Thread(target=front_cam)
 
-if __name__ == "__main__":  
     connection = MongoClient('mongodb+srv://SetStatsAdmin:SetStats123@cluster0.cgmbyt4.mongodb.net/?retryWrites=true&w=majority')
     sideCam.start()
     #frontCam.start()
     server.start()
+    
+    try: 
+        while 1:
+            time.sleep(.1)
+    except KeyboardInterrupt:
+        print("Attempting to close threads.")
+        run_event.clear()
+        sideCam.join()
+        #frontCam.join()
+        server.shutdown()
+        server.join()
+        print("Threads successfully closed.")
+        cv2.destroyAllWindows()
 
-cv2.destroyAllWindows()
+if __name__ == "__main__":  
+    main()
