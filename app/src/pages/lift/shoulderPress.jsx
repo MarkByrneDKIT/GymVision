@@ -3,6 +3,8 @@ import { useRef } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router";
 import React, { useState, useEffect } from 'react';
+import PubNub from 'pubnub';
+//import { PubNubProvider, usePubNub } from 'pubnub-react';
 
 export default function ShoulderPress() {
 
@@ -22,23 +24,27 @@ export default function ShoulderPress() {
             pubnub.publish(
               {
                 channel: "Setstats",
-                message: {"text": "Hello World!"}
+                message: {"status": "on"}
               },
               function(status, response) {
                 console.log(status);
                 console.log(response);
               }
             );
-            axios.post("https://d5d1-64-43-163-23.eu.ngrok.io", {
-              status: 'on'
-            })
           }
           // If the status is "on", set it to "off"
           else if (status === 'on') {
             setStatus('off');
-            axios.post("https://d5d1-64-43-163-23.eu.ngrok.io", {
-              status: 'on'
-            })
+            pubnub.publish(
+              {
+                channel: "Setstats",
+                message: {"status": "off"}
+              },
+              function(status, response) {
+                console.log(status);
+                console.log(response);
+              }
+            );
           }
     }
 
