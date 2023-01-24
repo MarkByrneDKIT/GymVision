@@ -22,11 +22,6 @@ export default function Deadlift() {
           }
     }
 
-        // const [checked, setChecked] = useState(false);
-        // const handleChange = (event) => {
-        //     setChecked(event.target.checked);
-
-        //   }
 
         useEffect(() => {
 

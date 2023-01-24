@@ -7,7 +7,11 @@ import React, { useState, useEffect } from 'react';
 export default function ShoulderPress() {
 
 
-
+      const pubnub = new PubNub({
+        subscribeKey: 'sub-c-66e361b6-c13c-411e-a780-9b16fc2e0c36',
+        publishKey: 'pub-c-d8d5b759-3b66-4d5b-ae7d-b119cc474e80',
+        userId: 'liamdenningsetstats',
+    });
 
     const [status, setStatus] = useState('off');
       
@@ -15,6 +19,16 @@ export default function ShoulderPress() {
       e.preventDefault();
         if (status === 'off') {
             setStatus('on');
+            pubnub.publish(
+              {
+                channel: "Setstats",
+                message: {"text": "Hello World!"}
+              },
+              function(status, response) {
+                console.log(status);
+                console.log(response);
+              }
+            );
             axios.post("https://d5d1-64-43-163-23.eu.ngrok.io", {
               status: 'on'
             })
@@ -27,12 +41,6 @@ export default function ShoulderPress() {
             })
           }
     }
-
-        // const [checked, setChecked] = useState(false);
-        // const handleChange = (event) => {
-        //     setChecked(event.target.checked);
-
-        //   }
 
         useEffect(() => {
 
