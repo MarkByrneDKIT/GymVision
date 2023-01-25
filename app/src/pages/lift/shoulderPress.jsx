@@ -45,6 +45,14 @@ export default function ShoulderPress() {
                 console.log(response);
               }
             );
+            
+            const session = {
+              username: "liam",
+              repCount: document.getElementById("r").innerHTML,
+              setCount: document.getElementById("s").innerHTML
+            };
+
+            axios.post("/sessions/session", session);
           }
     }
 
@@ -55,7 +63,7 @@ export default function ShoulderPress() {
               const interval = setInterval(() => {
                 console.log("a");
                 axios
-                .get("https://d5d1-64-43-163-23.eu.ngrok.io")
+                .get("https://d870-89-19-67-234.eu.ngrok.io")
                 .then( function(response){
                   console.log(response.data)
                   var rep =response.data["Rep"]

@@ -5,10 +5,13 @@ const SessionSchema = new mongoose.Schema({
         type:String,
         require: true,
         min:3,
-        max:20,
-        unique:true
+        max:20
     },
     repCount:{
+        type:Number
+    },
+    
+    setCount:{
         type:Number
     }
     // sessionId:{
