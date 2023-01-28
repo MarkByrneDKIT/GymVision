@@ -11,6 +11,11 @@ from flask_restful import Api, Resource
 import csv
 from pymongo import MongoClient
 import gridfs
+from pubnub.callbacks import SubscribeCallback
+from pubnub.enums import PNStatusCategory, PNOperationType
+from pubnub.pnconfiguration import PNConfiguration
+from pubnub.pubnub import PubNub
+import json
 
 app = Flask(__name__)
 api = Api(app)
@@ -18,6 +23,15 @@ api = Api(app)
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
+pnconfig = PNConfiguration()
+pnconfig.subscribe_key = "sub-c-66e361b6-c13c-411e-a780-9b16fc2e0c36"
+pnconfig.publish_key = "pub-c-d8d5b759-3b66-4d5b-ae7d-b119cc474e80"
+pnconfig.uuid = 'liamdenningsetstats'
+pubnub = PubNub(pnconfig)
+
+my_channel = 'Setstats'
+
+state = False
 rep = 0 
 set = 0
 tilt = None
@@ -136,7 +150,7 @@ def sendImages(images):
 
 def side_cam():
     badFormTimer = 0
-    global images
+    global images, state
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         while cap.isOpened():
@@ -204,14 +218,15 @@ def side_cam():
 
             cv2.imshow('Side cam', image)
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray)
+            if cv2.waitKey(1) & 0xFF == ord('q') or state == False:
+                #write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray)
                 break
 
 def front_cam():
     direction = None
     x = []
     y = []
+    global status
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         startTime = time.time()
@@ -303,11 +318,11 @@ def front_cam():
 
             cv2.imshow('Front cam', image)
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
+            if cv2.waitKey(1) & 0xFF == ord('q') or state == False:
+                #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 cap2 = cv2.VideoCapture(0)
 
 class PublishData(Resource):
@@ -316,37 +331,86 @@ class PublishData(Resource):
         return message
 
 def start_server():
+    pubnub.add_listener(MySubscribeCallback())
+    pubnub.subscribe().channels(my_channel).execute()
     app.run()
-
+    
 def main():
     global images
     run_event = threading.Event()
     run_event.set()
     api.add_resource(PublishData, "/")
-
     server = threading.Thread(target=start_server)
-    sideCam = threading.Thread(target=side_cam)
-    frontCam = threading.Thread(target=front_cam)
-    sideCam.start()
-    #frontCam.start()
     server.setDaemon(True)
     server.start()
+    
     
     try: 
         while 1:
             time.sleep(.1)
     except KeyboardInterrupt:
         print("Attempting to close threads.")
-        run_event.clear()
-        sideCam.join()
-        #frontCam.join()        
+        run_event.clear()     
         print("Threads successfully closed.")
-        cv2.destroyAllWindows()
-        print("Sending images to database")
         if len(images) != 0:
+            print("Sending images to database (This may take some time)")
             sendImages(images)
-        print("All images have been successfully sent")    
+            print("All images have been successfully sent")    
+        cv2.destroyAllWindows()
+        exit()
 
+def publish(channel, msg):
+    pubnub.publish().channel(channel).message(msg).pn_async(my_publish_callback)
+
+def my_publish_callback(envelope, status):
+    if not status.is_error():
+        pass
+    else:
+        pass
+
+class MySubscribeCallback(SubscribeCallback):
+    def presence(self, pubnub, presence):
+        pass
+
+    def status(self, pubnub, status):
+        if status.category == PNStatusCategory.PNUnexpectedDisconnectCategory:
+            pass 
+        elif status.category == PNStatusCategory.PNConnectedCategory:
+            pubnub.publish().channel(my_channel).message('Starting...').pn_async(my_publish_callback)
+        elif status.category == PNStatusCategory.PNReconnectedCategory:
+            pass
+        elif status.category == PNStatusCategory.PNDecryptionErrorCategory:
+            pass
+
+    def message(self, pubnub, message):
+        try:
+            msg = message.message
+            print(msg)
+            key = list(msg.keys())
+            if key[0] == 'status':
+                self.handle_event(msg)
+        except Exception as e:
+            print(message.message)
+            print("-=Error=-", e)
+            pass
+
+    def handle_event(self, msg):
+        global state
+        sideCam = threading.Thread(target=side_cam)
+        frontCam = threading.Thread(target=front_cam)
+        key = list(msg.keys())
+        value = list(msg.values())
+        if key[0] == 'status':
+            if value[0] == 'on':
+                print("Starting data collection")
+                state = True
+                sideCam.start()
+                #frontCam.start()
+            elif value[0] == 'off':
+                print("Stopping data collection")
+                state = False
+                sideCam.join()
+                #frontCam.join()  
 
 if __name__ == "__main__":  
     main()
