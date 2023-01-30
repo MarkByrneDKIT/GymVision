@@ -2,6 +2,7 @@ import "./lift.css"
 import { useRef } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../../components/Navbar/Navbar";
 
 export default function Squat() {
     const handleClick = async (e) => {
@@ -22,6 +23,7 @@ export default function Squat() {
       }
     return(
                 <div>
+                  <Navbar/> 
 				        <h1>Rep:<span id="r"></span></h1>
 				        <h1>Set:<span id="s"></span></h1>
                 <form onSubmit={handleClick}>

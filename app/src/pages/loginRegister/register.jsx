@@ -2,6 +2,7 @@ import "./register.css";
 import { useRef } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../../components/Navbar/Navbar";
 
 export default function Register() {
   const username = useRef();

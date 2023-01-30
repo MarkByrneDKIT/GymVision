@@ -84,7 +84,7 @@
   
 
   body{
-    background-color: lightskyblue;
+    background-color: #e7e7e7;
   }
   
   .loginRegisterButton{
@@ -108,7 +108,7 @@ body
   body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
-    color: antiquewhite;
+    margin: 0;
   }
   
   /* Float four columns side by side */

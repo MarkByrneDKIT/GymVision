@@ -1,0 +1,24 @@
+.navbar{
+    height: 80px;
+    width: 100%;
+    background-color: #171d41;
+    margin: 0;
+}
+
+.navbar img{
+    height: 75px;
+    width: 100px;
+    margin-left: 40px;
+}
+
+.links{
+    margin: 27.5px 0px;
+    padding: 0 15px;
+    float:right;
+    font-size: 18px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}

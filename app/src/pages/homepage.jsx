@@ -1,10 +1,14 @@
 import { useRef } from "react"
+import './homepage.css'
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar/Navbar'
 
 export default function Homepage() {
-    return ( 
+    return (
+        <div className="container">
+        <Navbar/> 
         <ul>
         {/*  <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
          <li class="scroll-to-section"><a href="/graph/">Graph</a></li>
@@ -19,5 +23,6 @@ export default function Homepage() {
         <li><Link to="/login">Login</Link></li>
         {/* <Link to="/liftselection">Deadlift</Link> */}
     </ul>
+    </div>
      );
 }
