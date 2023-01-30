@@ -1,21 +1,12 @@
-import {Button} from '@mui/material'
+import SessionList from '../../components/sessionList'
 
 export default function History()   {
 
-    const sessions = []
-
-    for(let i = 0; i < 3; i++)
-        {
-        sessions.push(<Button variant="contained">Contained</Button>)
-        }
-
     return (
         
-        <tbody>
-          {sessions.map(session => (
-            <tr>{session}</tr>
-          ))}
-        </tbody>
+      <div>
+      <SessionList userId="liam" />
+      </div>
 
     )
 }
