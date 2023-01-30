@@ -26,7 +26,7 @@ function App() {
         <Route path="/liftSelection" element={<LiftSelection />}/>
         <Route path="/deadlift" element={<Deadlift />}/>
         <Route path="/squat" element={<Squat />}/>
-        <Route path="/home" element={<Homepage />}/>
+        <Route path="/" element={<Homepage />}/>
         <Route path="/shoulderpress" element={<ShoulderPress />}/>
         <Route path="/history" element={<History />}/>
         <Route path="/session" element={<History />}/>
