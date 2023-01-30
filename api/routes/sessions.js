@@ -7,7 +7,8 @@ router.post("/session", async (req,res)=>{
     try{
     const newSession = new Session({
         username: req.body.username,
-        repCount: req.body.repCount
+        repCount: req.body.repCount,
+        setCount: req.body.setCount
     });
 
     
@@ -20,5 +21,17 @@ router.post("/session", async (req,res)=>{
    }
 
 });
+
+
+router.get("/session/:username", (req, res) => {
+    const username = req.params.username;
+    Session.find({ username }, (err, sessions) => {
+      if (err) {
+        res.status(500).json({ error: err });
+      } else {
+        res.json(sessions);
+      }
+    });
+  });
 
 module.exports = router;

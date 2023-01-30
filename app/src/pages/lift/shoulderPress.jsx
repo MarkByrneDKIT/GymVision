@@ -3,11 +3,17 @@ import { useRef } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router";
 import React, { useState, useEffect } from 'react';
+import PubNub from 'pubnub';
+//import { PubNubProvider, usePubNub } from 'pubnub-react';
 
 export default function ShoulderPress() {
 
 
-
+      const pubnub = new PubNub({
+        subscribeKey: 'sub-c-66e361b6-c13c-411e-a780-9b16fc2e0c36',
+        publishKey: 'pub-c-d8d5b759-3b66-4d5b-ae7d-b119cc474e80',
+        userId: 'liamdenningsetstats',
+    });
 
     const [status, setStatus] = useState('off');
       
@@ -15,24 +21,40 @@ export default function ShoulderPress() {
       e.preventDefault();
         if (status === 'off') {
             setStatus('on');
-            axios.post("https://d5d1-64-43-163-23.eu.ngrok.io", {
-              status: 'on'
-            })
+            pubnub.publish(
+              {
+                channel: "Setstats",
+                message: {"status": "on"}
+              },
+              function(status, response) {
+                console.log(status);
+                console.log(response);
+              }
+            );
           }
           // If the status is "on", set it to "off"
           else if (status === 'on') {
             setStatus('off');
-            axios.post("https://d5d1-64-43-163-23.eu.ngrok.io", {
-              status: 'on'
-            })
+            pubnub.publish(
+              {
+                channel: "Setstats",
+                message: {"status": "off"}
+              },
+              function(status, response) {
+                console.log(status);
+                console.log(response);
+              }
+            );
+            
+            const session = {
+              username: "liam",
+              repCount: document.getElementById("r").innerHTML,
+              setCount: document.getElementById("s").innerHTML
+            };
+
+            axios.post("/sessions/session", session);
           }
     }
-
-        // const [checked, setChecked] = useState(false);
-        // const handleChange = (event) => {
-        //     setChecked(event.target.checked);
-
-        //   }
 
         useEffect(() => {
 
@@ -41,7 +63,7 @@ export default function ShoulderPress() {
               const interval = setInterval(() => {
                 console.log("a");
                 axios
-                .get("https://d5d1-64-43-163-23.eu.ngrok.io")
+                .get("https://d870-89-19-67-234.eu.ngrok.io")
                 .then( function(response){
                   console.log(response.data)
                   var rep =response.data["Rep"]

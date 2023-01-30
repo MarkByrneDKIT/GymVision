@@ -7,6 +7,8 @@ import Deadlift from './pages/lift/deadlift'
 import Homepage from './pages/homepage'
 import ShoulderPress from './pages/lift/shoulderPress'
 import History from './pages/lift/history'
+import Session from './pages/lift/session'
+
 
 import{
   BrowserRouter as Router,
@@ -27,6 +29,7 @@ function App() {
         <Route path="/home" element={<Homepage />}/>
         <Route path="/shoulderpress" element={<ShoulderPress />}/>
         <Route path="/history" element={<History />}/>
+        <Route path="/session" element={<History />}/>
       </Routes>
      </Router>
   );

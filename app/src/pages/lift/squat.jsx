@@ -29,6 +29,7 @@ export default function Squat() {
                 <form onSubmit={handleClick}>
                 <button type="submit">Get data</button>
                 <input type="checkbox" id="lifting"/>
+                {/* <input type="checkbox" checked={checked} onChange={handleChange} /> */}
                 </form>
                 </div>
     );
