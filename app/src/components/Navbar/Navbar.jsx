@@ -6,10 +6,10 @@ export default function Navbar() {
   return (
     <div className='navbar'>
       
-        <a href='/home'><img src={logo}></img></a>
+        <a href='/'><img src={logo}></img></a>
         <a className="links" href='/login'>Logout</a>
         <a className="links" href='/LiftSelection'>Lifts</a>
-        <a className="links" href='/history'>History</a>
+        <a className="links" href='/History'>History</a>
     </div>
   )
 }
