@@ -1,6 +1,6 @@
 //import './App.css';
-import Login from './pages/loginRegister/login'
-import Register from './pages/loginRegister/register'
+import Login from './pages/login/login'
+import Register from './pages/register/register'
 import LiftSelection from './pages/lift/liftSelection'
 import Squat from './pages/lift/squat'
 import Deadlift from './pages/lift/deadlift'
