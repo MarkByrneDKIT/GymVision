@@ -1,5 +1,6 @@
 import {Button} from '@mui/material'
 import Navbar from "../../components/Navbar/Navbar";
+import SessionList from '../../components/sessionList'
 
 export default function History()   {
 
@@ -7,9 +8,9 @@ export default function History()   {
         
         <tbody>
           <Navbar/>
-          {sessions.map(session => (
-            <tr>{session}</tr>
-          ))}
+          <div>
+          <SessionList userId="liam" />
+          </div>
         </tbody>
 
     )
