@@ -9,7 +9,7 @@ export default function History()   {
         <tbody>
           <Navbar/>
           <div>
-          <SessionList userId="liam" />
+          <SessionList />
           </div>
         </tbody>
 
