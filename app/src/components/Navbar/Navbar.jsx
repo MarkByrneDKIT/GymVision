@@ -9,7 +9,7 @@ export default function Navbar() {
         <a href='/'><img src={logo}></img></a>
         <a className="links" href='/login'>Logout</a>
         <a className="links" href='/LiftSelection'>Lifts</a>
-        <a className="links" href='/History'>History</a>
+        <a className="links" href='/history'>History</a>
     </div>
   )
 }

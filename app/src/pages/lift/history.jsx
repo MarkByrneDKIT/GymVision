@@ -1,20 +1,17 @@
 import {Button} from '@mui/material'
 import Navbar from "../../components/Navbar/Navbar";
-import SessionList from '../../components/sessionList'
+import SessionList from '../../components/Sessions/sessionList'
 
 export default function History()   {
 
     return (
         
-        <tbody>
+        <div className='container'>
           <Navbar/>
           <div>
           <SessionList />
           </div>
-        </tbody>
+        </div>
 
     )
 }
-
-
-

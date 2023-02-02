@@ -1,0 +1,15 @@
+.container{
+    width: 100%;
+}
+
+.sessionButtons{
+    justify-content: center !important;
+    align-items: center !important;
+    display: grid !important;
+    margin: 10px 40% !important;
+    width: 20% !important;
+    height: 50px !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    align-items: center !important;
+}

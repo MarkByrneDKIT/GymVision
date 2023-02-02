@@ -15,8 +15,8 @@ export default function LiftSelection() {
             <h1 className="loginLogo">SetStats</h1>
             <h2 className="PickLift">Choose your lift</h2>
             <a href='/squat' className="button">Squat</a>
-            <button href='/squat' className="button">Deadlift</button>
-            <button href='/squat' className="button">Shoulder Press</button>
+            <a href='/squat' className="button">Deadlift</a>
+            <a href='/squat' className="button">Shoulder Press</a>
         </div>
 
     );

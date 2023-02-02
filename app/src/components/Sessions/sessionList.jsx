@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Button} from '@mui/material'
-import { AuthContext } from "../context/AuthContext";
+import {Button} from '@mui/material';
+import './sessionList.css'
+import { AuthContext } from "../../context/AuthContext";
 import {useContext} from "react"
 
 function SessionList({ userId }) {
@@ -21,7 +22,7 @@ function SessionList({ userId }) {
     <ul>
       {sessions.map((session) => (
         // <Session key={session.id} session={session} />
-        <Button variant="contained">{session.createdAt}</Button>
+        <Button variant="contained" className='sessionButtons'>{session.createdAt}</Button>
       ))}
     </ul>
   );
