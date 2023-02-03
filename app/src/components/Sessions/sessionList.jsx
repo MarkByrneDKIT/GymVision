@@ -8,6 +8,7 @@ import {useContext} from "react"
 function SessionList({ userId }) {
   const [sessions, setSessions] = useState([]);
   const {user} = useContext(AuthContext);
+  const [session, setSession] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -18,11 +19,16 @@ function SessionList({ userId }) {
     fetchData();
   }, [userId]);
 
+  const handleSessionClick = (session) => {
+///session/:username/:id"
+    setSession(session);
+    window.location.href = `sessions/session/${session.username}/${session._id}`;
+  };
+
   return (
     <ul>
       {sessions.map((session) => (
-        // <Session key={session.id} session={session} />
-        <Button variant="contained" className='sessionButtons'>{session.createdAt}</Button>
+        <Button variant="contained" className='sessionButtons' key={session.id} onClick={() => handleSessionClick(session)}>{session.createdAt}</Button>
       ))}
     </ul>
   );

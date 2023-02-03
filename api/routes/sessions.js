@@ -34,4 +34,22 @@ router.get("/session/:username", (req, res) => {
     });
   });
 
+  router.get("/session/:username/:id", (req, res) => {
+    const username = req.params.username;
+    const id = req.params.id;
+  
+    Session.findOne({ username: username, _id: id })
+      .then((session) => {
+        if (!session) {
+          return res.status(404).json({ msg: "Session not found" });
+        }
+        res.json(session);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({ msg: "Server error" });
+      });
+  });
+  
+
 module.exports = router;
