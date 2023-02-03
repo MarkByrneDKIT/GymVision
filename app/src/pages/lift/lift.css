@@ -66,3 +66,13 @@ form {
   padding: 0%;
   color: #000;
 }
+
+.startButton{
+  width: 200px;
+  height: 50px;
+  background-color: #4c589b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+}
