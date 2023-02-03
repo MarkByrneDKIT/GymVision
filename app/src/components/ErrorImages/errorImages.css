@@ -1,0 +1,18 @@
+.slideShowContainer {
+    position: relative;
+    left: 37%;
+    top: 150px;
+    width: 500px;
+    height: 400px;
+    overflow: hidden;
+  }
+  
+  img {
+    width: 100%;
+    height: auto;
+  }
+  h3{
+    position: relative;
+    left: 48.5%;
+    top: 10px;
+  }
