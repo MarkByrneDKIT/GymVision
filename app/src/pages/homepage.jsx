@@ -13,9 +13,12 @@ export default function Homepage() {
             <button id="buttonTwo"><a>Profile</a></button>
             <button id="buttonThree"><a href='/history'>History</a></button>
             <button id="buttonFour"><a>Gym Buddies</a></button>
-            <div id="boxOne">Box 1</div>
-            <div id="boxTwo">Box 2</div>
-            <div id="boxThree">Box 3</div>
+            <div id="boxOne">Contact Us</div>
+            <div id="boxTwo">Info</div>
+            <div id="boxThree">Friends Online</div>
+            <div id="boxFour">Last Session</div>
+            <div id="boxFive">Box 5</div>
+            <div id="boxSix">Box 6</div>
         </div>
      );
 }

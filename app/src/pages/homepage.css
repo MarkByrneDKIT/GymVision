@@ -175,3 +175,40 @@
     transition: all 0.3s ease-in;
 }
 
+#boxFour{
+    width: 25%;
+    height: 300px;
+    background: #e7e7e7;
+    position: relative;
+    top: -520px;
+    left: 10%;
+    box-shadow: 15px 15px 50px #adb5bd75;
+    text-align: center;
+    transition: all 0.3s ease-in;
+}
+
+#boxFive{
+    width: 25%;
+    height: 300px;
+    background: #e7e7e7;
+    position: relative;
+    top: -820px;
+    left: 35.5%;
+    box-shadow: 15px 15px 50px #adb5bd75;
+    text-align: center;
+    transition: all 0.3s ease-in;
+}
+
+#boxSix{
+    width: 25%;
+    height: 300px;
+    background: #e7e7e7;
+    position: relative;
+    top: -1120px;
+    left: 61%;
+    box-shadow: 15px 15px 50px #adb5bd75;
+    text-align: center;
+    transition: all 0.3s ease-in;
+}
+
+
