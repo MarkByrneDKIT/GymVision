@@ -78,29 +78,29 @@ def write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, Lf
 def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     global tilt
     if l_shoulder[0] > (l_knee[0] + 20):
-        s_message = "Shoulders: <--"
+        s_message = "<--"
         s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
 
     elif l_shoulder[0] < (l_knee[0] - 20):
-        s_message = "Shoulders: -->"
+        s_message = "-->"
         s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     else:
-        s_message = 'Shoulders: Good'
+        s_message = 'Perfect'
         s_colour = (0,255,0)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
 
     if l_knee[0] > (l_foot[0] + 40):
-        k_message = "Knees:    <--"
+        k_message = "<--"
         k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     elif l_knee[0] < (l_foot[0] - 40):
-        k_message = "Knees:    -->"
+        k_message = "-->"
         k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     else:
-        k_message = "Knees:    Good"
+        k_message = "Perfect"
         k_colour = (0,255,0)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
 
@@ -111,11 +111,11 @@ def checkTilt(l_shoulder, r_shoulder):
     r_tilt = (r_shoulder[1] + (r_shoulder[1] * .10))
 
     if l_shoulder[1] > r_tilt:
-        message = "Tilting to right"
+        message = "\\"   
     elif r_shoulder[1] > l_tilt:
-        message = "Tilting to left"
+        message = "/"
     else:
-        message = "Straight"
+        message = "---"
     return message
 
 def findAngle(x1, y1, x2, y2):
@@ -194,7 +194,7 @@ def side_cam():
 
                     s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image)
 
-                    if s_message != "Shoulders: Good" and k_message != "Knees:    Good":
+                    if s_message != "Good" and k_message != "Good":
                         badFormTimer+=1
                     else:
                         badFormTimer=0
@@ -212,7 +212,7 @@ def side_cam():
                     message = {
                         'Rep': rep,
                         'Set': set, 
-                        'Feedback': {'Shoulder': s_message, 'Knee': k_message, 'tilt': tilt}
+                        'Feedback': {'Shoulder': s_message, 'Knee': k_message, 'Tilt': tilt}
                     }
 
                 except:
@@ -265,12 +265,12 @@ def front_cam():
                     repArray.append(rep)
                     setArray.append(set)
 
-                    tilt_message = checkTilt(l_shoulder, r_shoulder)
-                    if tilt_message == "Tilting to right":
+                    tilt= checkTilt(l_shoulder, r_shoulder)
+                    if tilt == "\\":
                         if counter != 30:
                             counter+= 2
                         cv2.circle(image, l_shoulder, (10+counter), (0,0,255), -1)
-                    elif tilt_message == "Tilting to left":
+                    elif tilt == "/":
                         if counter != 30:
                             counter+= 2
                         
@@ -332,7 +332,7 @@ def front_cam():
                     break
 
 cap = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(0)
+cap2 = cv2.VideoCapture(1)
 
 class PublishData(Resource):
     global message
@@ -355,7 +355,7 @@ def main():
     sideCam = threading.Thread(target=side_cam)
     frontCam = threading.Thread(target=front_cam)
     sideCam.start()
-    #frontCam.start()
+    frontCam.start()
     
     try: 
         while 1:
@@ -364,7 +364,7 @@ def main():
         print("Attempting to close threads.")
         run_event.clear()     
         sideCam.join()
-        #frontCam.join()  
+        frontCam.join()  
         print("Threads successfully closed.")
         if len(images) != 0:
             print("Sending images to database (This may take some time)")
