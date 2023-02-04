@@ -13,12 +13,51 @@ export default function Homepage() {
             <button id="buttonTwo"><a>Profile</a></button>
             <button id="buttonThree"><a href='/history'>History</a></button>
             <button id="buttonFour"><a>Gym Buddies</a></button>
-            <div id="boxOne">Contact Us</div>
-            <div id="boxTwo">Info</div>
-            <div id="boxThree">Friends Online</div>
-            <div id="boxFour">Last Session</div>
-            <div id="boxFive">Box 5</div>
-            <div id="boxSix">Box 6</div>
+            <div id="boxOne">
+                Contact Us
+            </div>
+            <div id="boxTwo">
+                Info
+            </div>
+            <div id="boxThree">
+                <p>Friends Online</p>
+                <ul id='friend-list'>
+                    <li class='friend'>
+                        <img src='https://i.imgur.com/nkN3Mv0.jpg' />
+                        <div class='name'>Andres Perez</div>
+                    </li>
+                    <li class='friend'>
+                        <img src='https://i.imgur.com/0I4lkh9.jpg' />
+                        <div class='name'>Leah Slaten</div>
+                    </li>
+                    <li class='friend'>
+                        <img src='https://i.imgur.com/s2WCwH2.jpg' />
+                        <div class='name'>Mario Martinez</div>
+                    </li>
+                    <li class='friend'>
+                        <img src='https://i.imgur.com/rxBwsBB.jpg' />
+                        <div class='name'>Cynthia Lo</div>
+                    </li>
+                    <li class='friend'>
+                        <img src='https://i.imgur.com/tovkOg2.jpg' />
+                        <div class='name'>Sally Lin</div>
+                    </li>
+                    <li class='friend'>
+                        <img src='https://i.imgur.com/A7lNstm.jpg' />
+                        <div class='name'>Danny Tang</div>
+                    </li>
+                </ul>
+
+            </div>
+            <div id="boxFour">
+                Last Session
+            </div>
+            <div id="boxFive">
+                Box 5
+            </div>
+            <div id="boxSix">
+                Box 6
+            </div>
         </div>
      );
 }
