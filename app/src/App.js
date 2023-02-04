@@ -30,7 +30,7 @@ function App() {
         <Route path="/" element={<Homepage />}/>
         <Route path="/shoulderpress" element={<ShoulderPress />}/>
         <Route path="/history" element={<History />}/>
-        <Route path="/session" element={<History />}/>
+        <Route path="/session" element={<Session />}/>
         <Route path="/historySession" element={<HistorySession />}/>
       </Routes>
      </Router>

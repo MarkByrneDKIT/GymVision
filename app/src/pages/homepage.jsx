@@ -4,20 +4,23 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar'
+import ContactForm from "../components/contactForm/contactForm";
+
 
 export default function Homepage() {
     return (
         <div className="container">
             <Navbar/> 
             <button id="buttonOne"><a href='/liftSelection'>Select Lift</a></button>
-            <button id="buttonTwo"><a>Profile</a></button>
+            <button id="buttonTwo"><a href='/profile'>Profile</a></button>
             <button id="buttonThree"><a href='/history'>History</a></button>
-            <button id="buttonFour"><a>Gym Buddies</a></button>
+            <button id="buttonFour"><a href='/login'>Sign Out</a></button>
             <div id="boxOne">
-                Contact Us
+                <p>Chart comparing your friends total sessions each month to yours</p>
+
             </div>
             <div id="boxTwo">
-                Info
+                <ContactForm/>
             </div>
             <div id="boxThree">
                 <p>Friends Online</p>
