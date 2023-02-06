@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import PubNub from 'pubnub';
 //import { PubNubProvider, usePubNub } from 'pubnub-react';
 
-export default function ShoulderPress() {
+export default function Deadlift() {
 
 
       const pubnub = new PubNub({
@@ -63,16 +63,20 @@ export default function ShoulderPress() {
               const interval = setInterval(() => {
                 console.log("a");
                 axios
-                .get("https://d870-89-19-67-234.eu.ngrok.io")
+                .get("https://e91e-109-78-162-60.eu.ngrok.io")
                 .then( function(response){
                   console.log(response.data)
                   var rep =response.data["Rep"]
                   document.getElementById("r").textContent= rep;
                   var set =response.data["Set"]
-                  document.getElementById("s").textContent= set;}
+                  document.getElementById("s").textContent= set;
+                  var feedback =response.data["Feedback"]
+                  document.getElementById("knees").textContent= feedback.Knee;
+                  document.getElementById("shoulders").textContent= feedback.Shoulder;
+                  document.getElementById("tilt").textContent= feedback.tilt;}
                 )
                 //set time between requests
-              }, 300);
+              }, 3000);
               return () => clearInterval(interval);
             }
           }, [status]);
@@ -81,6 +85,10 @@ export default function ShoulderPress() {
                 <div>
 				        <h1>Rep:<span id="r"></span></h1>
 				        <h1>Set:<span id="s"></span></h1>
+                <h1>Feedback:</h1>
+                <h1> <span id="shoulders"></span></h1>
+                <h1> <span id="knees"></span></h1>
+                <h1> <span id="tilt"></span></h1>
                 <form onSubmit={handleClick}>
                 <button type="submit">Get data</button>
                 <input type="checkbox" id="lifting"/>
