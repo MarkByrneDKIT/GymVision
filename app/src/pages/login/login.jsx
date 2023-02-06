@@ -24,7 +24,7 @@ export default function Login() {
       console.log(user);
     return (
         <div>
-        <Link to="/register"><img id="homeButton" src={homeIcon2} alt={"homeIcon2"} href=""/>  </Link>
+        <Link to="/"><img id="homeButton" src={homeIcon2} alt={"homeIcon2"} href=""/>  </Link>
           
           <h3 className="loginLogo"></h3>      
            
