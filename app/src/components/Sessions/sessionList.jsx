@@ -4,11 +4,13 @@ import {Button} from '@mui/material';
 import './sessionList.css'
 import { AuthContext } from "../../context/AuthContext";
 import {useContext} from "react"
+import { useNavigate } from "react-router";
 
 function SessionList({ userId }) {
   const [sessions, setSessions] = useState([]);
   const {user} = useContext(AuthContext);
-  const [session, setSession] = useState([]);
+  const [selectedSession, setSelectedSession] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -20,10 +22,18 @@ function SessionList({ userId }) {
   }, [userId]);
 
   const handleSessionClick = (session) => {
-///session/:username/:id"
-    setSession(session);
-    window.location.href = `sessions/session/${session.username}/${session._id}`;
+    setSelectedSession(() => session);
   };
+  
+
+  useEffect(() => {
+    console.log(selectedSession)
+    if (selectedSession) {
+      navigate("/session", {state: {selectedSession}});
+    }
+  });
+  
+  
 
   return (
     <ul>
