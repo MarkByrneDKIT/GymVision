@@ -5,13 +5,13 @@ import { useContext} from "react"
 import { AuthContext } from "../../context/AuthContext";
 import homeIcon2 from "../Images/homeIcon2.png";
 import {Link} from 'react-router-dom';
-
-
-
+import Footer from "../../components/Footer/Footer"
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login() {
     const username = useRef();
     const password = useRef();
+    const onChange =() => {};
     const { user, isFetching, error, dispatch } = useContext(AuthContext);
   
     const handleClick = (e) => {
@@ -24,33 +24,36 @@ export default function Login() {
       console.log(user);
     return (
         <div>
-        <Link to="/"><img id="homeButton" src={homeIcon2} alt={"homeIcon2"} href=""/>  </Link>
-          
-          <h3 className="loginLogo"></h3>      
-           
+        <h1 className="loginLogo">SetStats</h1>
+ 
+         
             <div id="loginWrapper">
                 <div className="left">
                 </div>
-                
                 <div className="middle">
                     <div id="box">
+                    <h2 className="welcomeText">Welcome to SetStats</h2> 
                     <form id="loginSmallBox" onSubmit={handleClick}>
-                        <input placeholder="Enter Username" type="username" className="usernameInput" ref={username} required />
-                        <input placeholder="Enter Password" type="password" className="passwordInput" ref={password} required />
+                        <input placeholder="Enter Username" type="username" className="username2Input" ref={username} required />
+                        <input placeholder="Enter Password" type="password" className="password2Input" ref={password} required />
+                        <ReCAPTCHA sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={onChange}/>
                         <button className="loginButton" type='submit'>Log In</button>
-                        <span className="loginForgot">Forgot Password?</span>
+ 
                     </form>
-
+                   
+ 
                     <div id="divider"></div>
                     <div id="registerSmallBox">
+                    <div id="signInSmallBox">
                         <p id="registerText">Already Have An Account?</p>
-                        <button className="registerButton" href="">Sign-Up</button>
+                        <button className="signInButton" href="">Sign-In</button>
+                        <button className="register2Button" href="">Sign-Up</button>
                     </div>
-                    
                     </div>
-                    
+                    </div>
+                    </div>
                 </div>
-            </div>
+                <Footer/>
         </div>
-    )
+    );
 }
