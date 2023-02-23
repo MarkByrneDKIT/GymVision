@@ -1,0 +1,420 @@
+#loginWrapper {
+  width: 65%;
+  height: 70%;
+  display: flex;
+  /* border:#1775ee 5px; */
+}
+
+
+.left
+{
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/*.loginLogo {
+  font-size: 80px;
+  font-weight: 3000;
+  color: white;
+  margin-bottom: 10px;
+    width: 100%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+  }
+*/
+
+
+.loginLogo {
+  font-size: 90px;
+  font-weight: 800;
+  color: #1775ee;
+  margin-bottom: 120px;
+  width: 100%;
+  align-self: center;
+  height: 90px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+
+
+#box{
+    height: 470px;
+    padding: 150px;
+    top: -20px;
+    width: 600px;
+    left: 180px;
+    padding-left: 20px;
+    position: relative;
+    border-radius: 49px;
+    background: lightblue;
+    box-shadow:  -6px -6px 15px lightgray,
+                 6px 6px 15px #45466e;
+}
+
+.loginInput{
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.loginInput:focus{
+    outline: none;
+}
+
+
+.loginForgot{
+  position: absolute;
+    top:250px;
+    left:300px;
+    text-align: center;
+    color: black;
+    font-size: 20px;
+}
+
+.loginForgot:hover{
+  color: #17C3B2;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+body{
+  background:  lightblue;
+  margin: 0px;
+}
+
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+#loginSide{
+  position: relative;
+  width: 700px;
+  height: 800px;
+}
+
+
+
+
+.usernameInput{
+background-color: darkgrey;
+position: relative;
+left: 270px;
+top: -140px;
+max-width: 200px;
+height: 40px;
+padding: 14px;
+/* text-align: center; */
+border: 2px solid white;
+border-radius: 5px;
+/* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+}
+
+.usernameInput:focus {
+color: rgb(0, 255, 255);
+background-color: #212121;
+outline-color: rgb(0, 255, 255);
+box-shadow: -3px -3px 15px rgb(0, 255, 255);
+transition: .1s;
+transition-property: box-shadow;
+}
+
+.passwordInput{
+background-color: #212121;
+position: relative;
+left: 100px;
+top: -40px;
+max-width: 200px;
+height: 40px;
+padding: 14px;
+/* text-align: center; */
+border: 2px solid white;
+border-radius: 5px;
+/* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+}
+
+.passwordInput:focus {
+color: rgb(0, 255, 255);
+background-color: #212121;
+outline-color: rgb(0, 255, 255);
+box-shadow: -3px -3px 15px rgb(0, 255, 255);
+transition: .1s;
+transition-property: box-shadow;
+}
+
+  
+.registerButton{
+padding: 0.8em 1.8em;
+border: 2px solid #17C3B2;
+border-radius: 17px;
+position: relative;
+left: -65px;
+top: 120px;
+width: 90px;
+overflow: hidden;
+background-color: transparent;
+text-align: center;
+text-transform: uppercase;
+font-size: 16px;
+transition: .3s;
+z-index: 1;
+font-family: inherit;
+color: #17C3B2;
+width: 160px
+}
+
+.registerButton::before {
+content: '';
+width: 0;
+height: 300%;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) rotate(45deg);
+background: #17C3B2;
+transition: .5s ease;
+display: block;
+z-index: -1;
+}
+
+.registerButton:hover::before {
+width: 105%;
+}
+
+.registerButton:hover {
+color: white;
+}
+
+#registerSmallBox{
+position: relative;
+height: 450px;
+width: 280px;
+top: -400px;
+left: 350px;
+border-top-style: hidden;
+border-right-style: hidden;
+border-left-style: hidden;
+border-bottom-style: hidden;
+}
+
+#registerText{
+color: black;
+position: relative;
+top: -20px;
+left: 70px;
+font-size: 20px;
+}
+
+
+.signInButton{
+padding: 0.8em 1.8em;
+border: 2px solid #17C3B2;
+border-radius: 17px;
+position: relative;
+left: 80px;
+top: -10px;
+width: 390px;
+overflow: hidden;
+background-color: transparent;
+text-align: center;
+text-transform: uppercase;
+font-size: 16px;
+transition: .3s;
+z-index: 1;
+font-family: inherit;
+color: #17C3B2;
+width: 160px
+
+}
+
+
+.signInButton::before {
+content: '';
+width: 0;
+height: 300%;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) rotate(45deg);
+background: #17C3B2;
+transition: .5s ease;
+display: block;
+z-index: -1;
+}
+
+.signInButton:hover::before {
+width: 105%;
+}
+
+.signInButton:hover {
+color: white;
+}
+
+.signInSmallBox{
+position: relative;
+height: 450px;
+width: 280px;
+top: -400px;
+left: 350px;
+border-top-style: hidden;
+border-right-style: hidden;
+border-left-style: hidden;
+border-bottom-style: hidden;
+}
+
+ 
+
+.loginLogo{
+width: 40;
+height: 30%;
+position: absolute;
+top: 5px;
+right: 20px;
+
+}
+
+.registerNowtext{
+width: 300px;
+height: 100px;
+left: 250px;
+top: -100px;
+position: relative;
+font-size: 45px;
+}
+
+.passwordForget {
+  color: black;
+position: relative;
+top: 20px;
+left: 220px;
+font-size: 18px;
+}
+
+.emailAddress {
+    position: relative;
+      top: -10px;
+      left:300px;
+      text-align: center;
+      color: black;
+      font-size: 20px;
+  }
+  
+
+  .emailInput{
+    background-color: darkgrey;
+    position: relative;
+    left: -120px;
+    top: 55px;
+    max-width: 200px;
+    height: 40px;
+    padding: 14px;
+    /* text-align: center; */
+    border: 2px solid white;
+    border-radius: 5px;
+    /* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+    }
+    
+    .emailInput:focus {
+    color: rgb(0, 255, 255);
+    background-color: #212121;
+    outline-color: rgb(0, 255, 255);
+    box-shadow: -3px -3px 15px rgb(0, 255, 255);
+    transition: .1s;
+    transition-property: box-shadow;
+    }
+
+    .emailButton{
+      padding: 0.8em 1.8em;
+      border: 2px solid #17C3B2;
+      border-radius: 17px;
+      position: relative;
+      left: -85px;
+      top: 180px;
+      width: 90px;
+      overflow: hidden;
+      background-color: transparent;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 16px;
+      transition: .3s;
+      z-index: 1;
+      font-family: inherit;
+      color: #17C3B2;
+      width: 160px
+      }
+      
+      .emailButton::before {
+      content: '';
+      width: 0;
+      height: 300%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      background: #17C3B2;
+      transition: .5s ease;
+      display: block;
+      z-index: -1;
+      }
+      
+      .emailButton:hover::before {
+      width: 105%;
+      }
+      
+      .emailButton:hover {
+      color: white;
+      }
+      
+      #emailSmallBox{
+      position: relative;
+      height: 450px;
+      width: 280px;
+      top: -400px;
+      left: 350px;
+      border-top-style: hidden;
+      border-right-style: hidden;
+      border-left-style: hidden;
+      border-bottom-style: hidden;
+      }

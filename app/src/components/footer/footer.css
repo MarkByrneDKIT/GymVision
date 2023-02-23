@@ -1,0 +1,11 @@
+.footer{
+    background: cornflowerblue;
+    padding-top: -10px;
+    padding-bottom:60px;
+    padding-right: 10px;
+    text-align: center;
+    position: relative;
+    font-size: 20px;
+    color: black;
+ 
+}

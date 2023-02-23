@@ -1,0 +1,78 @@
+/* Bordered form */
+form {
+  border: 3px solid #f1f1f1;
+}
+
+
+/* Set a style for all buttons */
+.button {
+  background-color: #38accf;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  font-size: large;
+  margin: 25px 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Add a hover effect for buttons */
+.button:hover {
+  opacity: 0.8;
+}
+
+/* Extra style for the cancel button (red) */
+.cancelbtn {
+  width: auto;
+  padding: 100px 180px;
+  background-color: #f44336;
+}
+
+
+.start-button {
+  position: center;
+}
+
+.loginLogo {
+  font-size: 80px;
+  font-weight: 8000;
+  color: #1775ee;
+  margin-bottom: 120px;
+  width: 100%;
+  align-self: center;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.PickLift {
+  font-size: 30px;
+  font-weight: 800;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  color: black;
+}
+
+.button2 {
+  font-size: larger;
+  padding: 0%;
+  color: #000;
+}
+
+.startButton{
+  width: 200px;
+  height: 50px;
+  background-color: #4c589b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+}

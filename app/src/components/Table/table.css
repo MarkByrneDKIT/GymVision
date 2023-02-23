@@ -1,0 +1,22 @@
+.table{
+    width: 120%;
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+     
+   table {
+     border: 10px solid gray;
+     width: 800px;
+     height: 300px;
+     left: 200px;
+   }
+     
+   th {
+     border-bottom: 1px solid black;
+   }
+     
+   td {
+     text-align: center;
+   }

@@ -1,0 +1,32 @@
+.contactForm{
+    height: 100%;
+    width: 100%;
+    border-style: hidden;
+}
+
+.contactButton{
+    position: relative;
+    top: 60px;
+    width: 250px;
+}
+
+.name-input{
+    position: relative;
+    top: 20px;
+    height: 30px;
+    width: 250px;
+}
+.email-input{
+    position: relative;
+    top: 40px;
+    height: 30px;
+    width: 250px;
+}
+.message-input{
+    position: relative;
+    top: 55px;
+    left: 0px;
+    width: 250px;
+    height: 100px;
+    resize: none;
+}

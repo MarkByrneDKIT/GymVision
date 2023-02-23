@@ -1,0 +1,394 @@
+#loginWrapper {
+  width: 65%;
+  height: 70%;
+  display: flex;
+  /* border:#1775ee 5px; */
+}
+
+
+.left
+{
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/*.loginLogo {
+  font-size: 80px;
+  font-weight: 3000;
+  color: white;
+  margin-bottom: 10px;
+    width: 100%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+  }
+*/
+
+
+.loginLogo {
+  font-size: 80px;
+  font-weight: 8000;
+  color: #1775ee;
+  margin-bottom: 120px;
+  width: 100%;
+  align-self: center;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+
+
+#box{
+    height: 270px;
+    padding: 150px;
+    top: -140px;
+    width: 600px;
+    left: 180px;
+    padding-left: 20px;
+    position: relative;
+    border-radius: 49px;
+    background: lightblue;
+    box-shadow:  -6px -6px 15px bisque,
+                 6px 6px 15px #45466e;
+}
+
+.loginInput{
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.loginInput:focus{
+    outline: none;
+}
+
+
+.loginForgot{
+  position: relative;
+    top: 60px;
+    left: -118px;
+    text-align: center;
+    color: black;
+    font-size: 20px;
+}
+
+.loginForgot:hover{
+  color: #17C3B2;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+body{
+  background:  lightblue;
+  margin: 0px;
+}
+
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+#loginSide{
+  position: relative;
+  width: 700px;
+  height: 800px;
+}
+
+#loginSmallBox{
+  position: relative;
+  height: 400px;
+  width: 350px;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+}
+
+.loginButton{
+padding: 0.8em 1.8em;
+border: 2px solid black;
+position: relative;
+left: 55px;
+top: 30px;
+overflow: hidden;
+background-color: transparent;
+text-align: center;
+text-transform: uppercase;
+font-size: 16px;
+transition: .3s;
+z-index: 1;
+font-family: inherit;
+color: darkgrey;
+width: 160px;
+}
+
+.loginButton::before {
+content: '';
+width: 0;
+height: 300%;
+position: absolute;
+top: 70%;
+left: 50%;
+transform: translate(-50%, -50%) rotate(45deg);
+background: darkgrey;
+transition: .5s ease;
+display: block;
+z-index: -1;
+}
+
+.loginButton:hover::before {
+width: 105%;
+}
+
+.loginButton:hover {
+color: white;
+}
+
+.username2Input{
+
+background-color: darkgrey;
+position: relative;
+left: 35px;
+top: -40px;
+width: 200px;
+height: 40px;
+padding: 14px;
+/* text-align: center; */
+border: 2px solid white;
+border-radius: 5px;
+/* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+}
+
+.usernameInput:focus {
+color: rgb(0, 255, 255);
+background-color: #212121;
+outline-color: rgb(0, 255, 255);
+box-shadow: -3px -3px 15px rgb(0, 255, 255);
+transition: .1s;
+transition-property: box-shadow;
+}
+
+.password2Input{
+background-color: #212121;
+position: relative;
+left: 35px;
+top: -20px;
+width: 200px;
+height: 40px;
+padding: 10px;
+/* text-align: center; */
+border: 2px solid white;
+border-radius: 5px;
+/* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+}
+
+.passwordInput:focus {
+color: rgb(0, 255, 255);
+background-color: #212121;
+outline-color: rgb(0, 255, 255);
+box-shadow: -3px -3px 15px rgb(0, 255, 255);
+transition: .1s;
+transition-property: box-shadow;
+}
+
+#divider{
+position: relative;
+left: 180px;
+top: -175px;
+transform: rotate(90deg);
+width: 300px;
+height: 1px;
+background-color: black;
+}
+
+.register2Button{
+padding: 0.8em 1.8em;
+border: 2px solid #17C3B2;
+border-radius: 17px;
+position: relative;
+left: 90px;
+top: 130px;
+width: 90px;
+overflow: hidden;
+background-color: transparent;
+text-align: center;
+text-transform: uppercase;
+font-size: 16px;
+transition: .3s;
+z-index: 1;
+font-family: inherit;
+color: #17C3B2;
+width: 160px
+}
+
+.registerButton::before {
+content: '';
+width: 0;
+height: 300%;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) rotate(45deg);
+background: #17C3B2;
+transition: .5s ease;
+display: block;
+z-index: -1;
+}
+
+.registerButton:hover::before {
+width: 105%;
+}
+
+.registerButton:hover {
+color: white;
+}
+
+#registerSmallBox{
+position: relative;
+height: 450px;
+width: 280px;
+top: -400px;
+left: 350px;
+border-top-style: hidden;
+border-right-style: hidden;
+border-left-style: hidden;
+border-bottom-style: hidden;
+}
+
+#registerText{
+color: black;
+position: relative;
+top: -20px;
+left: 70px;
+font-size: 20px;
+}
+
+
+#signInButton{
+padding: 0.8em 1.8em;
+border: 2px solid #17C3B2;
+border-radius: 17px;
+position: relative;
+left: -250px;
+top: 130px;
+width: 390px;
+overflow: hidden;
+background-color: transparent;
+text-align: center;
+text-transform: uppercase;
+font-size: 16px;
+transition: .3s;
+z-index: 1;
+font-family: inherit;
+color: #17C3B2;
+width: 160px
+
+}
+
+
+.signInButton::before {
+content: '';
+width: 0;
+height: 300%;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%) rotate(45deg);
+background: #17C3B2;
+transition: .5s ease;
+display: block;
+z-index: -1;
+}
+
+.signInButton:hover::before {
+width: 105%;
+}
+
+.signInButton:hover {
+color: white;
+}
+
+.signInSmallBox{
+position: relative;
+height: 450px;
+width: 280px;
+top: -400px;
+left: 350px;
+border-top-style: hidden;
+border-right-style: hidden;
+border-left-style: hidden;
+border-bottom-style: hidden;
+}
+
+
+#homeButton{
+position: relative;
+right: 20px;
+top: -230px;
+height: 120px;
+width: 130px;
+}
+
+#homeButton:hover{
+cursor: pointer;
+-webkit-filter: invert(100%) !important;
+}
+
+.loginLogo{
+width: 40;
+height: 30%;
+position: absolute;
+top: 5px;
+right: 20px;
+
+}
+
+.welcomeText{
+width: 380px;
+height: 100px;
+left: 220px;
+top: -100px;
+position: relative;
+font-size: 35px;
+}
