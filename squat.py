@@ -287,7 +287,7 @@ def front_cam():
                                         )
 
                     x.append(elapsed_time)
-                    y.append(-(l_hip[1])+1)
+                    y.append(-(l_shoulder[1])+1)
 
                     if angle > 160:
                         direction = "down"
@@ -295,16 +295,22 @@ def front_cam():
                         direction="up"
                         rep+=1
 
-                    if rep == 12:
+                    if rep == 8:
+                        # resets rep counter
                         rep = 0
-                        plt.xlabel('Time (Secs)')
+                        # generates graph
+                        plt.xlabel('Time (Seconds)')
                         plt.ylabel('Height (Pixels)')
                         plt.plot(x, y)
                         graph = secrets.token_hex(8)
+                        # saves graph
                         plt.savefig(f'{graph}.jpg')
+                        plt.cla()
                         file=(f'{graph}.jpg')
-                        x = []
-                        y = []
+                        # clears data of graph for next one
+                        x.clear()
+                        y.clear()
+                        startTime = time.time()
                         set += 1 
                         images.append(file)
 
@@ -332,7 +338,7 @@ def front_cam():
                     break
 
 cap = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(1)
+cap2 = cv2.VideoCapture(0)
 
 class PublishData(Resource):
     global message
