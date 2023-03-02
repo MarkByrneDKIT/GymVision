@@ -11,44 +11,45 @@ function Session() {
   console.log(state.selectedSession);
 
   return (
-    <div>
+    <div className='container'>
       <Navbar/>
+      <p>DATE OF SESSION HERE</p>
       <ErrorImage/>
       <div className="rowOne">
 
             <card id="repsCard">
-              <p>Rep Count:</p>
-              <p id="nums">{selectedSession.repCount}</p>
+              <p className='titles'>Rep Count:</p>
+              <p id='nums'>{selectedSession.repCount}</p>
             </card>
 
             <card id="setsCard">
               <p className='titles'>Set Count: </p>
-              <p classname='nums'>{selectedSession.setCount}</p>
+              <p id='nums'>{selectedSession.setCount}</p>
             </card>
 
             <card id="errorsNumCard">
               <p className='titles'>Total Errors</p>
-              <p classname='nums'></p>
+              <p id='nums'>7</p>
             </card>
 
             <card id="totalWeightCard">
               <p className='titles'>Total Weight Lifted</p>
-              <p classname='nums'></p>
+              <p id='nums'>200</p>
             </card>
 
             <card id="timeCard">
               <p className='titles'>Time</p>
-              <p classname='nums'></p>
+              <p id='nums'>5:04</p>
             </card>
 
             <card id="worstSetCard">
             <p className='titles'>Worst Set</p>
-              <p classname='nums'></p>
+              <p id='nums'>3</p>
             </card>
 
             <card id="bestSetCard">
             <p className='titles'>Best Set</p>
-              <p classname='nums'></p>
+              <p id='nums'>1</p>
             </card>
 
             <card id="bestRepCard">

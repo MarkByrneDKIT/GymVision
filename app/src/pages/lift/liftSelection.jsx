@@ -1,8 +1,4 @@
 import "./lift.css"
-import { useRef } from "react"
-import { loginCall } from "../../apiCalls"
-import { useContext } from "react"
-import { AuthContext } from "../../context/AuthContext";
 import Navbar from "../../components/Navbar/Navbar";
 
 
