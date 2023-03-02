@@ -4,7 +4,7 @@ import { loginCall } from "../../apiCalls"
 import { useContext } from "react"
 import { AuthContext } from "../../context/AuthContext";
 import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
+import Footer from "../../components/footer/footer";
 
 export default function LiftSelection() {
 
