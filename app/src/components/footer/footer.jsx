@@ -3,11 +3,10 @@ import './footer.css'
  
 export default function Footer() {
   return (
-
       <div className="footer">
-        <p>SetStats 2023 Ltd</p>
-        <p>Dundalk Ireland</p>
-        <p>Contact Us</p>
+        <p id="compName">SetStats 2023 Ltd</p>
+        <p id="compLocation">Dundalk Ireland</p>
+        <a id="footerContactUs" href="/">Contact Us</a>
       </div>
     );
     
