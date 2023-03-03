@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar'
 import ContactForm from "../components/contactForm/contactForm";
-import Footer from "../components/Footer/Footer";
+import Footer from "../components/footer/footer";
 
 export default function Homepage() {
     return (

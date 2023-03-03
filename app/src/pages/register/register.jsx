@@ -6,7 +6,7 @@ import { useContext} from "react"
 import { AuthContext } from "../../context/AuthContext";
 import homeIcon2 from "../Images/homeIcon2.png";
 import {Link} from 'react-router-dom';
-import Footer from "../../components/Footer/Footer"
+import Footer from "../../components/footer/footer";
 import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login() {
