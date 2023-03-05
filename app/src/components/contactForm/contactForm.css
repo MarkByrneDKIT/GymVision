@@ -1,7 +1,7 @@
 .contactForm{
-    height: 100%;
-    width: 100%;
-    border-style: hidden;
+    height: 100% !important;
+    width: 100% !important;
+    border-style: hidden !important;
 }
 
 .contactButton{
