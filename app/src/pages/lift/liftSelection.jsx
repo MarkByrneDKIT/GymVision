@@ -7,7 +7,6 @@ export default function LiftSelection() {
     return (
         <div className="container">
             <Navbar/>
-            <h1 className="loginLogo">SetStats</h1>  
             <h2 className="PickLift">Choose your lift</h2>
             <a href='/squat' className="button">Squat</a>
             <a href='/squat' className="button">Deadlift</a>
