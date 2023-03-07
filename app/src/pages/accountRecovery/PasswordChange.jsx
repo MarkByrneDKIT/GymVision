@@ -2,7 +2,7 @@ import "./recovery.css"
 import { useRef } from "react"
 import Navbar from '../../components/Navbar/Navbar'
 
-export default function Recovery() {
+export default function PasswordChange() {
     const passCode = useRef();
     const newPassword = useRef();
   

@@ -9,6 +9,7 @@ import ShoulderPress from './pages/lift/shoulderPress'
 import History from './pages/lift/history'
 import Session from './pages/lift/session'
 import Recovery from './pages/accountRecovery/recovery'
+import PasswordChange from './pages/accountRecovery/PasswordChange'
 
 
 import{
@@ -32,6 +33,7 @@ function App() {
         <Route path="/history" element={<History />}/>
         <Route path="/session" element={<Session />}/>
         <Route path="/recovery" element={<Recovery />}/>
+        <Route path="/PasswordChange" element={<PasswordChange />}/>
       </Routes>
      </Router>
   );

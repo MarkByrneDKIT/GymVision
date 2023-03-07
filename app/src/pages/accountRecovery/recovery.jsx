@@ -15,7 +15,6 @@ export default function Recovery() {
             {/* Tabs Titles */}
             <h2 className="active"> Forgot Password </h2>
     
- 
     
             {/* Forgot Pass Form*/}
             <form>
