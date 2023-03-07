@@ -1,6 +1,9 @@
 /* Bordered form */
-form {
-  border: 3px solid #f1f1f1;
+.buttonForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 
@@ -24,6 +27,10 @@ form {
 /* Add a hover effect for buttons */
 .button:hover {
   opacity: 0.8;
+}
+
+#dataButton {
+  width: 30%;
 }
 
 /* Extra style for the cancel button (red) */
@@ -76,3 +83,45 @@ form {
   border-radius: 10px;
   font-size: 20px;
 }
+
+.boxContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box {
+  flex-basis: calc(25% - 20px);
+  margin: 10px;
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 20px;
+}
+
+.box p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.centered-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.centered-text p {
+  font-size: 24px;
+  line-height: 1.5;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.centered-text h1 {
+  font-size: 24px;
+  line-height: 1.5;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
