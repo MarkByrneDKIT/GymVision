@@ -1,7 +1,5 @@
 import "./lift.css"
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
-import PubNub from 'pubnub';
 import Navbar from '../../components/Navbar/Navbar'
 import { useNavigate } from "react-router";
 import React, { useState, useEffect, useContext } from 'react';
