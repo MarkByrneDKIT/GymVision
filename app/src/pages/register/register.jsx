@@ -35,22 +35,18 @@ export default function Register() {
       <div id="formContent">
         {/* Tabs Titles */}
         <h2 className="active"> Sign Up </h2>
-        <h2 className="inactive underlineHover" ><a href="/register">Sign In</a></h2>
+        <h2 className="inactive underlineHover" ><a href="/login">Sign In</a></h2>
 
 
 
         {/* Login Form */}
         <form onSubmit={handleClick}>
           <input type="text" id="login" className="fadeIn second" name="login" placeholder="Username" ref={username} required />
-          <input type="text" id="password" className="fadeIn third" name="login" placeholder="password" ref={password} required />
-          <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={onChange} required />
+          <input type="text" id="password" className="fadeIn third" name="login" placeholder="Password" ref={password} required />
+          <input type="text" id="password" className="fadeIn third" name="login" placeholder="Confirm Password" required />
+          <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={onChange} />
           <input type="submit" className="fadeIn fourth" value="Register" />
         </form>
-
-        {/* Remind Passowrd */}
-        <div id="formFooter">
-          <a className="underlineHover" href="#">Forgot Password?</a>
-        </div>
       </div>
     </div>
     );

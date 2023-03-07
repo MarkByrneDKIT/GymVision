@@ -3,15 +3,16 @@ import { useRef } from "react"
 import {loginCall} from "../../apiCalls"
 import { useContext} from "react"
 import { AuthContext } from "../../context/AuthContext";
-import homeIcon2 from "../Images/homeIcon2.png";
-import {Link} from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
+import { useNavigate} from 'react-router-dom';
+
 
 export default function Login() {
     const username = useRef();
     const password = useRef();
     const onChange =() => {};
     const { user, isFetching, error, dispatch } = useContext(AuthContext);
+    const navigate = useNavigate();
   
     const handleClick = (e) => {
       e.preventDefault();
@@ -40,7 +41,7 @@ export default function Login() {
     
             {/* Remind Passowrd */}
             <div id="formFooter">
-              <a className="underlineHover" href="forgot">Forgot Password?</a>
+              <a className="underlineHover" href="/recovery">Forgot Password?</a>
             </div>
           </div>
         </div>
