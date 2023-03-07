@@ -3,10 +3,17 @@ import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import PubNub from 'pubnub';
 import Navbar from '../../components/Navbar/Navbar'
+import { useNavigate } from "react-router";
+import React, { useState, useEffect, useContext } from 'react';
+import PubNub from 'pubnub';
+import { AuthContext } from "../../context/AuthContext";
+
 //import { PubNubProvider, usePubNub } from 'pubnub-react';
 
 export default function Squat() {
 
+  const {user} = useContext(AuthContext);
+  
 
       const pubnub = new PubNub({
         subscribeKey: 'sub-c-66e361b6-c13c-411e-a780-9b16fc2e0c36',
@@ -14,7 +21,7 @@ export default function Squat() {
         userId: 'liamdenningsetstats',
     });
 
-    const [status, setStatus] = useState('off');
+    const [status, setStatus] = useState('off')
       
     const handleClick = async (e) =>{
       e.preventDefault();
@@ -23,7 +30,7 @@ export default function Squat() {
             pubnub.publish(
               {
                 channel: "Setstats",
-                message: {"status": "on"}
+                message: {"status": "on", "username" : user.username}
               },
               function(status, response) {
                 console.log(status);
