@@ -34,7 +34,7 @@ my_channel = 'Setstats'
 state = True
 end = False
 rep = 0 
-set = 0
+set = 1
 tilt = None
 message = None
 images=[]
@@ -167,7 +167,7 @@ def side_cam():
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
                 try:
-                    global rep, set, message
+                    global rep, set, message, username
                     landmarks = results.pose_landmarks.landmark
 
                     l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
@@ -190,7 +190,7 @@ def side_cam():
                     cv2.line(image, (l_foot[0] +40, 0), (l_foot[0] +40, 640), (0, 150, 0), 1)
                     cv2.line(image, (l_foot[0] -40, 0), (l_foot[0] -40, 640), (0, 150, 0), 1)
 
-                    cv2.rectangle(image, (0,0), (300,55), (245, 117,16), -1)  
+                    cv2.rectangle(image, (0,0), (300,55), (194, 101, 20), -1)  
 
                     s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image)
 
@@ -203,8 +203,9 @@ def side_cam():
                     cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
 
                     if badFormTimer == 70:
-                        errorImage = secrets.token_hex(9)
+                        errorImage = '{}-errorImage-{}.jpg'.format(username, time.time())
                         cv2.imwrite(f"{errorImage}.jpg", image)
+                        print("Error image: " + errorImage + " has been created")
                         file=(f"{errorImage}.jpg")
                         images.append(file)
                         
@@ -231,7 +232,7 @@ def front_cam():
     direction = None
     x = []
     y = []
-    global state,end
+    global state,end,username
 
     while state == True:
         with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
@@ -287,7 +288,7 @@ def front_cam():
                                         )
 
                     x.append(elapsed_time)
-                    y.append(-(l_shoulder[1])+1)
+                    y.append((l_shoulder[1]))
 
                     if angle > 160:
                         direction = "down"
@@ -295,29 +296,29 @@ def front_cam():
                         direction="up"
                         rep+=1
 
-                    if rep == 8:
+                    if rep == 2:
                         # resets rep counter
                         rep = 0
                         # generates graph
                         plt.xlabel('Time (Seconds)')
                         plt.ylabel('Height (Pixels)')
                         plt.plot(x, y)
-                        graph = secrets.token_hex(8)
+                        graph = '{}-graph-{}-{}.jpg'.format(username, set, time.time())
                         # saves graph
-                        plt.savefig(f'{graph}.jpg')
+                        plt.savefig(graph)
+                        print("Graph: " + graph + " has been created")
                         plt.cla()
-                        file=(f'{graph}.jpg')
                         # clears data of graph for next one
                         x.clear()
                         y.clear()
                         startTime = time.time()
                         set += 1 
-                        images.append(file)
-
-                except:
+                        images.append(graph)
+                except Exception as e:
+                    print(e)
                     pass
 
-                cv2.rectangle(image, (0,0), (150,70), (245, 117,16),-1)     
+                cv2.rectangle(image, (0,0), (150,70), (194, 101, 20), -1)     
                 cv2.putText(image, (f"Set: {set}"), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
                 cv2.putText(image, (f"Rep: {rep}"), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
                 
@@ -337,7 +338,7 @@ def front_cam():
                     #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                     break
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cap2 = cv2.VideoCapture(0)
 
 class PublishData(Resource):
@@ -403,12 +404,18 @@ class MySubscribeCallback(SubscribeCallback):
             pass
 
     def message(self, pubnub, message):
+        global username
         try:
             msg = message.message
             print(msg)
             key = list(msg.keys())
+            value = list(msg.values())
             if key[0] == 'status':
                 self.handle_event(msg)
+            if key[1] == 'username':
+                username = value[1]
+                print(username)
+
         except Exception as e:
             print(message.message)
             print("-=Error=-", e)
