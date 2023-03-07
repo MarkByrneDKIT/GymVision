@@ -42,6 +42,7 @@ export default function Register() {
         {/* Login Form */}
         <form onSubmit={handleClick}>
           <input type="text" id="login" className="fadeIn second" name="login" placeholder="Username" ref={username} required />
+          <input type="text" id="login" className="fadeIn second" name="login" placeholder="Email" ref={email} required />
           <input type="text" id="password" className="fadeIn third" name="login" placeholder="Password" ref={password} required />
           <input type="text" id="password" className="fadeIn third" name="login" placeholder="Confirm Password" required />
           <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={onChange} />

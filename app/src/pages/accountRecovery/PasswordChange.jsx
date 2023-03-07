@@ -20,10 +20,10 @@ export default function PasswordChange() {
     
             {/* Forgot Pass Form*/}
             <form>
-                <input type="text" id="login" className="fadeIn second" name="username" placeholder="Email" ref={passCode} required />
+                <input type="text" id="login" className="fadeIn second" name="username" placeholder="CODE" ref={passCode} required />
                 <input type="text" id="login" className="fadeIn second" name="username" placeholder="New Password" ref={newPassword} required />
                 <input type="text" id="login" className="fadeIn second" name="username" placeholder="Confrim Password" ref={newPassword} required />
-                <input type="submit" className="fadeIn fourth" value="Send Reset Code" />
+                <input type="submit" className="fadeIn fourth" value="Reset Password" />
             </form>
           </div>
         </div>
