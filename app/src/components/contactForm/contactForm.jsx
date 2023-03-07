@@ -16,9 +16,9 @@ const ContactForm = () => {
   }
   return (
 
-      <form className="contactForm"onSubmit={onSubmit}>
+      <form id="contactForm"onSubmit={onSubmit}>
           <input className="name-input" type="text" id="name" required placeholder='Enter Name'/>
-          <input className="email-input" type="email" id="email" required placeholder='Enter Email' />
+          <input className="email-input" type="text" id="email" required placeholder='Enter Email' />
           <textarea className="message-input" id="message" required placeholder='Enter Message'/>
         <button className="contactButton" type="submit">{formStatus}</button>
       </form>

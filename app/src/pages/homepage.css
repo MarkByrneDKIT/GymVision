@@ -1,6 +1,10 @@
 .container{
-  background-color: #e7e7e7;
-  height: 100vh;
+  position: absolute;
+  background-color: #e7e7e7 !important;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
 }
 
 #welcomeText{
@@ -139,77 +143,95 @@ a{
   text-decoration: none;
 }
 
-#boxOne
-{
+#boxOne {
   width: 25%;
-  height: 300px;
-  background: rgb(50, 183, 228);
+  min-width: 25%;
+  height: 35%;
+  min-height: 35%;
+  background: #e7e7e7;
   position: relative;
-  top: 50px;
+  top: 10%;
   left: 10%;
   box-shadow: 15px 15px 50px #adb5bd75;
   text-align: center;
   transition: all 0.3s ease-in;
+  overflow: auto;
 }
 
-#boxTwo{
+#boxTwo {
   width: 25%;
-  height: 300px;
-  background: rgb(50, 183, 228);
+  min-width: 25%;
+  height: 35%;
+  min-height: 35%;
+  background: #e7e7e7;
   position: relative;
-  top: -250px;
+  top: -25%;
   left: 35.5%;
   box-shadow: 15px 15px 50px #adb5bd75;
   text-align: center;
   transition: all 0.3s ease-in;
+  overflow: auto;
 }
-#boxThree{
+
+#boxThree {
   width: 25%;
-  height: 300px;
-  background: rgb(50, 183, 228);
+  min-width: 25%;
+  height: 35%;
+  min-height: 35%;
+  background: #e7e7e7;
   position: relative;
-  top: -550px;
+  top: -60%;
   left: 61%;
   box-shadow: 15px 15px 50px #adb5bd75;
   text-align: center;
   transition: all 0.3s ease-in;
-  overflow: scroll;
+  overflow: auto;
 }
 
-#boxFour{
+#boxFour {
   width: 25%;
-  height: 300px;
-  background: rgb(50, 183, 228);
+  min-width: 25%;
+  max-width: 25%;
+  height: 35%;
+  min-height: 35%;
+  background: #e7e7e7;
   position: relative;
-  top: -520px;
+  top: -58%;
   left: 10%;
   box-shadow: 15px 15px 50px #adb5bd75;
   text-align: center;
   transition: all 0.3s ease-in;
+  overflow: auto;
 }
 
 #boxFive{
   width: 25%;
-  height: 300px;
-  background: rgb(50, 183, 228);
+  min-width: 25%;
+  height: 35%;
+  min-height: 35%;
+  background: #e7e7e7;
   position: relative;
-  top: -820px;
+  top: -93%;
   left: 35.5%;
   box-shadow: 15px 15px 50px #adb5bd75;
   text-align: center;
   transition: all 0.3s ease-in;
+  overflow: auto;
 }
 
 #boxSix{
   width: 25%;
-  height: 300px;
-  background: rgb(50, 183, 228);
+  min-width: 25%;
+  height: 35%;
+  min-height: 35%;
+  background: #e7e7e7;
   position: relative;
-  top: -1120px;
+  top: -128%;
   left: 61%;
   box-shadow: 15px 15px 50px #adb5bd75;
   text-align: center;
   transition: all 0.3s ease-in;
+  overflow: auto;
 }
 
 #friend-list { 
@@ -254,4 +276,57 @@ color: white;
 
 .friend:not(.selected):hover {
 background: #DDD;
+}
+
+#sessionContainer
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  left: 0;
+
+}
+
+#button1
+{
+  /* centered  */
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  min-width: 40%;
+  width: 40%;
+  transform: translate(-50%, -50%);
+}
+
+#button2
+{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 40%;
+  width: 40%;
+  transform: translate(-50%, -50%);
+}
+
+#button3
+{
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  min-width: 40%;
+  width: 40%;
+  transform: translate(-50%, -50%);
+}
+
+#buttonText{
+  color: blue;
+  height: 100%;
+  width: 100%;
+}
+
+#chooseLiftText{
+  color: blue;
+  font-size: large;
 }

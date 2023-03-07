@@ -1,5 +1,5 @@
 .footer{
-    background: cornflowerblue;
+    background: lightgrey;
     padding-top: -10px;
     padding-bottom:60px;
     padding-right: 10px;
@@ -8,4 +8,27 @@
     font-size: 20px;
     color: black;
  
+}
+
+#compName{
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+#compLocation{
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+#footerContactUs{
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}   
+
+#footerContactUs:hover{
+    color: blue;
+    text-decoration: none;
 }

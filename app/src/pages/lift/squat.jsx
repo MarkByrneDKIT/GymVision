@@ -1,13 +1,17 @@
 import "./lift.css"
-import { useRef } from "react"
 import axios from "axios";
+import Navbar from '../../components/Navbar/Navbar'
 import { useNavigate } from "react-router";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PubNub from 'pubnub';
+import { AuthContext } from "../../context/AuthContext";
+
 //import { PubNubProvider, usePubNub } from 'pubnub-react';
 
 export default function Squat() {
 
+  const {user} = useContext(AuthContext);
+  
 
       const pubnub = new PubNub({
         subscribeKey: 'sub-c-66e361b6-c13c-411e-a780-9b16fc2e0c36',
@@ -15,7 +19,7 @@ export default function Squat() {
         userId: 'liamdenningsetstats',
     });
 
-    const [status, setStatus] = useState('off');
+    const [status, setStatus] = useState('off')
       
     const handleClick = async (e) =>{
       e.preventDefault();
@@ -24,7 +28,7 @@ export default function Squat() {
             pubnub.publish(
               {
                 channel: "Setstats",
-                message: {"status": "on"}
+                message: {"status": "on", "username" : user.username}
               },
               function(status, response) {
                 console.log(status);
@@ -82,18 +86,48 @@ export default function Squat() {
           }, [status]);
       
     return(
-                <div>
-				        <h1>Rep:<span id="r"></span></h1>
-				        <h1>Set:<span id="s"></span></h1>
-                <h1>Feedback:</h1>
-                <h1> <span id="shoulders"></span></h1>
-                <h1> <span id="knees"></span></h1>
-                <h1> <span id="tilt"></span></h1>
-                <form onSubmit={handleClick}>
-                <button type="submit">Get data</button>
-                <input type="checkbox" id="lifting"/>
-                {/* <input type="checkbox" checked={checked} onChange={handleChange} /> */}
-                </form>
-                </div>
+          <div className="container">
+            <Navbar/>
+            <div className="centered-text">
+              <p>Reps</p>
+            </div>
+            <div className="box">
+              <p><span id="r"></span></p>
+            </div>
+
+            <div className="centered-text">
+              <p>Set</p>
+            </div>
+            <div className="box">
+              <p><span id="s"></span></p>
+            </div>
+            
+            <div className="centered-text">
+              <p>Shoulders</p>
+            </div>
+            <div className="box">
+              <p><span id="shoulders"></span></p>
+            </div>
+
+            <div className="centered-text">
+              <p>Knees</p>
+            </div>
+            <div className="box">
+              <p><span id="knees"></span></p>
+            </div>
+
+            <div className="centered-text">
+              <p>Tilt</p>
+            </div>
+            <div className="box">
+              <p><span id="tilt"></span></p>
+            </div>
+
+            <form className="buttonForm"onSubmit={handleClick}>
+              <button type="submit" id="dataButton">Get data</button>
+              <input type="checkbox" id="lifting"/>
+              {/* <input type="checkbox" checked={checked} onChange={handleChange} /> */}
+            </form>
+          </div>
     );
 }
