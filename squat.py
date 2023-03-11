@@ -201,7 +201,6 @@ def side_cam():
                     badFormTimer=0
 
                 if badFormTimer == 70:
-                    username = 'richard'
                     errorImage = '{}-errorImage-{}.jpg'.format(username, time.time())
                     cv2.imwrite(f"{errorImage}", image)
                     print("Error image: " + errorImage + " has been created")
@@ -230,8 +229,8 @@ def front_cam():
     direction = None
     x = []
     y = []
-    global state,end,username
-    prevDistanceDiff =0
+    global state, end, username, rep, set, tilt, images
+    prevDistanceDiff=0
     distanceDiff=0
     prevAngle=0
     angle=0
@@ -250,7 +249,6 @@ def front_cam():
             elapsed_time = round(time.time() - startTime, 2)
 
             try:
-                global rep, set, tilt, images
                 landmarks = results.pose_landmarks.landmark
 
                 l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
@@ -295,6 +293,7 @@ def front_cam():
                 distanceDiff = l_knee[1]- l_foot[1]
                 
                 print("new distance: " , distanceDiff, "\tprev distance: ", prevDistanceDiff, "\tnew angle: ", angle, "\tprev angle: ", prevAngle)
+
                 if angle > 170:
                     direction = "down"
                 if angle < 150 and distanceDiff < prevDistanceDiff and angle < prevAngle and direction == "down":
@@ -307,7 +306,6 @@ def front_cam():
                     plt.xlabel('Time (Seconds)')
                     plt.ylabel('Height (Pixels)')
                     plt.plot(x, y)
-                    username = 'richard'
                     graph = '{}-graph-{}-{}.jpg'.format(username, set, time.time())
                     # saves graph
                     plt.savefig(graph)
@@ -341,7 +339,7 @@ def front_cam():
                 #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
 
-cap = cv2.VideoCapture("front30.mp4")
+cap = cv2.VideoCapture("side.mp4")
 cap2 = cv2.VideoCapture("pre.mp4")
 
 class PublishData(Resource):
