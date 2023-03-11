@@ -107,8 +107,8 @@ def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     return s_message, k_message, tilt, s_colour, k_colour
 
 def checkTilt(l_shoulder, r_shoulder):
-    l_tilt = (l_shoulder[1] + (l_shoulder[1] * .10))
-    r_tilt = (r_shoulder[1] + (r_shoulder[1] * .10))
+    l_tilt = (l_shoulder[1] + (l_shoulder[1] * 1.5))
+    r_tilt = (r_shoulder[1] + (r_shoulder[1] * 1.5))
 
     if l_shoulder[1] > r_tilt:
         message = "\\"   
@@ -231,7 +231,10 @@ def front_cam():
     x = []
     y = []
     global state,end,username
-    frame=0
+    prevDistanceDiff =0
+    distanceDiff=0
+    prevAngle=0
+    angle=0
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         startTime = time.time()
         while cap2.isOpened():
@@ -275,6 +278,7 @@ def front_cam():
                     cv2.circle(image, r_shoulder, (10+counter), (0,0,255), -1)
                 else:
                     counter = 0
+                prevAngle = angle    
                 angle = calculateAngle(l_hip, l_knee, l_foot)   
 
                 tiltArray.append(tilt)
@@ -287,17 +291,17 @@ def front_cam():
                 x.append(elapsed_time)
                 y.append(-(l_shoulder[1]))
 
-
-                print("knee: " , l_knee[1] , "ankle: " , l_foot[1])
-                distanceDiff
-                if angle > 160:
+                prevDistanceDiff = distanceDiff
+                distanceDiff = l_knee[1]- l_foot[1]
+                
+                print("new distance: " , distanceDiff, "\tprev distance: ", prevDistanceDiff, "\tnew angle: ", angle, "\tprev angle: ", prevAngle)
+                if angle > 170:
                     direction = "down"
-                if angle >= 135 and angle <= 140 and direction == "down":
+                if angle < 150 and distanceDiff < prevDistanceDiff and angle < prevAngle and direction == "down":
                     direction="up"
                     rep+=1
-                    frame = 0
 
-                if rep == 5:
+                if rep == 2:
                     rep = 0
                     # generates graph
                     plt.xlabel('Time (Seconds)')
@@ -323,7 +327,6 @@ def front_cam():
             cv2.putText(image, (f"Set: {set}"), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
             cv2.putText(image, (f"Rep: {rep}"), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
             
-
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                             mp_drawing.DrawingSpec(color=(29,162,7), thickness=2, circle_radius=4),
                             mp_drawing.DrawingSpec(color=(185,191,184), thickness=2, circle_radius=2)
@@ -334,13 +337,12 @@ def front_cam():
             else:
                 cv2.rectangle(image, (0,0), (1000,1000), (0, 0,0),-1) 
                 
-
             if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
                 #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
 
 cap = cv2.VideoCapture("front30.mp4")
-cap2 = cv2.VideoCapture("front-12.mp4")
+cap2 = cv2.VideoCapture("pre.mp4")
 
 class PublishData(Resource):
     global message
