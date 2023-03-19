@@ -303,7 +303,6 @@ def front_cam():
 
                 if rep == 6:
                     rep = 0
-                    username="mark"
                     # generates graph
                     plt.xlabel('Time (Seconds)')
                     plt.ylabel('Height (Pixels)')
