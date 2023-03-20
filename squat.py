@@ -5,7 +5,6 @@ import threading
 import math as m
 import time
 import matplotlib.pyplot as plt
-import secrets
 from flask import Flask
 from flask_restful import Api, Resource
 import csv
@@ -75,14 +74,14 @@ def write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, Lf
         writer.writerow(LfootSideArray)
 
 
-def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
+def checkForm(l_shoulder, r_shoulder,  l_knee, r_knee, l_foot, r_foot, image):
     global tilt
-    if l_shoulder[0] > (l_knee[0] + 20):
+    if l_foot[0] > (l_shoulder[0]+20) and r_foot[0] > (r_shoulder[0]+20):
         s_message = "<--"
         s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
 
-    elif l_shoulder[0] < (l_knee[0] - 20):
+    elif l_foot[0] < (l_shoulder[0]-20) and r_foot[0] < (r_shoulder[0]-20):
         s_message = "-->"
         s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
@@ -91,11 +90,11 @@ def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
         s_colour = (0,255,0)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
 
-    if l_knee[0] > (l_foot[0] + 40):
+    if l_foot[0] > (l_knee[0]+20) and r_foot[0] > (r_knee[0]+20):
         k_message = "<--"
         k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
-    elif l_knee[0] < (l_foot[0] - 40):
+    elif l_foot[0] < (l_knee[0]-20) and r_foot[0] < (r_knee[0]-20):
         k_message = "-->"
         k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
@@ -107,8 +106,8 @@ def checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image):
     return s_message, k_message, tilt, s_colour, k_colour
 
 def checkTilt(l_shoulder, r_shoulder):
-    l_tilt = (l_shoulder[1] + (l_shoulder[1] * 1.5))
-    r_tilt = (r_shoulder[1] + (r_shoulder[1] * 1.5))
+    l_tilt = (l_shoulder[1] + (l_shoulder[1] * .15))
+    r_tilt = (r_shoulder[1] + (r_shoulder[1] * .15))
 
     if l_shoulder[1] > r_tilt:
         message = "\\"   
@@ -172,6 +171,8 @@ def side_cam():
                 r_shoulder = (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y * h))
                 l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
                 l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
+                r_knee = (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y * h))
+                r_foot = (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].y * h))
 
                 # LshoulderSideArray.append(l_shoulder)
                 # LKneeSideArray.append(l_knee)
@@ -185,17 +186,17 @@ def side_cam():
                     mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2)
                 )
 
-                cv2.line(image, (l_foot[0] +40, 0), (l_foot[0] +40, 640), (0, 150, 0), 1)
-                cv2.line(image, (l_foot[0] -40, 0), (l_foot[0] -40, 640), (0, 150, 0), 1)
+                cv2.line(image, (l_foot[0] +20, 0), (l_foot[0] +20, 2000), (0, 150, 0), 1)
+                cv2.line(image, (l_foot[0] -20, 0), (l_foot[0] -20, 2000), (0, 150, 0), 1)
 
                 cv2.rectangle(image, (0,0), (300,55), (194, 101, 20), -1)  
 
-                s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, l_knee, r_shoulder, l_foot, image)
+                s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, r_shoulder, l_knee, r_knee, l_foot, r_foot, image)
                 
                 cv2.putText(image, str(s_message), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, s_colour, 2, cv2.LINE_AA)
                 cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
 
-                if s_message != "Good" and k_message != "Good":
+                if s_message != "Perfect" and k_message != "Perfect":
                     badFormTimer+=1
                 else:
                     badFormTimer=0
@@ -257,12 +258,12 @@ def front_cam():
                 l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
                 l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
                 
-                LshoulderArray.append(l_shoulder)
-                LKneeArray.append(l_knee)
-                LfootArray.append(l_foot)
-                RshoulderArray.append(r_shoulder)
-                repArray.append(rep)
-                setArray.append(set)
+                # LshoulderArray.append(l_shoulder)
+                # LKneeArray.append(l_knee)
+                # LfootArray.append(l_foot)
+                # RshoulderArray.append(r_shoulder)
+                # repArray.append(rep)
+                # setArray.append(set)
 
                 tilt= checkTilt(l_shoulder, r_shoulder)
                 if tilt == "\\":
@@ -292,7 +293,7 @@ def front_cam():
                 prevDistanceDiff = distanceDiff
                 distanceDiff = l_knee[1]- l_foot[1]
                 
-                print("new distance: " , distanceDiff, "\tprev distance: ", prevDistanceDiff, "\tnew angle: ", angle, "\tprev angle: ", prevAngle)
+                # print("new distance: " , distanceDiff, "\tprev distance: ", prevDistanceDiff, "\tnew angle: ", angle, "\tprev angle: ", prevAngle)
 
                 if angle > 170:
                     direction = "down"
@@ -300,7 +301,7 @@ def front_cam():
                     direction="up"
                     rep+=1
 
-                if rep == 2:
+                if rep == 6:
                     rep = 0
                     # generates graph
                     plt.xlabel('Time (Seconds)')
@@ -339,8 +340,8 @@ def front_cam():
                 #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                 break
 
-cap = cv2.VideoCapture("side.mp4")
-cap2 = cv2.VideoCapture("pre.mp4")
+cap = cv2.VideoCapture("mark-side.mp4")
+cap2 = cv2.VideoCapture("mark-front.mp4")
 
 class PublishData(Resource):
     global message
