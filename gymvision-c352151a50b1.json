@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "gymvision",
+  "private_key_id": "c352151a50b1a7ba6cf11e2688c095b64e61de89",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9PlGXJc9iCmjE\nBiN5TZH5h52sUq4pxaP+Bq5yoGu6O242rGY3Bku8FmVPu04ztlJq2WbXEJfRqke+\nMPc5nFSbYWvT3G+h7+jHTZV1PIo2B9a7hGhVrBdyE81CrrURsJqZ+S/DIjnctfQD\naluyA/D5HB3bn4LBfUy8Vk14Br5PeEv9/u9N01nRUO5oyh7OY2uWQwZ44KpRN8s/\npCVY7RujTao0/OawmE+lOd8XEarWwJPYA1uxmLutLq/egZfJ72j7dgdFRji67mPn\nMITuiDNn5t/cq+5594cHt21By8/BrNdHbV3irNnx8r1PfrfKRDYn64e91w/eO5b9\nCtol9plBAgMBAAECggEAWI8qRW5XP00Zu+oXfbO0RS6Wtca3ZCruVHkx98hkwXEA\nYauJ5eQXWvysCoTf0slWhlQYkTpdoatrCXEGsLocyd3sROfagdCwgVwoPgXHtAM1\nFOmgnb779dGYc8UoTQ/1OWroVAvXQhcQCu0h3guEID9tJZLe8Mc/Or+0Xx/gvXUD\nMABsc3Y+7BZsFHYH9Pat3baIikS6myXMDqeYrqrCj/d6ziC7Pfw9HZv2iTJZqD2l\nYPT8iN/WOGfms+aA6VM2FmbqRtVsDOvPK0xC15SgItyVzl9V9TKmOsSUQsQJzirX\ngUAdgm70tiPJHWekwbQJPExkKIQjt+IiyP9K+n9SxQKBgQDdrxZil3fN8B/S0rud\nNR2zBfEtoM+1q8/0QIBdZlllBh/TQhNepEHTl3pGstxcaDlHBFUYuCZQLnXK+0rB\nL/iZDc11rQzGfqOOy6jQzWZLpl5Wu9I9b76eCdEu1E+j97MFZcKIlW1TJruSFJx0\nc1LKe/Jq5IrjPBKgGpDk61h7CwKBgQDaia0FpbuHDVy+12wu63qAbPUqg7t5HfgV\n/1nxcpX5N++Fe8sYMJo0WkQ22Ebg4Nc8aUjMIvibyjJPuZOitVeE8uJAIM28LAzD\nEYBj7C6rpvMqWsudjZoeMXyTl1f9U6hJh4VUzxFww8hIXDDvGMzJCEVm9txev/Gq\nwdaWP3+MYwKBgFGFJVI0KRZOCyXX4K467iT7Nml1DWzdNae4YHv4Oz9vNRzW25Ce\nDqbkuU5uT6KboRSAf1qLvWsW6rIuHptULLL75GY1sND9mN/V/Mpr/gYrs91pTDLT\neOFc8tOpt2+wkuCVPyhC6uT9BVT+x1n7XqKfWdH9ISXW3XKK0mWcNflpAoGAa1VL\nQYbQv9f0QVcUr0bAd+sLzsG8hhQOEN/FkSyyNCEg5vKSIWNdmXDsJ/O5fCFyFR2w\nv3I9oGaCp12CAVwHjCiurshtw4nvCq/B21HY6j2pGJhXgR5XH5U2llayxJ0d/l8t\nQSYibrv51nBRKF2J1wLU82kzeuXTEAb8Gfc98fkCgYEAoXI2HmIjkEm8Si403FkC\n2GR2XLqY/IJshrrBPhgPvPzZS52+4I40UBecTEdLQu/h3fjt3KoKih9PAPAiVxrK\n9RsxOIuBcWb7uLDZsjjWcEbg/hUF05iU7XtuKgFebj/vcE5nzpa2LlIsi7cDpvQa\nUYQpNIUVlRR8I1ayNaF/rgw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "gymvision@gymvision.iam.gserviceaccount.com",
+  "client_id": "115469240422121828724",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gymvision%40gymvision.iam.gserviceaccount.com"
+}
