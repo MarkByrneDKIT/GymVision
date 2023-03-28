@@ -68,6 +68,20 @@
   color: black;
 }
 
+.SetStats {
+
+    font-size: 50px;
+    font-weight: 800;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    color: gray;
+ 
+    
+   
+}
+ 
+
 .button2 {
   font-size: larger;
   padding: 0%;

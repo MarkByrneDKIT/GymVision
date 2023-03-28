@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "ioredis": "^5.3.1",
+    "jsonwebtoken": "^9.0.0",
+    "npm": "^9.6.2",
+    "validator": "^13.9.0"
+  }
+}

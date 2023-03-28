@@ -10,6 +10,10 @@ import History from './pages/lift/history'
 import Session from './pages/lift/session'
 import Recovery from './pages/accountRecovery/recovery'
 import PasswordChange from './pages/accountRecovery/PasswordChange'
+import ReCAPTCHA from "react-google-recaptcha";
+import Footer from "./components/Footer/Footer";
+import React from 'react';
+import { GoogleLogin } from '@react-oauth/google';
 
 
 import{
@@ -20,6 +24,17 @@ import{
 
 function App() {
   //reactrouter.com quick start
+  const onChange = () => {
+ 
+        const responseMessage = (response) => {
+            console.log(response);
+        };
+        const errorMessage = (error) => {
+            console.log(error);
+        };
+      
+    
+  };
   return(
     <Router>
       <Routes>
@@ -34,6 +49,8 @@ function App() {
         <Route path="/session" element={<Session />}/>
         <Route path="/recovery" element={<Recovery />}/>
         <Route path="/PasswordChange" element={<PasswordChange />}/>
+    
+        
       </Routes>
      </Router>
   );

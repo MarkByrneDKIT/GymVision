@@ -1,7 +1,7 @@
 import './homepage.css'
 import Navbar from '../components/Navbar/Navbar'
 import ContactForm from "../components/contactForm/contactForm";
-import Footer from "../components/footer/footer";
+import Footer from "../components/Footer/Footer";
 import SessionList from '../components/Sessions/sessionList'
 
 export default function Homepage() {

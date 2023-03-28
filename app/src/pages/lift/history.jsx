@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar/Navbar";
 import SessionList from '../../components/Sessions/sessionList'
 import Table from "../../components/Table/table"
-import Footer from "../../components/footer/footer";
+import Footer from "../../components/Footer/Footer";
 
 export default function History()   {
 
@@ -12,7 +12,10 @@ export default function History()   {
           <div>
             <SessionList/>
           </div>
-        </div>
-
+    
+      
+            <Footer></Footer>
+          </div>
+ 
     );
 }

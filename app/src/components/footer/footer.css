@@ -1,15 +1,28 @@
 .footer{
     background: lightgrey;
-    padding-top: -10px;
-    padding-bottom:60px;
-    padding-right: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
     text-align: center;
-    position: relative;
-    font-size: 20px;
     color: black;
- 
+    margin-top: auto;
+    padding: 8px;
 }
-
+body {
+  background-color: #eef8ff;
+    padding: 0;
+  }
+  
+  .App {
+    font-family: sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+ 
+ 
 #compName{
     font-size: 30px;
     color: white;
@@ -32,3 +45,4 @@
     color: blue;
     text-decoration: none;
 }
+ 

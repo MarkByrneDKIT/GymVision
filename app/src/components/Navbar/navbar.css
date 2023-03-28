@@ -1,25 +1,27 @@
 .navbar{
-    height: 8%;
+    height: 12%;
     width: 100%;
-    top: 0%;
+    top: 100%;
     background-color: #1465c2;
     margin: 0;
+    
 }
 
 .navbar img{
     height: 75px;
     width: 100px;
-    margin-left: 40px;
+    margin-left: 80px;
 }
 
 .links{
-    margin: 27.5px 0px;
+    margin: 27.5px 10px;
     padding: 0 15px;
     float:right;
     font-size: 18px;
     color: white;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
+    align-items: safe;
+    justify-content: space-evenly;
+    text-decoration: double;
+    
 }
