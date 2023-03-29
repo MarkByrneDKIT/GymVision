@@ -15,8 +15,8 @@ export default function SquatTut() {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/YVfyYrEmzgM"
-            title="Squat Tutorial Video"
+            src="https://www.youtube.com/embed/gsNoPYwWXeM"
+            title="Fix Your Squat (In Just 3-Minutes)"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           ></iframe>
