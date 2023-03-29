@@ -9,8 +9,8 @@ import Footer from "../../components/Footer/Footer";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate} from 'react-router-dom';
 import { useState } from "react";
- 
 
+ 
  
 
 
@@ -23,6 +23,8 @@ export default function Login() {
     const[errMsg, setErrMsg] = useState('');
   const[success, setSuccess] = useState(false);
     const [passwordShown, setPasswordShown] = useState(false);
+    const [attempts, setAttempts] = useState(0);
+ 
 
     const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
      const handleCaptchaChange = (value) => {
@@ -33,31 +35,48 @@ export default function Login() {
       // inverse the boolean state of passwordShown
       setPasswordShown(!passwordShown);
     };
-    
-   
+
+    //Error message if user exceeds login attempts
+        {errMsg && <p className="Error">{errMsg}</p>}
+  
     const handleClick = (e) => {
       e.preventDefault();
+
+      if (attempts >=3) {
+         //Error message if user exceeds login attempts
+        setErrMsg("Error you were over the number of login attempts. Try again later.")
+      return;
+    }
       loginCall( 
         { username: username.current.value, password: password.current.value },
         dispatch
-        );
+      )
+        .then(() => {
+          setSuccess(true);
+          setAttempts(0);
+          navigate("/history");
+        })
+        .catch(() => {
+          setSuccess(false);
+          setAttempts(attempts + 1);
+          setErrMsg("Error, the password or username was invalid");
+        });
+
+      };
         try {
         } catch (error) {
           
-        }
-  
-        };
-        console.log(user);
-
         
-        return (
+        console.log(user);
+        }
+      return (
         <div className="wrapper fadeInDown">
           <div id="formContent">
             {/* Tabs Titles */}
             <h2 className="active"> Sign In </h2>
             <h2 className="inactive underlineHover" ><a href="/register">Sign Up</a></h2>
     
-  
+       
     
             {/* Login Form */}
             <form onSubmit={handleClick}>
@@ -79,5 +98,4 @@ export default function Login() {
         </div>
         
       );
-    };
-  
+}
