@@ -11,6 +11,7 @@ import PasswordChange from './pages/accountRecovery/PasswordChange'
 import SquatTut from './pages/tutorials/squat-tut'
 import GraphTut from './pages/tutorials/graph-tut'
 import CamerasTut from './pages/tutorials/cameras-tut'
+import PasswordChangeTwo from './pages/accountRecovery/PasswordChange2'
 
 
 import{
@@ -33,6 +34,7 @@ function App() {
         <Route path="/session" element={<Session />}/>
         <Route path="/recovery" element={<Recovery />}/>
         <Route path="/PasswordChange" element={<PasswordChange />}/>
+        <Route path="/PasswordChange2" element={<PasswordChangeTwo />}/>
         <Route path="/squatTut" element={<SquatTut />}/>
         <Route path="/camerasTut" element={<CamerasTut />}/>
         <Route path="/graphTut" element={<GraphTut />}/>

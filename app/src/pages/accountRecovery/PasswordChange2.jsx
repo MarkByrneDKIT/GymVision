@@ -2,9 +2,9 @@ import "./recovery.css"
 import { useRef } from "react"
 import Navbar from '../../components/Navbar/Navbar'
 
-export default function PasswordChange() {
-    const answer = useRef();
+export default function PasswordChangeTwo() {
     const newPassword = useRef();
+    const confirmPassword = useRef();
   
     
       return (
@@ -20,8 +20,8 @@ export default function PasswordChange() {
     
             {/* Forgot Pass Form*/}
             <form>
-                <span>SECURITY QUESTION HERE</span>
-                <input type="text" id="answer" className="fadeIn second" name="username" placeholder="Answer" ref={answer} required />
+                <input type="text" id="password" className="fadeIn second" name="username" placeholder="New Password" ref={newPassword} required />
+                <input type="text" id="password" className="fadeIn second" name="username" placeholder="Confirm Password" ref={confirmPassword} required />
                 <input type="submit" className="fadeIn fourth" value="Reset Password" />
             </form>
           </div>
