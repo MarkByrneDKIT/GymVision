@@ -32,6 +32,10 @@ function SessionList({ userId }) {
     }
   });
 
+  if (sessions.length === 0) {
+    return <p>No previous sessions.</p>;
+  }
+
   return (
     <div className="session-list">
       {sessions.map((session, index) => {
