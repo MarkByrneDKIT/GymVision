@@ -1,142 +1,43 @@
-.rowOne{
-    position: relative;
-    width: 100%;
-    height: 255px;
-
-}
-
-#repsCard{
-    position: fixed;
-    left: 150px;
-    width: 190px;
-    height: 254px;
-    background: white;
-    transition: all 300ms;
-}
-
-#repsCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-
-#setsCard{
-    position: fixed;
-    left: 350px;
-    width: 190px;
-    height: 254px;
-    background: white;
-    transition: all 300ms;
-}
-
-#setsCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-#errorsNumCard{
-    position: fixed;
-    left: 550px;
-    width: 190px;
-    height: 254px;
-    background: white;
-    transition: all 300ms;
-}
-
-#errorsNumCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-#totalWeightCard{
-    position: fixed;
-    left: 750px;
-    width: 190px;
-    height: 254px;
-    background: white;
-    transition: all 300ms;
-}
-
-#totalWeightCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-#timeCard{
-    position: fixed;
-    left: 950px;
-    height: 254px;
-    width: 190px;
-    background: white;
-    transition: all 300ms;
-}
-
-#timeCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-#worstSetCard{
-    position: fixed;
-    left: 1150px;
-    height: 254px;
-    width: 190px;
-    background: white;
-    transition: all 300ms;
-}
-
-#worstSetCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-#bestSetCard{
-    position: fixed;
-    left: 1350px;
-    height: 254px;
-    width: 190px;
-    background: white;
-    transition: all 300ms;
-}
-
-#bestSetCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-#bestRepCard{
-    position: fixed;
-    left: 1550px;
-    height: 254px;
-    width: 190px;
-    background: white;
-    transition: all 300ms;
-}
-
-#bestRepCard:hover{
-    opacity: 0.8;
-    transform: scale(1.10);
-}
-
-.titles
-{
-   /* title is centered at the top */
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-#nums
-{
-    font-size: 45px;
-    font-weight: bold;
-    margin-top: 50px;
+.container {
+    margin: 0;
+  }
+  
+  .dateLabel {
+    margin-bottom: 20px;
+  }
+  
+  .gridContainer {
+    margin-top: 20px;
+  }
+  
+  .infoCard {
+    padding: 20px;
     display: flex;
-    position: relative;
-    left: 35%;
-}
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .cardTitle {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .cardValue {
+    font-weight: bold;
+  }
+  .dateCard {
+    margin-bottom: 20px;
+    height: 60px;
+    background: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }

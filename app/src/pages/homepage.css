@@ -54,6 +54,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: 495px;
 }
 
 .quick-session:hover {
@@ -71,7 +72,7 @@ h2 {
   left: 0;
   right: 0;
   padding: 0.25rem 1rem;
-  background-color: darkblue;
+  background-color: royalblue;
   color: white;
   font-size: 1rem;
   text-align: center;
@@ -86,7 +87,7 @@ h2 {
 .previous-session-details:hover .banner,
 .quick-start:hover .banner {
   transform: scale(1.05);
-  background-color: royalblue;
+  background-color: darkblue;
 }
 
 .contact-form:hover,
@@ -147,3 +148,4 @@ h2 {
   flex-direction: column;
   align-items: center;
 }
+
