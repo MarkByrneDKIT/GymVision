@@ -1,7 +1,6 @@
 import "./lift.css"
 import axios from "axios";
 import Navbar from '../../components/Navbar/Navbar'
-import { useNavigate } from "react-router";
 import React, { useState, useEffect, useContext } from 'react';
 import PubNub from 'pubnub';
 import { AuthContext } from "../../context/AuthContext";
