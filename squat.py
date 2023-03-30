@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from flask import Flask
 from flask_restful import Api, Resource
 import csv
-from pymongo import MongoClient
+from google.cloud import storage
 import gridfs
 from pubnub.callbacks import SubscribeCallback
 from pubnub.enums import PNStatusCategory, PNOperationType
@@ -37,7 +37,8 @@ set = 1
 tilt = None
 message = None
 images=[]
-# connection = MongoClient('mongodb+srv://SetStatsAdmin:SetStats123@cluster0.cgmbyt4.mongodb.net/?retryWrites=true&w=majority')
+storage_client = storage.Client.from_service_account_json('gymvision-c352151a50b1.json')
+bucket_name = 'gymvision-image-storage'
 LshoulderSideArray = ["Left Shoulder"]
 RshoulderSideArray = ["Right Shoulder"]
 LKneeSideArray = ["Left Knee"]
@@ -106,8 +107,8 @@ def checkForm(l_shoulder, r_shoulder,  l_knee, r_knee, l_foot, r_foot, image):
     return s_message, k_message, tilt, s_colour, k_colour
 
 def checkTilt(l_shoulder, r_shoulder):
-    l_tilt = (l_shoulder[1] + (l_shoulder[1] * .15))
-    r_tilt = (r_shoulder[1] + (r_shoulder[1] * .15))
+    l_tilt = (l_shoulder[1] + (l_shoulder[1] * .025))
+    r_tilt = (r_shoulder[1] + (r_shoulder[1] * .025))
 
     if l_shoulder[1] > r_tilt:
         message = "\\"   
@@ -115,6 +116,7 @@ def checkTilt(l_shoulder, r_shoulder):
         message = "/"
     else:
         message = "---"
+
     return message
 
 def findAngle(x1, y1, x2, y2):
@@ -150,6 +152,8 @@ def sendImages(images):
 
 def side_cam():
     badFormTimer = 0
+    bucket_name = 'gymvision-image-storage'
+    bucket = storage_client.get_bucket(bucket_name)
     global images, state, end, rep, set, message, username
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
@@ -164,73 +168,76 @@ def side_cam():
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-            try:
-                landmarks = results.pose_landmarks.landmark
-
-                l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
-                r_shoulder = (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y * h))
-                l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
-                l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
-                r_knee = (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y * h))
-                r_foot = (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].y * h))
-
-                # LshoulderSideArray.append(l_shoulder)
-                # LKneeSideArray.append(l_knee)
-                # LfootSideArray.append(l_foot)
-                # RshoulderSideArray.append(r_shoulder)
-                # repArray.append(rep)
-                # setArray.append(set)
-
-                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                    mp_drawing.DrawingSpec(color=(185,191,184), thickness=1, circle_radius=4),
-                    mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2)
-                )
-
-                cv2.line(image, (l_foot[0] +20, 0), (l_foot[0] +20, 2000), (0, 150, 0), 1)
-                cv2.line(image, (l_foot[0] -20, 0), (l_foot[0] -20, 2000), (0, 150, 0), 1)
-
-                cv2.rectangle(image, (0,0), (300,55), (194, 101, 20), -1)  
-
-                s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, r_shoulder, l_knee, r_knee, l_foot, r_foot, image)
-                
-                cv2.putText(image, str(s_message), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, s_colour, 2, cv2.LINE_AA)
-                cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
-
-                if s_message != "Perfect" and k_message != "Perfect":
-                    badFormTimer+=1
-                else:
-                    badFormTimer=0
-
-                if badFormTimer == 70:
-                    errorImage = '{}-errorImage-{}.jpg'.format(username, time.time())
-                    cv2.imwrite(f"{errorImage}", image)
-                    print("Error image: " + errorImage + " has been created")
-                    file=(f"{errorImage}.jpg")
-                    images.append(file)
-                    
-                message = {
-                    'Rep': rep,
-                    'Set': set, 
-                    'Feedback': {'Shoulder': s_message, 'Knee': k_message, 'Tilt': tilt}
-                }
-
-            except:
-                pass
-
             if state == True:
-                cv2.imshow('Side cam', image)
-            else:
-                cv2.rectangle(image, (0,0), (1000,1000), (0,0,0),-1) 
+                try:
+                    landmarks = results.pose_landmarks.landmark
 
-            if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
-                #write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray)
-                break
+                    l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
+                    r_shoulder = (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y * h))
+                    l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
+                    l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
+                    r_knee = (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y * h))
+                    r_foot = (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].y * h))
+
+                    # LshoulderSideArray.append(l_shoulder)
+                    # LKneeSideArray.append(l_knee)
+                    # LfootSideArray.append(l_foot)
+                    # RshoulderSideArray.append(r_shoulder)
+                    # repArray.append(rep)
+                    # setArray.append(set)
+
+                    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+                        mp_drawing.DrawingSpec(color=(185,191,184), thickness=1, circle_radius=4),
+                        mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2)
+                    )
+
+                    cv2.line(image, (l_foot[0] +20, 0), (l_foot[0] +20, 2000), (0, 150, 0), 1)
+                    cv2.line(image, (l_foot[0] -20, 0), (l_foot[0] -20, 2000), (0, 150, 0), 1)
+
+                    cv2.rectangle(image, (0,0), (300,55), (194, 101, 20), -1)  
+
+                    s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, r_shoulder, l_knee, r_knee, l_foot, r_foot, image)
+                    
+                    cv2.putText(image, str(s_message), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, s_colour, 2, cv2.LINE_AA)
+                    cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
+
+                    if s_message != "Perfect" and k_message != "Perfect":
+                        badFormTimer+=1
+                    else:
+                        badFormTimer=0
+
+                    if badFormTimer == 70:
+                        errorImage = '{}-errorImage-{}.jpg'.format(username, time.time())
+                        cv2.imwrite(f"{errorImage}", image)
+                        print("Error image: " + errorImage + " has been created")
+                        file=(f"{errorImage}.jpg")
+                        blob = bucket.blob(file)
+                        blob.upload_from_filename(file)
+                        images.append(file)
+                        
+                    message = {
+                        'Rep': rep,
+                        'Set': set, 
+                        'Feedback': {'Shoulder': s_message, 'Knee': k_message, 'Tilt': tilt}
+                    }
+
+                except:
+                    pass
+
+                if state == True:
+                    cv2.imshow('Side cam', image)
+
+                if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
+                    #write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray)
+                    break
 
 def front_cam():
     direction = None
     x = []
     y = []
     global state, end, username, rep, set, tilt, images
+    bucket_name = 'gymvision-image-storage'
+    bucket = storage_client.get_bucket(bucket_name)
     prevDistanceDiff=0
     distanceDiff=0
     prevAngle=0
@@ -248,97 +255,98 @@ def front_cam():
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
             elapsed_time = round(time.time() - startTime, 2)
-
-            try:
-                landmarks = results.pose_landmarks.landmark
-
-                l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
-                r_shoulder = (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y * h))
-                l_hip = (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y * h))
-                l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
-                l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
-                
-                # LshoulderArray.append(l_shoulder)
-                # LKneeArray.append(l_knee)
-                # LfootArray.append(l_foot)
-                # RshoulderArray.append(r_shoulder)
-                # repArray.append(rep)
-                # setArray.append(set)
-
-                tilt= checkTilt(l_shoulder, r_shoulder)
-                if tilt == "\\":
-                    if counter != 30:
-                        counter+= 2
-                    cv2.circle(image, l_shoulder, (10+counter), (0,0,255), -1)
-                elif tilt == "/":
-                    if counter != 30:
-                        counter+= 2
-                    
-                    cv2.circle(image, r_shoulder, (10+counter), (0,0,255), -1)
-                else:
-                    counter = 0
-                prevAngle = angle    
-                angle = calculateAngle(l_hip, l_knee, l_foot)   
-
-                tiltArray.append(tilt)
-
-                cv2.putText(image, str(angle),
-                                tuple(np.multiply(l_knee, [640, 480]).astype(int)),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
-                                    )
-
-                x.append(elapsed_time)
-                y.append(-(l_shoulder[1]))
-
-                prevDistanceDiff = distanceDiff
-                distanceDiff = l_knee[1]- l_foot[1]
-                
-                # print("new distance: " , distanceDiff, "\tprev distance: ", prevDistanceDiff, "\tnew angle: ", angle, "\tprev angle: ", prevAngle)
-
-                if angle > 170:
-                    direction = "down"
-                if angle < 150 and distanceDiff < prevDistanceDiff and angle < prevAngle and direction == "down":
-                    direction="up"
-                    rep+=1
-
-                if rep == 6:
-                    rep = 0
-                    # generates graph
-                    plt.xlabel('Time (Seconds)')
-                    plt.ylabel('Height (Pixels)')
-                    plt.plot(x, y)
-                    graph = '{}-graph-{}-{}.jpg'.format(username, set, time.time())
-                    # saves graph
-                    plt.savefig(graph)
-                    print("Graph: " + graph + " has been created")
-                    plt.cla()
-                    # clears data of graph for next one
-                    x.clear()
-                    y.clear()
-                    startTime = time.time()
-                    set += 1 
-                    images.append(graph)
-            except Exception as e:
-                print(e)
-                pass
-
-            cv2.rectangle(image, (0,0), (150,70), (194, 101, 20), -1)     
-            cv2.putText(image, (f"Set: {set}"), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
-            cv2.putText(image, (f"Rep: {rep}"), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
-            
-            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                            mp_drawing.DrawingSpec(color=(29,162,7), thickness=2, circle_radius=4),
-                            mp_drawing.DrawingSpec(color=(185,191,184), thickness=2, circle_radius=2)
-            )   
-
             if state == True:
-                cv2.imshow('Front cam', image)
-            else:
-                cv2.rectangle(image, (0,0), (1000,1000), (0, 0,0),-1) 
+                try:
+                    landmarks = results.pose_landmarks.landmark
+
+                    l_shoulder = (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * h))
+                    r_shoulder = (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y * h))
+                    l_hip = (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y * h))
+                    l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
+                    l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
+                    
+                    # LshoulderArray.append(l_shoulder)
+                    # LKneeArray.append(l_knee)
+                    # LfootArray.append(l_foot)
+                    # RshoulderArray.append(r_shoulder)
+                    # repArray.append(rep)
+                    # setArray.append(set)
+
+                    tilt= checkTilt(l_shoulder, r_shoulder)
+                    if tilt == "\\":
+                        if counter != 30:
+                            counter+= 2
+                        cv2.circle(image, l_shoulder, (10+counter), (0,0,255), -1)
+                    elif tilt == "/":
+                        if counter != 30:
+                            counter+= 2
+                        
+                        cv2.circle(image, r_shoulder, (10+counter), (0,0,255), -1)
+                    else:
+                        counter = 0
+                    prevAngle = angle    
+                    angle = calculateAngle(l_hip, l_knee, l_foot)   
+                    print(tilt)
+
+                    tiltArray.append(tilt)
+
+                    cv2.putText(image, str(angle),
+                                    tuple(np.multiply(l_knee, [640, 480]).astype(int)),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
+                                        )
+
+                    x.append(elapsed_time)
+                    y.append(-(l_shoulder[1]))
+
+                    prevDistanceDiff = distanceDiff
+                    distanceDiff = l_knee[1]- l_foot[1]
+                    
+                    # print("new distance: " , distanceDiff, "\tprev distance: ", prevDistanceDiff, "\tnew angle: ", angle, "\tprev angle: ", prevAngle)
+
+                    if angle > 170:
+                        direction = "down"
+                    if angle < 150 and distanceDiff < prevDistanceDiff and angle < prevAngle and direction == "down":
+                        direction="up"
+                        rep+=1
+
+                    if rep == 6:
+                        rep = 0
+                        # generates graph
+                        plt.xlabel('Time (Seconds)')
+                        plt.ylabel('Height (Pixels)')
+                        plt.plot(x, y)
+                        graph = '{}-graph-{}-{}.jpg'.format(username, set, time.time())
+                        # saves graph
+                        plt.savefig(graph)
+                        print("Graph: " + graph + " has been created")
+                        plt.cla()
+                        # clears data of graph for next one
+                        x.clear()
+                        y.clear()
+                        startTime = time.time()
+                        set += 1 
+                        blob = bucket.blob(graph)
+                        blob.upload_from_filename(graph)
+                        images.append(graph)
+                except Exception as e:
+                    print(e)
+                    pass
+
+                cv2.rectangle(image, (0,0), (150,70), (194, 101, 20), -1)     
+                cv2.putText(image, (f"Set: {set}"), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
+                cv2.putText(image, (f"Rep: {rep}"), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
                 
-            if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
-                #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
-                break
+                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+                                mp_drawing.DrawingSpec(color=(29,162,7), thickness=2, circle_radius=4),
+                                mp_drawing.DrawingSpec(color=(185,191,184), thickness=2, circle_radius=2)
+                )   
+
+                if state == True:
+                    cv2.imshow('Front cam', image)
+                    
+                if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
+                    #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
+                    break
 
 cap = cv2.VideoCapture("mark-side.mp4")
 cap2 = cv2.VideoCapture("mark-front.mp4")
@@ -351,7 +359,7 @@ class PublishData(Resource):
 def start_server():
     pubnub.add_listener(MySubscribeCallback())
     pubnub.subscribe().channels(my_channel).execute()
-    app.run(debug=True, threaded=True)
+    app.run()
     
 def main():
     global images
@@ -360,9 +368,10 @@ def main():
     api.add_resource(PublishData, "/")
     server = threading.Thread(target=start_server)
     server.setDaemon(True)
+    server.start()
+    global state
     sideCam = threading.Thread(target=side_cam)
     frontCam = threading.Thread(target=front_cam)
-    server.start()
     sideCam.start()
     frontCam.start()
 
