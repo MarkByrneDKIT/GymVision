@@ -4,14 +4,14 @@ import './squat-tut.css';
 
 export default function SquatTut() {
   return (
-    <div>
+    <div className="container">
       <Navbar />
       <div className="hero-section">
         <h1>How to Squat Properly</h1>
         <p>Learn the correct technique for performing squats</p>
       </div>
-      <div className="content-section">
-        <div className="video-container">
+      <div className="content-section content">
+        <div className="squat-video-container">
           <iframe
             width="560"
             height="315"
@@ -21,7 +21,7 @@ export default function SquatTut() {
             allowfullscreen
           ></iframe>
         </div>
-        <div className="text-container">
+        <div className="squat-text-container">
           <h2>Step-by-Step Guide</h2>
           <p>
             Squats are one of the most important exercises you can do for your lower body. They work the quadriceps, hamstrings,
