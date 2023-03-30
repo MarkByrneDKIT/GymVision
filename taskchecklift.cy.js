@@ -1,5 +1,5 @@
-describe('Login', () => {
-    it('user can login', () => {
+describe('Task', () => {
+    it('user can login, select a lift and check session history', () => {
   
       //open login page
       cy.visit('http://localhost:3000/login');
@@ -10,9 +10,7 @@ describe('Login', () => {
       //2. Enter password('password123' in this case)
       cy.findByPlaceholderText(/password/i).type('password123');
 
-
       //3. do captcha
-      //cy.findByRole('presentation').check();
       Cypress.Commands.add("clickRecaptcha", () => {
         cy.window().then(win => {
           win.document
@@ -25,6 +23,16 @@ describe('Login', () => {
 
       //4. Click Login button
       cy.findByRole('button', {  name: /log in/i}).click();
+
+      //5. Go to lift selections page
+      cy.findByRole('link', {  name: /lifts/i}).click();
+
+    //6.click on squat page
+    cy.findByRole('link', {  name: /squat/i}).click()
+
+    //7. Get squats session data
+    cy.findByRole('button', {  name: /get data/i}).click()
+   
   
     });
   })
