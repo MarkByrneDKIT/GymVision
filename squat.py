@@ -168,6 +168,13 @@ def side_cam():
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
+            message = {
+                'Rep': None,
+                'Set': None, 
+                'Feedback': {'Shoulder': None, 'Knee': None, 'Tilt': None},
+                'Images': []
+            }
+
             if state == True:
                 try:
                     landmarks = results.pose_landmarks.landmark
@@ -206,20 +213,18 @@ def side_cam():
                     else:
                         badFormTimer=0
 
-                    if badFormTimer == 70:
+                    if badFormTimer == 50:
                         errorImage = '{}-errorImage-{}.jpg'.format(username, time.time())
                         cv2.imwrite(f"{errorImage}", image)
                         print("Error image: " + errorImage + " has been created")
-                        file=(f"{errorImage}.jpg")
-                        blob = bucket.blob(file)
-                        blob.upload_from_filename(file)
-                        images.append(file)
+                        blob = bucket.blob(errorImage)
+                        blob.upload_from_filename(errorImage)
+                        message['Images'].append(errorImage)
                         
-                    message = {
-                        'Rep': rep,
-                        'Set': set, 
-                        'Feedback': {'Shoulder': s_message, 'Knee': k_message, 'Tilt': tilt}
-                    }
+                    
+                    message["Set"] = set
+                    message["Rep"] = rep
+                    message["Feedback"] = {'Shoulder': s_message, 'Knee': k_message, 'Tilt': tilt}
 
                 except:
                     pass
@@ -327,7 +332,8 @@ def front_cam():
                         set += 1 
                         blob = bucket.blob(graph)
                         blob.upload_from_filename(graph)
-                        images.append(graph)
+                        message["Images"].append(graph)
+
                 except Exception as e:
                     print(e)
                     pass
