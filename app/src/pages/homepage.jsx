@@ -9,8 +9,10 @@ export default function Homepage() {
     const navigate = useNavigate();
 
     return (
-        <div className="container">
+        <div>
             <Navbar/> 
+        <div className="container">
+
             <div className="content">
                 <div className="contact-form">
                     <div className="banner">Tutorials</div>
@@ -42,7 +44,8 @@ export default function Homepage() {
                     <button className="start-button">Practice</button>
                 </div>
             </div>
-            <Footer></Footer>
+
+        </div>
         </div>
      );
 }

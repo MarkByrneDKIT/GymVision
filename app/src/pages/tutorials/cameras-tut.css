@@ -39,6 +39,7 @@
   
   .squat-video-container iframe {
     width: 100%;
+    height: 500px;
   }
   
   .squat-text-container {

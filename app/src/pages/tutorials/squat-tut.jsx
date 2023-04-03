@@ -6,10 +6,6 @@ export default function SquatTut() {
   return (
     <div className="container">
       <Navbar />
-      <div className="hero-section">
-        <h1>How to Squat Properly</h1>
-        <p>Learn the correct technique for performing squats</p>
-      </div>
       <div className="content-section content">
         <div className="squat-video-container">
           <iframe
