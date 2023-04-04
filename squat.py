@@ -7,9 +7,7 @@ import time
 import matplotlib.pyplot as plt
 from flask import Flask
 from flask_restful import Api, Resource
-import csv
 from google.cloud import storage
-import gridfs
 from pubnub.callbacks import SubscribeCallback
 from pubnub.enums import PNStatusCategory, PNOperationType
 from pubnub.pnconfiguration import PNConfiguration
@@ -35,45 +33,28 @@ end = False
 rep = 0 
 set = 1
 tilt = None
-message = None
-images=[]
+
+message = {
+    'Lift Type': "Squat",
+    'Rep': None,
+    'Set': None, 
+    'Feedback': {'Shoulder': None, 'Knee': None, 'Tilt': None},
+    'Images': [],
+    'Errors': None,
+    'Set Length': None,
+    'Session Length': None,
+    'Weight': "100kg"
+}
+
 storage_client = storage.Client.from_service_account_json('gymvision-c352151a50b1.json')
 bucket_name = 'gymvision-image-storage'
-LshoulderSideArray = ["Left Shoulder"]
-RshoulderSideArray = ["Right Shoulder"]
-LKneeSideArray = ["Left Knee"]
-LfootSideArray = ["Left Foot"]
 
-LshoulderArray = ["Left Shoulder"]
-RshoulderArray = ["Right Shoulder"]
-LKneeArray = ["Left Knee"]
-LfootArray = ["Left Foot"]
-repArray = ["Rep"]
-setArray = ["Set"]
-tiltArray = ["Tilt"]
-
-def write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray):
-    with open("FrontCam.csv", 'w') as file:     # a = append    w = write
-        writer = csv.writer(file)
-        writer.writerow(repArray)
-        writer.writerow(setArray)
-        writer.writerow(tiltArray)
-        writer.writerow(LshoulderArray)
-        writer.writerow(RshoulderArray)
-        writer.writerow(LKneeArray)
-        writer.writerow(LfootArray)
-
-
-def write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray):
-    with open("SideCam.csv", 'w') as file:     # a = append    w = write
-        writer = csv.writer(file)
-        writer.writerow(repArray)
-        writer.writerow(setArray)
-        writer.writerow(LshoulderSideArray)
-        writer.writerow(RshoulderSideArray)
-        writer.writerow(LKneeSideArray)
-        writer.writerow(LfootSideArray)
-
+def time_convert(sec):
+  mins = sec // 60
+  sec = sec % 60
+  hours = mins // 60
+  mins = mins % 60
+  return "{0}:{1}:{2}".format(int(hours),int(mins),round(sec,2))
 
 def checkForm(l_shoulder, r_shoulder,  l_knee, r_knee, l_foot, r_foot, image):
     global tilt
@@ -138,23 +119,12 @@ def calculateAngle(a,b,c):
     
     return angle
 
-def sendImages(images):
-    global connection 
-    database = connection['images']
-
-    fs = gridfs.GridFS(database)
-
-    for image in images:
-        with open(image, 'rb') as f:
-            contents = f.read()
-
-        fs.put(contents, filename=image)
-
 def side_cam():
     badFormTimer = 0
     bucket_name = 'gymvision-image-storage'
     bucket = storage_client.get_bucket(bucket_name)
-    global images, state, end, rep, set, message, username
+    errors = 0
+    global state, end, rep, set, message, username
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         while cap.isOpened() :
@@ -168,13 +138,6 @@ def side_cam():
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-            message = {
-                'Rep': None,
-                'Set': None, 
-                'Feedback': {'Shoulder': None, 'Knee': None, 'Tilt': None},
-                'Images': []
-            }
-
             if state == True:
                 try:
                     landmarks = results.pose_landmarks.landmark
@@ -185,13 +148,6 @@ def side_cam():
                     l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
                     r_knee = (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y * h))
                     r_foot = (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX.value].y * h))
-
-                    # LshoulderSideArray.append(l_shoulder)
-                    # LKneeSideArray.append(l_knee)
-                    # LfootSideArray.append(l_foot)
-                    # RshoulderSideArray.append(r_shoulder)
-                    # repArray.append(rep)
-                    # setArray.append(set)
 
                     mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                         mp_drawing.DrawingSpec(color=(185,191,184), thickness=1, circle_radius=4),
@@ -220,11 +176,12 @@ def side_cam():
                         blob = bucket.blob(errorImage)
                         blob.upload_from_filename(errorImage)
                         message['Images'].append(errorImage)
+                        errors+=1
                         
-                    
                     message["Set"] = set
                     message["Rep"] = rep
                     message["Feedback"] = {'Shoulder': s_message, 'Knee': k_message, 'Tilt': tilt}
+                    message["Errors"] = errors
 
                 except:
                     pass
@@ -233,22 +190,23 @@ def side_cam():
                     cv2.imshow('Side cam', image)
 
                 if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
-                    #write_side_to_csv(LshoulderSideArray, RshoulderSideArray ,LKneeSideArray, LfootSideArray, repArray, setArray)
                     break
 
 def front_cam():
     direction = None
     x = []
     y = []
-    global state, end, username, rep, set, tilt, images
+    global state, end, username, rep, set, tilt
     bucket_name = 'gymvision-image-storage'
     bucket = storage_client.get_bucket(bucket_name)
     prevDistanceDiff=0
     distanceDiff=0
     prevAngle=0
     angle=0
+    totalTime=0
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         startTime = time.time()
+        startSetTime = time.time()
         while cap2.isOpened():
             ret, image = cap2.read()
             h, w = image.shape[:2]
@@ -259,6 +217,7 @@ def front_cam():
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
+            setLength = round(time.time() - startSetTime, 2)
             elapsed_time = round(time.time() - startTime, 2)
             if state == True:
                 try:
@@ -269,13 +228,6 @@ def front_cam():
                     l_hip = (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y * h))
                     l_knee = (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y * h))
                     l_foot = (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].x * w)), (int(landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX.value].y * h))
-                    
-                    # LshoulderArray.append(l_shoulder)
-                    # LKneeArray.append(l_knee)
-                    # LfootArray.append(l_foot)
-                    # RshoulderArray.append(r_shoulder)
-                    # repArray.append(rep)
-                    # setArray.append(set)
 
                     tilt= checkTilt(l_shoulder, r_shoulder)
                     if tilt == "\\":
@@ -291,17 +243,18 @@ def front_cam():
                         counter = 0
                     prevAngle = angle    
                     angle = calculateAngle(l_hip, l_knee, l_foot)   
-                    print(tilt)
-
-                    tiltArray.append(tilt)
 
                     cv2.putText(image, str(angle),
                                     tuple(np.multiply(l_knee, [640, 480]).astype(int)),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
                                         )
-
-                    x.append(elapsed_time)
+                    x.append(setLength)
                     y.append(-(l_shoulder[1]))
+
+                    totalTime = round(elapsed_time,2)
+                    
+                    message["Session Length"] = time_convert(totalTime)
+                    message["Set Length"] = time_convert(setLength)
 
                     prevDistanceDiff = distanceDiff
                     distanceDiff = l_knee[1]- l_foot[1]
@@ -314,8 +267,9 @@ def front_cam():
                         direction="up"
                         rep+=1
 
-                    if rep == 6:
+                    if rep == 2:
                         rep = 0
+                        setLength = 0
                         # generates graph
                         plt.xlabel('Time (Seconds)')
                         plt.ylabel('Height (Pixels)')
@@ -328,12 +282,12 @@ def front_cam():
                         # clears data of graph for next one
                         x.clear()
                         y.clear()
-                        startTime = time.time()
+                        startSetTime = time.time()
                         set += 1 
                         blob = bucket.blob(graph)
                         blob.upload_from_filename(graph)
                         message["Images"].append(graph)
-
+                    
                 except Exception as e:
                     print(e)
                     pass
@@ -351,7 +305,6 @@ def front_cam():
                     cv2.imshow('Front cam', image)
                     
                 if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
-                    #write_front_to_csv(LshoulderArray, RshoulderArray ,LKneeArray, LfootArray, repArray, setArray, tiltArray)
                     break
 
 cap = cv2.VideoCapture("mark-side.mp4")
@@ -391,11 +344,6 @@ def main():
         frontCam.join()  
         server.join()
         print("Threads successfully closed.")
-        if len(images) > 0:
-            print(len(images) + " to be sent")
-            print("Sending images to database (This may take some time)")
-            sendImages(images)
-            print("All images have been successfully sent")    
         sys.exit
         
 
