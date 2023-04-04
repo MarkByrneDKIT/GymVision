@@ -37,9 +37,9 @@
     transition: 0.3s;
   }
   
-  .squat-video-container iframe {
-    width: 100%;
-    height: 500px;
+  .squat-video-container img {
+    width: 100% !important;
+    height: 500px !important;
   }
   
   .squat-text-container {
@@ -61,4 +61,3 @@
   .squat-text-container:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
-  
