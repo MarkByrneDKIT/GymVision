@@ -1,0 +1,13 @@
+import ReCAPTCHA from "react-google-recaptcha";
+
+    const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+
+
+    const handleCaptchaChange = (value) => {
+      setIsCaptchaVerified(true);
+    };
+    if(!isCaptchaVerified) {
+      setErrMsg("Please complete the Captcha form")
+      return
+    }
+ <ReCAPTCHA id = "Captcha" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={handleCaptchaChange}  required = {true} />
