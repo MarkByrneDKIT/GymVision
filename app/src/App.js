@@ -6,7 +6,6 @@ import Squat from './pages/lift/squat'
 import Homepage from './pages/homepage'
 import History from './pages/lift/history'
 import Session from './pages/lift/session'
-import Recovery from './pages/accountRecovery/recovery'
 import PasswordChange from './pages/accountRecovery/PasswordChange'
 import SquatTut from './pages/tutorials/squat-tut'
 import GraphTut from './pages/tutorials/graph-tut'
@@ -32,7 +31,6 @@ function App() {
         <Route path="/" element={<Homepage />}/>
         <Route path="/history" element={<History />}/>
         <Route path="/session" element={<Session />}/>
-        <Route path="/recovery" element={<Recovery />}/>
         <Route path="/PasswordChange" element={<PasswordChange />}/>
         <Route path="/PasswordChange2" element={<PasswordChangeTwo />}/>
         <Route path="/squatTut" element={<SquatTut />}/>

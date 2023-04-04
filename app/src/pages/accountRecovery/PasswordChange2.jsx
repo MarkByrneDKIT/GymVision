@@ -1,6 +1,5 @@
 import "./recovery.css"
 import { useRef } from "react"
-import Navbar from '../../components/Navbar/Navbar'
 
 export default function PasswordChangeTwo() {
     const newPassword = useRef();
@@ -9,7 +8,6 @@ export default function PasswordChangeTwo() {
     
       return (
         <div className="container">
-             <Navbar/>
         <div className="wrapper fadeInDown">
 
         <div id="formContent">
