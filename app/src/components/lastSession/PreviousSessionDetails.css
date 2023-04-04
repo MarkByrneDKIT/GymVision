@@ -1,0 +1,15 @@
+.previous-session-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.previous-session-details h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: darkblue;
+}
+
+.previous-session-details p {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}

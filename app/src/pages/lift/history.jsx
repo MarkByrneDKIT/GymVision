@@ -1,21 +1,15 @@
+import React from 'react';
 import Navbar from "../../components/Navbar/Navbar";
-import SessionList from '../../components/Sessions/sessionList'
-import Table from "../../components/Table/table"
-import Footer from "../../components/Footer/Footer";
+import SessionList from '../../components/Sessions/sessionList';
+import './history.css';
 
-export default function History()   {
-
-    return (
-        
-        <div className='container'>
-          <Navbar/>
-          <div>
-            <SessionList/>
-          </div>
-    
-      
-            <Footer></Footer>
-          </div>
- 
-    );
+export default function History() {
+  return (
+    <div className='container'>
+      <Navbar />
+      <div className="session-list-container">
+        <SessionList />
+      </div>
+    </div>
+  );
 }

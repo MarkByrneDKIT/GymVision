@@ -91,7 +91,7 @@ export default function Login() {
     
             {/* Remind  Password  */}
             <div id="formFooter">
-              <a className="underlineHover" href="/recovery">Forgot Password?</a>
+              <a className="underlineHover" href="/PasswordChange">Forgot Password?</a>
             </div>
             <Footer></Footer>
           </div>

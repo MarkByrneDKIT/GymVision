@@ -1,120 +1,9 @@
-/* Bordered form */
-.buttonForm {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+body {
+  font-family: Arial, sans-serif;
 }
 
-
-/* Set a style for all buttons */
-.button {
-  background-color: #38accf;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 20%;
-  font-size: large;
-  margin: 25px 40%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-/* Add a hover effect for buttons */
-.button:hover {
-  opacity: 0.8;
-}
-
-#dataButton {
-  width: 30%;
-}
-
-/* Extra style for the cancel button (red) */
-.cancelbtn {
-  width: auto;
-  padding: 100px 180px;
-  background-color: #f44336;
-}
-
-
-.start-button {
-  position: center;
-}
-
-.loginLogo {
-  font-size: 80px;
-  font-weight: 8000;
-  color: #1775ee;
-  margin-bottom: 120px;
-  width: 100%;
-  align-self: center;
-  height: 50px;
-  border-radius: 10px;
-  text-align: center;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.PickLift {
-  font-size: 30px;
-  font-weight: 800;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  color: black;
-}
-
-.SetStats {
-
-    font-size: 50px;
-    font-weight: 800;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    color: gray;
- 
-    
-   
-}
- 
-
-.button2 {
-  font-size: larger;
-  padding: 0%;
-  color: #000;
-}
-
-.startButton{
-  width: 200px;
-  height: 50px;
-  background-color: #4c589b;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 20px;
-}
-
-.boxContainer {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.box {
-  flex-basis: calc(25% - 20px);
-  margin: 10px;
-  background-color: #f2f2f2;
-  text-align: center;
-  padding: 20px;
-}
-
-.box p {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #333;
+.container {
+  margin: 0 auto;
 }
 
 .centered-text {
@@ -130,12 +19,100 @@
   line-height: 1.5;
   max-width: 80%;
   margin: 0 auto;
+  color: #2c3e50;
 }
 
-.centered-text h1 {
-  font-size: 24px;
+.data-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.data-box {
+  flex-basis: calc(50% - 20px);
+  margin: 10px;
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.data-box p {
+  font-size: 16px;
   line-height: 1.5;
-  max-width: 80%;
-  margin: 0 auto;
+  color: #333;
 }
 
+.data-box span {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.flash {
+  animation: flash 1s;
+  animation-timing-function: linear;
+}
+
+@keyframes flash {
+  0%, 100% {
+    background-color: #f2f2f2;
+  }
+  50% {
+    background-color: #a0d468;
+  }
+}
+
+.buttonForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.button {
+  background-color: #38accf;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  font-size: large;
+  margin: 25px 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+#dataButton {
+  background-color: #38accf;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#dataButton.off {
+  background-color: green;
+}
+
+#dataButton.on {
+  background-color: red;
+}
+
+#dataButton:hover {
+  opacity: 0.8;
+}

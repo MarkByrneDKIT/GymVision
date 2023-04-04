@@ -1,20 +1,24 @@
-import "./lift.css"
+import "./lift.css";
 import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
-export default function LiftSelection() {
- 
+import { useNavigate } from "react-router-dom";
 
-    return (
-        <div className="container">
-            <Navbar/>
-             <h2 className="SetStats Logo">SetStats</h2>
-            <h2 className="PickLift">Choose your lift</h2>
-   
-            <a href='/squat' className="button">Squat</a>
-            <a href='/squat' className="button">Deadlift</a>
- 
-            <a href='/squat' className="button">Shoulder Press</a>
-           <Footer></Footer>
+export default function LiftSelection() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="container">
+      <Navbar />
+      <div className="content">
+        <div className="lift-selection">
+          <button className="start-button" onClick={() => navigate("/squat")}>Squat</button>
+          <button className="start-button" onClick={() => navigate("/deadlift")}>Recovery</button>
+          <button className="start-button" onClick={() => navigate("/shoulderPress")}>Light</button>
+          <button className="start-button" onClick={() => navigate("/squat")}>Heavy</button>
+          <button className="start-button" onClick={() => navigate("/deadlift")}>5 X 5</button>
+          <button className="start-button" onClick={() => navigate("/deadlift")}>One Rep Max</button>
+          <button className="start-button" onClick={() => navigate("/shoulderPress")}>Practice</button>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

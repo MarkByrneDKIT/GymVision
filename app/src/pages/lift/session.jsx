@@ -1,66 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLocation } from "react-router-dom";
-import Navbar from '../../components/Navbar/Navbar'
+import Navbar from '../../components/Navbar/Navbar';
 import ErrorImage from '../../components/ErrorImages/errorImages';
-import './session.css'
+import './session.css';
+import { Grid, Paper, Typography } from '@mui/material';
 
 function Session() {
   const { state } = useLocation();
   const selectedSession = state.selectedSession;
   console.log(state.selectedSession);
 
+  const formattedDate = new Date(selectedSession.createdAt).toLocaleDateString("en-CA");
+
+  const Card = ({ title, value }) => (
+    <Paper className="infoCard" elevation={3}>
+      <Typography variant="h6" className="cardTitle">{title}</Typography>
+      <Typography variant="h4" className="cardValue">{value}</Typography>
+    </Paper>
+  );
+
   return (
-    <div className='container'>
-      <Navbar/>
-      <p>DATE OF SESSION HERE</p>
-      <ErrorImage/>
-      <div className="rowOne">
-
-            <card id="repsCard">
-              <p className='titles'>Rep Count:</p>
-              <p id='nums'>{selectedSession.repCount}</p>
-            </card>
-
-            <card id="setsCard">
-              <p className='titles'>Set Count: </p>
-              <p id='nums'>{selectedSession.setCount}</p>
-            </card>
-
-            <card id="errorsNumCard">
-              <p className='titles'>Total Errors</p>
-              <p id='nums'>7</p>
-            </card>
-
-            <card id="totalWeightCard">
-              <p className='titles'>Total Weight Lifted</p>
-              <p id='nums'>200</p>
-            </card>
-
-            <card id="timeCard">
-              <p className='titles'>Time</p>
-              <p id='nums'>5:04</p>
-            </card>
-
-            <card id="worstSetCard">
-            <p className='titles'>Worst Set</p>
-              <p id='nums'>3</p>
-            </card>
-
-            <card id="bestSetCard">
-            <p className='titles'>Best Set</p>
-              <p id='nums'>1</p>
-            </card>
-
-            <card id="bestRepCard">
-            <p className='titles'>Best Rep</p>
-            <p id='nums'>7</p>
-            </card>
-
-          </div>
+    <div className="container">
+      <Navbar />
+      <ErrorImage />
+      <Paper className="dateCard" elevation={3}>
+        <Typography variant="h5" className="dateLabel">{formattedDate}</Typography>
+      </Paper>
+      <Grid container spacing={3} className="gridContainer">
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Rep Count:" value={selectedSession.repCount} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Set Count:" value={selectedSession.setCount} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Total Errors" value="7" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Total Weight Lifted" value="200" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Time" value="5:04" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Worst Set" value="3" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Best Set" value="1" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Card title="Best Rep" value="7" />
+        </Grid>
+      </Grid>
     </div>
   );
 }
 
 export default Session;
-
-

@@ -1,0 +1,63 @@
+.hero-section {
+    background-color: #38accf;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+  }
+  
+  .hero-section h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .hero-section p {
+    font-size: 24px;
+    font-weight: 300;
+    margin: 0;
+  }
+  
+  .content-section.content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2rem;
+    padding: 2rem;
+    flex-grow: 1;
+  }
+  
+  .squat-video-container {
+    position: relative;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+  }
+  
+  .squat-video-container img {
+    width: 100% !important;
+    height: 500px !important;
+  }
+  
+  .squat-text-container {
+    position: relative;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+  }
+  
+  .squat-text-container h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: darkblue;
+    text-align: center;
+  }
+  
+  .squat-text-container:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
