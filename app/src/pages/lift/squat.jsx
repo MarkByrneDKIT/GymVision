@@ -16,6 +16,8 @@ export default function Squat() {
 
   const [status, setStatus] = useState('off');
   const [flash, setFlash] = useState(false);
+  const [imageCapture, setImageCapture] = useState(false);
+
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -75,6 +77,11 @@ export default function Squat() {
     }
   }, [status]);
 
+  const handleImageCaptureToggle = (e) => {
+    setImageCapture(e.target.checked);
+  };
+  
+
   return (
     <div className="container">
       <Navbar />
@@ -116,7 +123,7 @@ export default function Squat() {
         >
           {status === 'off' ? 'Start' : 'Stop'} data
         </button>
-        <input type="checkbox" id="lifting" />
+        <input type="checkbox" id="lifting" onChange={handleImageCaptureToggle} />
       </form>
 
     </div>

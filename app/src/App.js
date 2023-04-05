@@ -14,7 +14,7 @@ import SquatTut from './pages/tutorials/squat-tut'
 import GraphTut from './pages/tutorials/graph-tut'
 import CamerasTut from './pages/tutorials/cameras-tut'
 import PasswordChangeTwo from './pages/accountRecovery/PasswordChange2'
-
+import AccountSettings from './pages/accountRecovery/AccountSettings'
 
 import{
   BrowserRouter as Router,
@@ -50,6 +50,7 @@ function App() {
         <Route path="/squatTut" element={<SquatTut />}/>
         <Route path="/camerasTut" element={<CamerasTut />}/>
         <Route path="/graphTut" element={<GraphTut />}/>
+        <Route path="/AccountSettings" element={<AccountSettings />}/>
       </Routes>
      </Router>
   );

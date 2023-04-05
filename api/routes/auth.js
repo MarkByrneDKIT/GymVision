@@ -3,8 +3,6 @@ const { rawListeners } = require("../models/User");
 const User = require("../models/User");
 const bcrypt = require('bcrypt');
  
-const handleClick = async (e) => {
-  e.preventDefault();
 
 //Register
 router.post("/register", async (req,res)=>{
@@ -20,10 +18,10 @@ router.post("/register", async (req,res)=>{
       password: req.body.password
       
     });
-    if (!isCaptchaVerified) {
-      ("Error please try again")
-      return;
-    }
+    // if (!isCaptchaVerified) {
+    //   ("Error please try again")
+    //   return;
+    // }
    
     const user = await newUser.save();
     res.status(200).json(user);
@@ -78,5 +76,5 @@ router.post("/login", async (req, res) => {
     
       }
     })
-  }
+  
 module.exports = router;

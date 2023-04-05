@@ -42,14 +42,6 @@
     padding: 0 15px;
     font-size: 18px;
     color: white;
-<<<<<<< HEAD
-    display: flex;
-    align-items: safe;
-    justify-content: space-evenly;
-    text-decoration: double;
-    
-}
-=======
     text-decoration: none;
   }
   
@@ -94,4 +86,3 @@
       margin-bottom: 10px;
     }
   }
->>>>>>> 144a6ec1051f4f199c523416b72cb19c9bff6ac2
