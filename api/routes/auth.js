@@ -15,8 +15,9 @@ router.post("/register", async (req,res)=>{
       username: req.body.username,
       email: req.body.email,
       //Hash the request password(req.body.password and set it to the variable password.
-      password: req.body.password
-      
+      password: req.body.password,
+      securityQuestion: req.body.securityQuestion,
+      securityAnswer: req.body.securityAnswer      
     });
     // if (!isCaptchaVerified) {
     //   ("Error please try again")

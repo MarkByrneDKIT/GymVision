@@ -51,6 +51,8 @@ function App() {
         <Route path="/camerasTut" element={<CamerasTut />}/>
         <Route path="/graphTut" element={<GraphTut />}/>
         <Route path="/AccountSettings" element={<AccountSettings />}/>
+        <Route path="/PasswordChange" element={<PasswordChange />}/>
+        <Route path="/PasswordChangeTwo" element={<PasswordChangeTwo />}/>
       </Routes>
      </Router>
   );

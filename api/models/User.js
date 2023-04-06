@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema({
         min:8, 
         
     },
+    securityQuestion:{
+        type:String,        
+    },
     securityAnswer:{
         type:String,        
     },
