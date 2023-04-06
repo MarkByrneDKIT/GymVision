@@ -99,9 +99,9 @@ export default function Register() {
             required
           >
             <option value="">Select a security question</option>
-            <option value="question1">What was your childhood nickname?</option>
-            <option value="question2">What is the name of your favorite pet?</option>
-            <option value="question3">In what city did you meet your spouse/significant other?</option>
+            <option>What was your childhood nickname?</option>
+            <option>What is the name of your favorite pet?</option>
+            <option>In what city did you meet your spouse/significant other?</option>
             {/* Add more options as needed */}
           </select>
           <input
