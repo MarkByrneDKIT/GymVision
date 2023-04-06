@@ -14,19 +14,21 @@ export default function AccountSettings() {
     
 
     const handleClick = async (e) => {
-        e.preventDefault();
-         {
-          const usern = {
-            username: user.username
-          };
-          try {
-            await axios.delete("/users/"+user.id_, usern);
-            navigate("/");
-          } catch (err) {
-            console.log(err);
-          }
+      e.preventDefault();
+      {
+        const usern = {
+          userId: user._id,
+        };
+        try {
+          console.log(user.username);
+          await axios.delete("/users/" + user._id, { data: usern });
+          navigate("/");
+        } catch (err) {
+          console.log(err);
         }
-      };
+      }
+    };
+    
     
       return (
         <div className="container">

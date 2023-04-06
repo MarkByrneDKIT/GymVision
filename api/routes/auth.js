@@ -56,12 +56,12 @@ router.post("/login", async (req, res) => {
       try{
         
     
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ username: req.body.username });
         !user && res.status(404).send("User does not exist");
-        if (!isCaptchaVerified) {
-          ("Error please try again")
-          return;
-        }
+        // if (!isCaptchaVerified) {
+        //   ("Error please try again")
+        //   return;
+        // }
     //Hashing here, comparing hashes etc
     //Set new variable 
     // const hashedpassword = hashPassword(req.body.password);

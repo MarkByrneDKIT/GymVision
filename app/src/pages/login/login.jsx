@@ -54,6 +54,7 @@ export default function Login() {
         .then(() => {
           setSuccess(true);
           setAttempts(0);
+          console.log(user);
           navigate("/history");
         })
         .catch(() => {

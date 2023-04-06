@@ -25,14 +25,13 @@ export default function Register() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    if (confirmPassword.current.value !== password.current.value) {
-      confirmPassword.current.setCustomValidity("Passwords don't match.");
-    } else {
+    // if (confirmPassword.current.value !== password.current.value) {
+    //   confirmPassword.current.setCustomValidity("Passwords don't match.");
+    // } else {
       const user = {
         username: username.current.value,
         email: email.current.value,
         password: password.current.value,
-        securityQuestion: securityQuestion.current.value,
         securityAnswer: securityAnswer.current.value,
       };
       try {
@@ -41,7 +40,7 @@ export default function Register() {
       } catch (err) {
         console.log(err);
       }
-    }
+    
   };
 
   return (

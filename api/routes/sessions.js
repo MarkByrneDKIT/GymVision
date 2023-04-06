@@ -61,16 +61,16 @@ router.get('/register',async(req,res)=>{
 
   
 
-router.get("/session/:username", (req, res) => {
-    const username = req.params.username;
-    Session.find({ username }, (err, sessions) => {
-      if (err) {
-        res.status(500).json({ error: err });
-      } else {
-        res.json(sessions);
-      }
-    });
-  });
+router.get("/session/:username", async (req, res) => {
+  const username = req.params.username;
+  try {
+    const sessions = await Session.find({ username });
+    res.json(sessions);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+});
+
 
   router.get("/session/:username/:id", (req, res) => {
     const username = req.params.username;

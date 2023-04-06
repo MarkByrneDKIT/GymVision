@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema({
         min:8, 
         
     },
+    securityAnswer:{
+        type:String,        
+    },
     profilePicture:{
         type:String,
         default:""
