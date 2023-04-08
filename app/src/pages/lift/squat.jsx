@@ -19,6 +19,8 @@ export default function Squat() {
   const [imageCapture, setImageCapture] = useState(false);
 
 
+  const [images, setImages] = useState([]);
+
   const handleClick = async (e) => {
     e.preventDefault();
     if (status === 'off') {
@@ -45,22 +47,25 @@ export default function Squat() {
           console.log(response);
         },
       );
-
+  
       const session = {
         username: 'liam',
         repCount: document.getElementById('r').innerHTML,
         setCount: document.getElementById('s').innerHTML,
+        images: images, 
       };
-
+  
       axios.post('/sessions/session', session);
     }
   };
-
+  
   useEffect(() => {
     if (status === 'on') {
       const interval = setInterval(() => {
         axios.get('https://e91e-109-78-162-60.eu.ngrok.io').then(function (response) {
           console.log(response.data);
+          var imagesResponse = response.data['Images'];
+          setImages((prevImages) => [...prevImages, ...imagesResponse]); // Store the images in the state
           var rep = response.data['Rep'];
           document.getElementById('r').textContent = rep;
           var set = response.data['Set'];
@@ -76,10 +81,11 @@ export default function Squat() {
       return () => clearInterval(interval);
     }
   }, [status]);
-
+  
   const handleImageCaptureToggle = (e) => {
     setImageCapture(e.target.checked);
   };
+  
   
 
   return (
