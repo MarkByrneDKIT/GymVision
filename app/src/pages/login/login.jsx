@@ -39,31 +39,38 @@ export default function Login() {
     //Error message if user exceeds login attempts
         {errMsg && <p className="Error">{errMsg}</p>}
   
-    const handleClick = (e) => {
-      e.preventDefault();
-
-      if (attempts >=3) {
-         //Error message if user exceeds login attempts
-        setErrMsg("Error you were over the number of login attempts. Try again later.")
-      return;
-    }
-      loginCall( 
-        { username: username.current.value, password: password.current.value },
-        dispatch
-      )
-        .then(() => {
-          setSuccess(true);
-          setAttempts(0);
-          console.log(user);
-          navigate("/history");
-        })
-        .catch(() => {
-          setSuccess(false);
-          setAttempts(attempts + 1);
-          setErrMsg("Error, the password or username was invalid");
-        });
-
-      };
+        const handleClick = (e) => {
+          e.preventDefault();
+        
+          if (attempts >= 3) {
+            // Error message if user exceeds login attempts
+            setErrMsg("Error you were over the number of login attempts. Try again later.");
+            return;
+          }
+        
+          loginCall(
+            { username: username.current.value, password: password.current.value },
+            dispatch
+          )
+            .then(() => {
+              if (user) {
+                setSuccess(true);
+                setAttempts(0);
+                console.log(user);
+                navigate("/history");
+              } else {
+                setSuccess(false);
+                setAttempts(attempts + 1);
+                setErrMsg("Error, the password or username was invalid");
+              }
+            })
+            .catch(() => {
+              setSuccess(false);
+              setAttempts(attempts + 1);
+              setErrMsg("Error, the password or username was invalid");
+            });
+        };
+        
         try {
         } catch (error) {
           
