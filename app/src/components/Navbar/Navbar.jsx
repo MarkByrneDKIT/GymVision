@@ -17,6 +17,7 @@ export default function Navbar() {
         <ul className="nav-links">
           <li><a className="links" href="/history">History</a></li>
           <li><a className="links" href="/LiftSelection">Lifts</a></li>
+          <li><a className="links" href="/AccountSettings">Account Settings</a></li>
           <li><a className="links" href="/login">Logout</a></li>
         </ul>
       </div>

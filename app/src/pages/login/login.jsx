@@ -89,10 +89,9 @@ export default function Login() {
             {/* Login Form */}
             <form onSubmit={handleClick}>
               <input type="text" id="login" className="fadeIn second" name="username" placeholder="Username" ref={username} required />
-              <input type={passwordShown ? "text" : "password"  } id="login" className="fadeIn second" name="login" placeholder="Password" ref={password} required />
+              <input type="text" id="password" className="fadeIn third" name="password" placeholder="password" ref={password} required />
               
               <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={handleCaptchaChange}  required = {isCaptchaVerified} />
-              <button onClick={togglePassword }>Show Password</button>
               <input type="submit" className="fadeIn fourth" value="Log In" />
                
             </form>
@@ -101,7 +100,6 @@ export default function Login() {
             <div id="formFooter">
               <a className="underlineHover" href="/PasswordChange">Forgot Password?</a>
             </div>
-            <Footer></Footer>
           </div>
         </div>
         
