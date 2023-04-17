@@ -33,6 +33,7 @@ end = False
 rep = 0 
 set = 1
 tilt = None
+capture = None
 
 message = {
     'Lift Type': "Squat",
@@ -43,7 +44,8 @@ message = {
     'Errors': None,
     'Set Length': None,
     'Session Length': None,
-    'Weight': "100kg"
+    'Weight': "100kg",
+    "Error Image Capture": capture
 }
 
 storage_client = storage.Client.from_service_account_json('gymvision-c352151a50b1.json')
@@ -124,7 +126,7 @@ def side_cam():
     bucket_name = 'gymvision-image-storage'
     bucket = storage_client.get_bucket(bucket_name)
     errors = 0
-    global state, end, rep, set, message, username
+    global state, end, rep, set, message, username, capture
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         while cap.isOpened() :
@@ -170,18 +172,20 @@ def side_cam():
                         badFormTimer=0
 
                     if badFormTimer == 50:
-                        errorImage = '{}-errorImage-{}.jpg'.format(username, time.time())
-                        cv2.imwrite(f"{errorImage}", image)
-                        print("Error image: " + errorImage + " has been created")
-                        blob = bucket.blob(errorImage)
-                        blob.upload_from_filename(errorImage)
-                        message['Images'].append(errorImage)
+                        if capture:
+                            errorImage = '{}-errorImage-{}.jpg'.format(username, time.time())
+                            cv2.imwrite(f"{errorImage}", image)
+                            print("Error image: " + errorImage + " has been created")
+                            blob = bucket.blob(errorImage)
+                            blob.upload_from_filename(errorImage)
+                            message['Images'].append(errorImage)
                         errors+=1
                         
                     message["Set"] = set
                     message["Rep"] = rep
                     message["Feedback"] = {'Shoulder': s_message, 'Knee': k_message, 'Tilt': tilt}
                     message["Errors"] = errors
+                    message["Error Image Capture"] = capture
 
                 except:
                     pass
@@ -357,7 +361,7 @@ def my_publish_callback(envelope, status):
         pass
 
 class MySubscribeCallback(SubscribeCallback):
-    def presence(self, pubnub, presence):
+    def presence(self):
         pass
 
     def status(self, pubnub, status):
@@ -371,7 +375,7 @@ class MySubscribeCallback(SubscribeCallback):
             pass
 
     def message(self, pubnub, message):
-        global username
+        global username, capture
         try:
             msg = message.message
             print(msg)
@@ -382,6 +386,9 @@ class MySubscribeCallback(SubscribeCallback):
             if key[1] == 'username':
                 username = value[1]
                 print(username)
+            if key[2] == 'capture':
+                capture = value[2]
+                print(capture)
 
         except Exception as e:
             print(message.message)
