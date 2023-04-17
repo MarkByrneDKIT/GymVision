@@ -1,32 +1,32 @@
 {
-    "name": "setstats",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-      "start": "nodemon index.js"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-      "@mui/material": "^5.11.3",
-      "@mui/styled-engine-sc": "^5.11.0",
-      "bcrypt": "^5.1.0",
-      "bcryptjs": "^2.4.3",
-      "crypto-js": "^4.1.1",
-      "dotenv": "^16.0.3",
-      "express": "^4.18.2",
-      "express-rate-limit": "^6.7.0",
-      "express-recaptcha": "^5.1.0",
-      "google-auth-library": "^8.7.0",
-      "helmet": "^6.0.0",
-      "kit": "^0.1.2",
-      "mongoose": "^6.6.7",
-      "morgan": "^1.10.0",
-      "nodemon": "^2.0.20",
-      "npm": "^9.6.2",
-      "react-auth": "^1.0.0",
-      "react-icons": "^4.8.0",
-      "styled-components": "^5.3.6"
-    }
+  "name": "setstats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mui/material": "^5.11.3",
+    "@mui/styled-engine-sc": "^5.11.0",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "express-recaptcha": "^5.1.0",
+    "google-auth-library": "^8.7.0",
+    "helmet": "^6.0.0",
+    "kit": "^0.1.2",
+    "mongoose": "^6.10.5",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22",
+    "npm": "^9.6.2",
+    "react-auth": "^1.0.0",
+    "react-icons": "^4.8.0",
+    "styled-components": "^5.3.6"
   }
+}

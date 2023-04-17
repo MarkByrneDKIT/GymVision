@@ -28,7 +28,7 @@ export default function Squat() {
       pubnub.publish(
         {
           channel: 'Setstats',
-          message: { status: 'on', username: user.username },
+          message: { status: 'on', username: user.username, capture: imageCapture },
         },
         function (status, response) {
           console.log(status);
