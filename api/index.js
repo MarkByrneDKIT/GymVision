@@ -26,23 +26,6 @@ const connectDB = async () => {
 
 connectDB();
 
-const _dirname = path.dirname("")
-const buildPath = path.join(_dirname  , "../app/build");
-
-app.use(express.static(buildPath))
-
-app.get("/*", function(req, res){
-
-    res.sendFile(
-        path.join(__dirname, "../app/build/index.html"),
-        function (err) {
-          if (err) {
-            res.status(500).send(err);
-          }
-        }
-      );
-
-})
 
 app.use(express.json());
 app.use(helmet());

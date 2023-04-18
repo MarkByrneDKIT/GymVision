@@ -52,6 +52,10 @@ router.post("/register", async (req,res)=>{
 
 //LOGIN
 //Hashing here
+const loginAttempts = {};
+const maxAttempts = 3;
+const resetTime = 15 * 60 * 1000; // 15 minutes in milliseconds
+
 router.post("/login", async (req, res) => {
   try {
     const { username } = req.body;
@@ -92,5 +96,7 @@ router.post("/login", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
   
 module.exports = router;
