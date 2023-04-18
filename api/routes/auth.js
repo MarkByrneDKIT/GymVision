@@ -53,29 +53,44 @@ router.post("/register", async (req,res)=>{
 //LOGIN
 //Hashing here
 router.post("/login", async (req, res) => {
- 
-      try{
-        
-    
-        const user = await User.findOne({ username: req.body.username });
-        !user && res.status(404).send("User does not exist");
-        // if (!isCaptchaVerified) {
-        //   ("Error please try again")
-        //   return;
-        // }
-    //Hashing here, comparing hashes etc
-    //Set new variable 
-    // const hashedpassword = hashPassword(req.body.password);
-    //const password = await User.findOne({ password: hashedpassword });
-        
-        const password = await User.findOne({ password: req.body.password });
-        !password && res.status(400).json("Incorrect password");
-        
-        res.status(200).json(user);
-    } catch (err) {
-        res.status(500).json(err);
-    
+  try {
+    const { username } = req.body;
+
+    if (loginAttempts[username] && loginAttempts[username].attempts >= maxAttempts) {
+      const timeSinceLastAttempt = Date.now() - loginAttempts[username].timestamp;
+
+      if (timeSinceLastAttempt < resetTime) {
+        return res.status(429).json("Too many login attempts. Please try again later.");
+      } else {
+        loginAttempts[username].attempts = 0;
       }
-    })
+    }
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      res.status(404).send("User does not exist");
+      return;
+    }
+
+    const password = await User.findOne({ password: req.body.password });
+    if (!password) {
+      if (!loginAttempts[username]) {
+        loginAttempts[username] = { attempts: 1, timestamp: Date.now() };
+      } else {
+        loginAttempts[username].attempts += 1;
+        loginAttempts[username].timestamp = Date.now();
+      }
+      res.status(400).json("Incorrect password");
+      return;
+    }
+
+    // If successful login, reset the attempts counter
+    loginAttempts[username] = { attempts: 0, timestamp: Date.now() };
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
   
 module.exports = router;
