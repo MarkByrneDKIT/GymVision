@@ -8,7 +8,7 @@ export default function SquatTut() {
       <Navbar />
       <div className="content-section content">
         <div className="squat-video-container">
-        <img id="graphImg" src="https://storage.googleapis.com/gymvision-image-storage/mark-graph-1-1679340485.3177621.jpg" />
+        <img id="graphImg" src="https://storage.googleapis.com/gymvision-image-storage/mark-graph-1-1679340485.3177621.jpg" alt='exampleGraph' />
         </div>
         <div className="squat-text-container">
           <h2>Step-by-Step Guide</h2>

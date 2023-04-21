@@ -13,9 +13,7 @@ body {
     padding: 20px;
   }
   
-  .navbar {
-    margin-bottom: 30px;
-  }
+
   
   .session-list-container {
     display: flex;
@@ -27,6 +25,7 @@ body {
     border-radius: 0.5rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: 0.3s;
+    margin-top: 30px;
   }
   
   .session-list-container h2 {

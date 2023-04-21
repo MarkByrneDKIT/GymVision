@@ -7,9 +7,7 @@ import Homepage from './pages/homepage'
 import History from './pages/lift/history'
 import Session from './pages/lift/session'
 import PasswordChange from './pages/accountRecovery/PasswordChange'
-import ReCAPTCHA from "react-google-recaptcha";
 import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
 import SquatTut from './pages/tutorials/squat-tut'
 import GraphTut from './pages/tutorials/graph-tut'
 import CamerasTut from './pages/tutorials/cameras-tut'

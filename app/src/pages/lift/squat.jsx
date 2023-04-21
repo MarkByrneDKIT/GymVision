@@ -89,8 +89,9 @@ export default function Squat() {
   
 
   return (
-    <div className="container">
+    <div>
       <Navbar />
+    <div className="container">
       <div className="data-container">
         <div className={`data-box ${flash ? 'flash' : ''}`}>
           <p>
@@ -131,7 +132,7 @@ export default function Squat() {
         </button>
         <input type="checkbox" id="lifting" onChange={handleImageCaptureToggle} />
       </form>
-
+      </div>
     </div>
   );
 }

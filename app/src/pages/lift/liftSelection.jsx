@@ -6,8 +6,9 @@ export default function LiftSelection() {
   const navigate = useNavigate();
 
   return (
-    <div className="container">
+    <div>
       <Navbar />
+    <div className="container">
       <div className="content">
         <div className="lift-selection">
           <button className="start-button" onClick={() => navigate("/squat")}>Squat</button>
@@ -19,6 +20,7 @@ export default function LiftSelection() {
           <button className="start-button" onClick={() => navigate("/shoulderPress")}>Practice</button>
         </div>
       </div>
+    </div>
     </div>
   );
 }

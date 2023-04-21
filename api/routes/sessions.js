@@ -8,8 +8,7 @@ router.post("/session", async (req,res)=>{
     const newSession = new Session({
         username: req.body.username,
         repCount: req.body.repCount,
-        setCount: req.body.setCount,
-        images: req.body.images
+        setCount: req.body.setCount
     });
 
     

@@ -3,9 +3,6 @@ import { useRef } from "react"
 import {loginCall} from "../../apiCalls"
 import { useContext} from "react"
 import { AuthContext } from "../../context/AuthContext";
-import homeIcon2 from "../Images/homeIcon2.png";
-import {Link} from 'react-router-dom';
-import Footer from "../../components/footer/footer";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate} from 'react-router-dom';
 import { useState } from "react";
@@ -17,7 +14,6 @@ import { useState } from "react";
 export default function Login() {
     const username = useRef();
     const password = useRef();
-    const onChange =() => {};
     const { user, isFetching, error, dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
     const[errMsg, setErrMsg] = useState('');
@@ -57,7 +53,7 @@ export default function Login() {
                 setSuccess(true);
                 setAttempts(0);
                 console.log(user);
-                navigate("/history");
+                navigate("/");
               } else {
                 setSuccess(false);
                 setAttempts(attempts + 1);

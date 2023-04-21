@@ -1,15 +1,8 @@
 import "./register.css";
 import { useRef } from "react"
-import {loginCall} from "../../apiCalls"
-import { useContext} from "react"
-import { AuthContext } from "../../context/AuthContext";
-import homeIcon2 from "../Images/homeIcon2.png";
-import {Link} from 'react-router-dom';
-import Footer from "../../components/footer/footer";
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { useState } from "react";
  
 
 export default function Register() {
@@ -17,7 +10,6 @@ export default function Register() {
   const username = useRef();
   const email = useRef();
   const password = useRef();
-  const confirmPassword = useRef();
   const securityQuestion = useRef();
   const securityAnswer = useRef();
   const onChange = () => {};

@@ -11,9 +11,8 @@ export default function Homepage() {
 
     return (
         <div>
-            <Navbar/> 
+           <Navbar/> 
         <div className="container">
-
             <div className="content">
                 <div className="quick-start">
                     <div className="banner">Quick Start</div>
@@ -46,7 +45,6 @@ export default function Homepage() {
                     <button className="start-button" onClick={() => navigate('/camerasTut')}>How to Setup Cameras</button>
                 </div>
             </div>
-
         </div>
         </div>
      );

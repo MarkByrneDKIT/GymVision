@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import Navbar from "../../components/Navbar/Navbar";
 
 export default function AccountSettings() {
   const navigate = useNavigate();
@@ -41,6 +42,8 @@ export default function AccountSettings() {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="container">
       <div className="wrapper fadeInDown">
         <div id="formContent">
@@ -70,6 +73,7 @@ export default function AccountSettings() {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 }
