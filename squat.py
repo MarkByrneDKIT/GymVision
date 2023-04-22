@@ -124,6 +124,8 @@ def side_cam():
     bucket_name = 'gymvision-image-storage'
     bucket = storage_client.get_bucket(bucket_name)
     errors = 0
+    IMAGE_WIDTH = 480
+    IMAGE_HEIGHT = 864
     global state, end, rep, set, message, username
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
@@ -132,6 +134,8 @@ def side_cam():
             ret, image = cap.read()
             h, w = image.shape[:2]
             image = cv2.flip(image,1)
+            image = cv2.resize(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
+            image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
             results = pose.process(image)
@@ -204,12 +208,16 @@ def front_cam():
     prevAngle=0
     angle=0
     totalTime=0
+    IMAGE_WIDTH = 480
+    IMAGE_HEIGHT = 864
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, enable_segmentation=True) as pose:
         startTime = time.time()
         startSetTime = time.time()
         while cap2.isOpened():
             ret, image = cap2.read()
             h, w = image.shape[:2]
+            image = cv2.resize(image, (IMAGE_HEIGHT, IMAGE_WIDTH))
+            image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
             image = cv2.flip(image,1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
@@ -308,7 +316,8 @@ def front_cam():
                     break
 
 cap = cv2.VideoCapture("mark-side.mp4")
-cap2 = cv2.VideoCapture("mark-front.mp4")
+cap2 = cv2.VideoCapture(0)
+
 
 class PublishData(Resource):
     global message
