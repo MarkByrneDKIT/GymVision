@@ -132,8 +132,9 @@ def side_cam():
         while cap.isOpened() :
             
             ret, image = cap.read()
-            h, w = image.shape[:2]
             image = cv2.flip(image,1)
+            image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+            h, w = image.shape[:2]
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
             results = pose.process(image)
@@ -213,8 +214,9 @@ def front_cam():
         startSetTime = time.time()
         while cap2.isOpened():
             ret, image = cap2.read()
-            h, w = image.shape[:2]
+            image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
             image = cv2.flip(image,1)
+            h, w = image.shape[:2]
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
             results = pose.process(image)
@@ -241,7 +243,6 @@ def front_cam():
                     elif tilt == "/":
                         if counter != 30:
                             counter+= 2
-                        
                         cv2.circle(image, r_shoulder, (10+counter), (0,0,255), -1)
                     else:
                         counter = 0
@@ -262,8 +263,6 @@ def front_cam():
 
                     prevDistanceDiff = distanceDiff
                     distanceDiff = l_knee[1]- l_foot[1]
-                    
-                    # print("new distance: " , distanceDiff, "\tprev distance: ", prevDistanceDiff, "\tnew angle: ", angle, "\tprev angle: ", prevAngle)
 
                     if angle > 170:
                         direction = "down"
@@ -311,8 +310,9 @@ def front_cam():
                 if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
                     break
 
-cap = cv2.VideoCapture("mark-side.mp4")
-cap2 = cv2.VideoCapture("mark-front.mp4")
+cap = cv2.VideoCapture(1)
+cap2 = cv2.VideoCapture(0)
+
 
 class PublishData(Resource):
     global message
