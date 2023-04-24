@@ -61,12 +61,12 @@ def time_convert(sec):
 def checkForm(l_shoulder, r_shoulder,  l_knee, r_knee, l_foot, r_foot, image):
     global tilt
     if l_foot[0] > (l_shoulder[0]+20) and r_foot[0] > (r_shoulder[0]+20):
-        s_message = "<--"
+        s_message = "-->"
         s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
 
     elif l_foot[0] < (l_shoulder[0]-20) and r_foot[0] < (r_shoulder[0]-20):
-        s_message = "-->"
+        s_message = "<--"
         s_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     else:
@@ -75,11 +75,11 @@ def checkForm(l_shoulder, r_shoulder,  l_knee, r_knee, l_foot, r_foot, image):
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,255,0), thickness=3)
 
     if l_foot[0] > (l_knee[0]+20) and r_foot[0] > (r_knee[0]+20):
-        k_message = "<--"
+        k_message = "-->"
         k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     elif l_foot[0] < (l_knee[0]-20) and r_foot[0] < (r_knee[0]-20):
-        k_message = "-->"
+        k_message = "<--"
         k_colour = (0,0,255)
         cv2.line(image, (l_shoulder[0], l_shoulder[1]), (r_shoulder[0], r_shoulder[1]), color=(0,0,255), thickness=3)
     else:
@@ -164,8 +164,8 @@ def side_cam():
 
                     s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, r_shoulder, l_knee, r_knee, l_foot, r_foot, image)
                     
-                    cv2.putText(image, f"S: {str(s_message)}", (35,27), cv2.FONT_HERSHEY_DUPLEX, 1, s_colour, 2, cv2.LINE_AA)
-                    cv2.putText(image, f"K: {str(k_message)}", (w-200,27), cv2.FONT_HERSHEY_DUPLEX, 1, k_colour, 2, cv2.LINE_AA)
+                    cv2.putText(image, f"S: {str(s_message)}", (35,27), cv2.FONT_HERSHEY_DUPLEX, 1, s_colour, 1, cv2.LINE_AA)
+                    cv2.putText(image, f"K: {str(k_message)}", (w-200,27), cv2.FONT_HERSHEY_DUPLEX, 1, k_colour, 1, cv2.LINE_AA)
 
                     cv2.rectangle(image, (0, (h-50)), (w,h), (194, 101, 20), -1)     
                     cv2.putText(image, ("Side cam"), (int(w/3), h-12), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
