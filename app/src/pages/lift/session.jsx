@@ -63,26 +63,34 @@ function Session() {
         </Paper>
         <Grid container spacing={3} className="gridContainer">
           <Grid item xs={12} className="slideshow">
-            <img
-              src={selectedSession.images[activeImageIndex]}
-              alt={`Error image ${activeImageIndex + 1}`}
-              className="thumbnail"
-              onClick={() =>
-                handleOpen(
-                  selectedSession.images[activeImageIndex],
-                  activeImageIndex
-                )
-              }
-            />
-            <Typography variant="subtitle2" className="thumbnail-title">
-              {`Image ${activeImageIndex + 1}`}
-            </Typography>
-            <button className="prev-button" onClick={prevImage}>
-              &#10094;
-            </button>
-            <button className="next-button" onClick={nextImage}>
-              &#10095;
-            </button>
+            {selectedSession.images.length > 0 ? (
+              <>
+                <img
+                  src={selectedSession.images[activeImageIndex]}
+                  alt={`Error image ${activeImageIndex + 1}`}
+                  className="thumbnail"
+                  onClick={() =>
+                    handleOpen(
+                      selectedSession.images[activeImageIndex],
+                      activeImageIndex
+                    )
+                  }
+                />
+                <Typography variant="subtitle2" className="thumbnail-title">
+                  {`Image ${activeImageIndex + 1}`}
+                </Typography>
+                <button className="prev-button" onClick={prevImage}>
+                  &#10094;
+                </button>
+                <button className="next-button" onClick={nextImage}>
+                  &#10095;
+                </button>
+              </>
+            ) : (
+              <Typography variant="h6" className="no-images-message">
+                No images with this session
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <Card title="Rep Count:" value={selectedSession.repCount} />
@@ -108,7 +116,7 @@ function Session() {
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <Card title="Best Rep" value="7" />
           </Grid>
-        </Grid>
+          </Grid>
         <Modal
           open={open}
           onClose={handleClose}

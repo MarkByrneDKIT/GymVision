@@ -4,8 +4,10 @@ import './squat-tut.css';
 
 export default function SquatTut() {
   return (
+    <div>
+      <Navbar />      
     <div className="container">
-      <Navbar />
+
       <div className="content-section content">
        
         <div className="squat-text-container">
@@ -43,6 +45,7 @@ export default function SquatTut() {
           </ol>
         </div>
       </div>
+    </div>
     </div>
   );
 }
