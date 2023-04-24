@@ -1,83 +1,56 @@
 
-# GymVision SetStats
-<table>
-<tr>
-<td>
-  AI ASSISTED WEIGHTLIFTING TRACKER
+# GymVision SetStats: AI-Powered Weightlifting Coach
 
-  People who start working out initially have it hard getting used to new lifts and the correct way of doing these lifts. Our app is being created with these people in   mind, to assist them in their journey in the gym. Starting out with three basic lifts (shoulder press, deadlift, squat). The user will be more inclined to use it at    a home gym/ private gym.
+![GymVision Logo](https://user-images.githubusercontent.com/73395028/234131436-c3417bbd-614d-46aa-84a6-b97135a1c973.png)
 
-  We use computer vision with two webcams to process the user's body movements, which allows us to calculate the amount of reps and sets the user has done. Along with    this we can "guide" the user on their form i.e., we will warn them if they are tilting too much or have the weight in the wrong position. The data (reps, sets,       warning message and tilt) is then sent to our website where it can be viewed live.
+GymVision SetStats is an AI-assisted weightlifting tracker designed to help beginners and experienced lifters alike improve their technique and track their progress. By utilizing computer vision technology and a user-friendly interface, GymVision SetStats provides real-time feedback and analysis of your workouts, ensuring a safer and more effective exercise experience.
 
-  A history system is in place which allows users to view their data from previous sessions i.e., the message saying their form is bad and at which rep/set, to review    their progress over each session.
-</td>
-</tr>
-</table>
+## Features
 
+- Real-time tracking and guidance for three fundamental lifts: shoulder press, deadlift, and squat.
+- Dual-webcam system for comprehensive body movement analysis.
+- Instant feedback on form, including warnings for incorrect posture or weight positioning.
+- Live data visualization on our website, including reps, sets, and form analysis.
+- Progress tracking with session history and detailed form analysis.
 
 ## Demo
-Here is a working live demo :  LINK
 
+See GymVision SetStats in action: [Live Demo](link_to_live_demo)
 
-## Site
+## Usage
 
-### Landing Page
+### Development and Contribution
 
+We welcome contributions to improve GymVision SetStats! If you'd like to fix a bug or enhance an existing feature, follow these steps:
 
-### Query Filled Form
+1. Fork the repository.
+2. Create a new branch (`git checkout -b improve-feature`).
+3. Make the necessary changes in the files.
+4. Add changes to reflect the modifications made.
+5. Commit your changes (`git commit -am 'Improve feature'`).
+6. Push to the branch (`git push origin improve-feature`).
+7. Create a Pull Request.
 
+### Bug Reports and Feature Requests
 
-### Charts
+To report a bug or request a new feature, please [open an issue](link_to_issues) on our GitHub repository.
 
+## Built With
 
-
-## Mobile support
-The WebApp is compatible with 
-
-
-
-
-## [Usage] 
-
-### Development
-Want to contribute? Great!
-
-To fix a bug or enhance an existing module, follow these steps:
-
-- Fork the repo
-- Create a new branch (`git checkout -b improve-feature`)
-- Make the appropriate changes in the files
-- Add changes to reflect the changes made
-- Commit your changes (`git commit -am 'Improve feature'`)
-- Push to the branch (`git push origin improve-feature`)
-- Create a Pull Request 
-
-### Bug / Feature Request
-
-If you find a bug (the website couldn't handle the query and / or gave undesired results), kindly open an issue [here]() by including your search query and the expected result.
-
-If you'd like to request a new function, feel free to do so by opening an issue [here](). Please include sample queries and their corresponding results.
-
-
-## Built with 
-
-- [React](https://reactjs.org/) - React makes it painless to create interactive UIs.
-- [NodeJs](https://nodejs.org/en/) - Node.js® is an open-source, cross-platform JavaScript runtime environment.
-- [ExpressJs](http://expressjs.com/) - Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
-- [MongoDB](https://www.bing.com/search?q=MongoDB&qs=n&form=QBRE&sp=-1&ghc=1&pq=mongodb&sc=3-7&sk=&cvid=A03E043892974530BDC9E6B103C4931B&ghsh=0&ghacc=0&ghpl=) - MongoDB is an open-source document-oriented database that is designed to store a large scale of data and also allows you to work with that data very efficiently.
-- [openCV](https://opencv.org/) - OpenCV is a highly optimized library with focus on real-time applications.
-- [MediaPipe](https://google.github.io/mediapipe/) - MediaPipe offers cross-platform, customizable ML solutions for live and streaming media
-
-## To-do
-- 
-- 
-- 
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+- [Node.js](https://nodejs.org/en/) - An open-source, cross-platform JavaScript runtime environment.
+- [Express.js](http://expressjs.com/) - A minimal and flexible Node.js web application framework.
+- [MongoDB](https://www.mongodb.com/) - An open-source, document-oriented database for efficient data storage and retrieval.
+- [OpenCV](https://opencv.org/) - A highly optimized library focused on real-time computer vision applications.
+- [MediaPipe](https://google.github.io/mediapipe/) - A cross-platform framework for customizable ML solutions in live and streaming media.
 
 ## Team
 
-
-
-## [License]
+- **Mark Byrne** - Team Lead, Database Developer, UI Developer
+- **Richard Collins** - Backend Developer, Scrum Master
+- **Liam Denning** - Frontend Developer, Backend Developer, Mobile App Developer
+- **Himansh Arora** - User Testing, Software Testing
+- **Kealan Crilly** - Security Expert
 
 
 
