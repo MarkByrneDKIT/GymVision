@@ -160,12 +160,15 @@ def side_cam():
                     cv2.line(image, (l_foot[0] +20, 0), (l_foot[0] +20, 2000), (0, 150, 0), 1)
                     cv2.line(image, (l_foot[0] -20, 0), (l_foot[0] -20, 2000), (0, 150, 0), 1)
 
-                    cv2.rectangle(image, (0,0), (300,55), (194, 101, 20), -1)  
+                    cv2.rectangle(image, (0,0), (w,35), (194, 101, 20), -1)  
 
                     s_message, k_message, tilt, s_colour, k_colour = checkForm(l_shoulder, r_shoulder, l_knee, r_knee, l_foot, r_foot, image)
                     
-                    cv2.putText(image, str(s_message), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, s_colour, 2, cv2.LINE_AA)
-                    cv2.putText(image, str(k_message), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, k_colour, 2, cv2.LINE_AA)
+                    cv2.putText(image, f"S: {str(s_message)}", (35,27), cv2.FONT_HERSHEY_DUPLEX, 1, s_colour, 2, cv2.LINE_AA)
+                    cv2.putText(image, f"K: {str(k_message)}", (w-200,27), cv2.FONT_HERSHEY_DUPLEX, 1, k_colour, 2, cv2.LINE_AA)
+
+                    cv2.rectangle(image, (0, (h-50)), (w,h), (194, 101, 20), -1)     
+                    cv2.putText(image, ("Side cam"), (int(w/3), h-12), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
 
                     if s_message != "Perfect" and k_message != "Perfect":
                         badFormTimer+=1
@@ -225,6 +228,7 @@ def front_cam():
 
             setLength = round(time.time() - startSetTime, 2)
             elapsed_time = round(time.time() - startTime, 2)
+
             if state == True:
                 try:
                     landmarks = results.pose_landmarks.landmark
@@ -251,7 +255,7 @@ def front_cam():
 
                     cv2.putText(image, str(angle),
                                     tuple(np.multiply(l_knee, [640, 480]).astype(int)),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
+                                    cv2.FONT_HERSHEY_DUPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA
                                         )
                     x.append(setLength)
                     y.append(-(l_shoulder[1]))
@@ -294,10 +298,16 @@ def front_cam():
                 except Exception as e:
                     print(e)
                     pass
+                
+                cv2.rectangle(image, (0,0), (w,35), (194, 101, 20), -1)     
+                cv2.putText(image, (f"Set: {set}"), (10,27), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
+                cv2.putText(image, (f"Rep: {rep}"), (140,27), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
+                cv2.putText(image, (f"{time_convert(elapsed_time)}"), (int(w-165),27), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
 
-                cv2.rectangle(image, (0,0), (150,70), (194, 101, 20), -1)     
-                cv2.putText(image, (f"Set: {set}"), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
-                cv2.putText(image, (f"Rep: {rep}"), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)   
+
+
+                cv2.rectangle(image, (0, (h-50)), (w,h), (194, 101, 20), -1)     
+                cv2.putText(image, ("Front cam"), (int(w/3), h-12), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
                 
                 mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                 mp_drawing.DrawingSpec(color=(29,162,7), thickness=2, circle_radius=4),
@@ -312,7 +322,6 @@ def front_cam():
 
 cap = cv2.VideoCapture(1)
 cap2 = cv2.VideoCapture(0)
-
 
 class PublishData(Resource):
     global message
