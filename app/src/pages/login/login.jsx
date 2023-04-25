@@ -6,11 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate} from 'react-router-dom';
 import { useState } from "react";
-
  
- 
-
-
 export default function Login() {
     const username = useRef();
     const password = useRef();
