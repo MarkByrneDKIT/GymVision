@@ -1,5 +1,5 @@
 import "./register.css";
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import { useNavigate } from "react-router";
@@ -12,14 +12,30 @@ export default function Register() {
   const password = useRef();
   const securityQuestion = useRef();
   const securityAnswer = useRef();
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const onChange = () => {};
   const navigate = useNavigate();
 
+
+  
+  const handleCaptchaChange = (value) => {
+   setIsCaptchaVerified(true);
+ };
+
+ 
   const handleClick = async (e) => {
     e.preventDefault();
     // if (confirmPassword.current.value !== password.current.value) {
     //   confirmPassword.current.setCustomValidity("Passwords don't match.");
     // } else {
+
+
+  if (!isCaptchaVerified) {
+    setErrMsg("Please complete the reCAPTCHA");
+    return;
+  }
+
       const user = {
         username: username.current.value,
         email: email.current.value,
@@ -37,6 +53,8 @@ export default function Register() {
     
   };
   
+
+ 
 
   return (
     <div className="wrapper fadeInDown">
@@ -107,10 +125,12 @@ export default function Register() {
             required
             />
           
-          <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={onChange} />
+          <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={handleCaptchaChange} />
+          {errMsg && <p className="Error">{errMsg}</p>}
+       
           <input type="submit" className="fadeIn fourth" value="Register" />
         </form>
       </div>
     </div>
     );
-    }
+  }

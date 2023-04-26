@@ -17,11 +17,7 @@ export default function Login() {
     const [passwordShown, setPasswordShown] = useState(false);
     const [attempts, setAttempts] = useState(0);
  
-
-    const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
-     const handleCaptchaChange = (value) => {
-      setIsCaptchaVerified(true);
-    }
+ 
     const togglePassword = () => {
       // When the handler is invoked
       // inverse the boolean state of passwordShown
@@ -39,10 +35,7 @@ export default function Login() {
             setErrMsg("Error you were over the number of login attempts. Try again later.");
             return;
           }
-          if (!isCaptchaVerified) {
-            setErrMsg("Error, please complete the reCAPTCHA verification.");
-            return;
-          }
+    
           loginCall(
             { username: username.current.value, password: password.current.value },
             dispatch
@@ -57,13 +50,13 @@ export default function Login() {
                 setSuccess(false);
                 setAttempts(attempts + 1);
                 setErrMsg("Error, the password or username was invalid");
-              }
+              };
             })
             .catch(() => {
               setSuccess(false);
               setAttempts(attempts + 1);
               setErrMsg("Error, the password or username was invalid");
-              setIsCaptchaVerified(false); // Reset the captcha verification
+            
             });
         };
         
@@ -86,9 +79,7 @@ export default function Login() {
             <form onSubmit={handleClick}>
               <input type="text" id="login" className="fadeIn second" name="username" placeholder="Username" ref={username} required />
               <input type="password" id="password" className="fadeIn third" name="password" placeholder="password" ref={password} required />
-
-              <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={handleCaptchaChange} />
-          {errMsg && <p className="Error">{errMsg}</p>}
+ 
               <input type="submit" className="fadeIn fourth" value="Log In" />
                
             </form>
