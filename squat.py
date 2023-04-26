@@ -28,12 +28,14 @@ pubnub = PubNub(pnconfig)
 
 my_channel = 'Setstats'
 
-state = True
+state = False
 end = False
 rep = 0 
 set = 1
 tilt = None
 capture = None
+repAmount = None
+setAmount = None
 
 message = {
     'Lift Type': "Squat",
@@ -204,7 +206,7 @@ def front_cam():
     direction = None
     x = []
     y = []
-    global state, end, username, rep, set, tilt
+    global state, end, username, rep, set, tilt, repAmount, setAmount
     bucket_name = 'gymvision-image-storage'
     bucket = storage_client.get_bucket(bucket_name)
     prevDistanceDiff=0
@@ -274,7 +276,7 @@ def front_cam():
                         direction="up"
                         rep+=1
 
-                    if rep == 2:
+                    if rep == repAmount:
                         rep = 0
                         setLength = 0
                         # generates graph
@@ -384,7 +386,7 @@ class MySubscribeCallback(SubscribeCallback):
             pass
 
     def message(self, pubnub, message):
-        global username, capture
+        global username, capture, repAmount, setAmount
         try:
             msg = message.message
             print(msg)
@@ -392,6 +394,10 @@ class MySubscribeCallback(SubscribeCallback):
             value = list(msg.values())
             if key[0] == 'status':
                 self.handle_event(msg)
+            else:
+                repAmount = value[0]
+                setAmount = value[1]
+                print(repAmount, setAmount)
             if key[1] == 'username':
                 username = value[1]
                 print(username)
