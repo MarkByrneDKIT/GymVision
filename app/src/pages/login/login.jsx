@@ -81,8 +81,8 @@ export default function Login() {
             {/* Login Form */}
             <form onSubmit={handleClick}>
               <input type="text" id="login" className="fadeIn second" name="username" placeholder="Username" ref={username} required />
-              <input type="text" id="password" className="fadeIn third" name="password" placeholder="password" ref={password} required />
-              
+              <input type="password" id="password" className="fadeIn third" name="password" placeholder="password" ref={password} required />
+
               <ReCAPTCHA id="CAPTCHA" sitekey="6LdlWlkkAAAAAF91dcFM2-0KlUx_dDmC5cEdfPqI" onChange={handleCaptchaChange}  required = {isCaptchaVerified} />
               <input type="submit" className="fadeIn fourth" value="Log In" />
                
