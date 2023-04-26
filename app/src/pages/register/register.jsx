@@ -67,7 +67,7 @@ export default function Register() {
             required
           />
           <input
-            type="text"
+            type="password"
             id="password"
             className="fadeIn third"
             name="login"
@@ -76,7 +76,7 @@ export default function Register() {
             required
           />
           <input
-            type="text"
+            type="password"
             id="password"
             className="fadeIn third"
             name="login"
