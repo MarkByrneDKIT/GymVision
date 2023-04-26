@@ -79,7 +79,6 @@ export default function Login() {
             <form onSubmit={handleClick}>
               <input type="text" id="login" className="fadeIn second" name="username" placeholder="Username" ref={username} required />
               <input type="password" id="password" className="fadeIn third" name="password" placeholder="password" ref={password} required />
- 
               <input type="submit" className="fadeIn fourth" value="Log In" />
                
             </form>
