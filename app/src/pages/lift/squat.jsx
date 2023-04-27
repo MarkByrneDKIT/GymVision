@@ -62,7 +62,7 @@ export default function Squat() {
   useEffect(() => {
     if (status === 'on') {
       const interval = setInterval(() => {
-        axios.get('https://e91e-109-78-162-60.eu.ngrok.io').then(function (response) {
+        axios.get('http://localhost:5000/').then(function (response) {
           console.log(response.data);
           var imagesResponse = response.data['Images'];
           setImages((prevImages) => [...prevImages, ...imagesResponse]); // Store the images in the state
@@ -73,7 +73,7 @@ export default function Squat() {
           var feedback = response.data['Feedback'];
           document.getElementById('knees').textContent = feedback.Knee;
           document.getElementById('shoulders').textContent = feedback.Shoulder;
-          document.getElementById('tilt').textContent = feedback.tilt;
+          document.getElementById('tilt').textContent = feedback.Tilt;
           setFlash(true);
           setTimeout(() => setFlash(false), 1000);
         });
