@@ -323,7 +323,7 @@ def front_cam():
                 if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
                     break
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cap2 = cv2.VideoCapture(0)
 
 class PublishData(Resource):
