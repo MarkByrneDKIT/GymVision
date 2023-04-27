@@ -10,10 +10,12 @@ export default function Register() {
   const username = useRef();
   const email = useRef();
   const password = useRef();
+  const confirmPassword = useRef();
   const securityQuestion = useRef();
   const securityAnswer = useRef();
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+
   const onChange = () => {};
   const navigate = useNavigate();
 
@@ -26,9 +28,29 @@ export default function Register() {
  
   const handleClick = async (e) => {
     e.preventDefault();
-    // if (confirmPassword.current.value !== password.current.value) {
-    //   confirmPassword.current.setCustomValidity("Passwords don't match.");
-    // } else {
+ 
+
+    //check to see if passwords match up
+    const passwordValue = password.current.value;
+    const confirmPasswordValue = confirmPassword.current.value;
+
+    if(passwordValue !== confirmPasswordValue) {
+      setErrMsg("Error those passwords do not match up. Please try again.");
+      return;
+    }
+
+    //validation checker for strength of the password
+  if (!validateStrengthPassword(passwordValue)) {
+    setErrMsg("Failed your password needs at least 8 characters and have at least one uppercase letter, one lowercase letter and one number");
+    return;
+  }
+  //function here for passwordstrength validation
+  function validateStrengthPassword(password){
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  
+  return regex.test(password);
+  }
+   
 
 
   if (!isCaptchaVerified) {
@@ -100,6 +122,7 @@ export default function Register() {
             className="fadeIn third"
             name="login"
             placeholder="Confirm Password"
+            ref={confirmPassword}
             required
           />
           <select
