@@ -28,12 +28,15 @@ pubnub = PubNub(pnconfig)
 
 my_channel = 'Setstats'
 
-state = True
+state = False
 end = False
-rep = 0 
+
 set = 1
 tilt = None
 capture = None
+repAmount = 4
+setAmount = 6
+rep = repAmount 
 
 message = {
     'Lift Type': "Squat",
@@ -141,7 +144,7 @@ def side_cam():
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-            if state == True:
+            if state == True or end == False:
                 try:
                     landmarks = results.pose_landmarks.landmark
 
@@ -204,7 +207,7 @@ def front_cam():
     direction = None
     x = []
     y = []
-    global state, end, username, rep, set, tilt
+    global state, end, username, rep, set, tilt, repAmount, setAmount
     bucket_name = 'gymvision-image-storage'
     bucket = storage_client.get_bucket(bucket_name)
     prevDistanceDiff=0
@@ -229,7 +232,7 @@ def front_cam():
             setLength = round(time.time() - startSetTime, 2)
             elapsed_time = round(time.time() - startTime, 2)
 
-            if state == True:
+            if state == True or end == False:
                 try:
                     landmarks = results.pose_landmarks.landmark
 
@@ -272,10 +275,10 @@ def front_cam():
                         direction = "down"
                     if angle < 150 and distanceDiff < prevDistanceDiff and angle < prevAngle and direction == "down":
                         direction="up"
-                        rep+=1
+                        rep-=1
 
-                    if rep == 2:
-                        rep = 0
+                    if rep == 0:
+                        rep = repAmount
                         setLength = 0
                         # generates graph
                         plt.xlabel('Time (Seconds)')
@@ -294,6 +297,8 @@ def front_cam():
                         blob = bucket.blob(graph)
                         blob.upload_from_filename(graph)
                         message["Images"].append(graph)
+                        if set >= setAmount -1:
+                            end = True
                     
                 except Exception as e:
                     print(e)
@@ -303,8 +308,6 @@ def front_cam():
                 cv2.putText(image, (f"Set: {set}"), (10,27), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
                 cv2.putText(image, (f"Rep: {rep}"), (140,27), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
                 cv2.putText(image, (f"{time_convert(elapsed_time)}"), (int(w-165),27), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
-
-
 
                 cv2.rectangle(image, (0, (h-50)), (w,h), (194, 101, 20), -1)     
                 cv2.putText(image, ("Front cam"), (int(w/3), h-12), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255), 1, cv2.LINE_AA)   
@@ -384,7 +387,7 @@ class MySubscribeCallback(SubscribeCallback):
             pass
 
     def message(self, pubnub, message):
-        global username, capture
+        global username, capture, repAmount, setAmount, rep
         try:
             msg = message.message
             print(msg)
@@ -392,6 +395,11 @@ class MySubscribeCallback(SubscribeCallback):
             value = list(msg.values())
             if key[0] == 'status':
                 self.handle_event(msg)
+            else:
+                repAmount = value[0]
+                setAmount = value[1]
+                rep = repAmount
+                print(repAmount, setAmount)
             if key[1] == 'username':
                 username = value[1]
                 print(username)
