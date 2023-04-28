@@ -13,7 +13,20 @@ const SessionSchema = new mongoose.Schema({
     
     setCount:{
         type:Number
+    },
+    images:{
+        type:Array
+    },
+    errors:{
+        type:Number
+    },
+    setLength:{
+        type:Number
+    },
+    weight:{
+        type:Number
     }
+    
     // sessionId:{
     //     type:String,
     //     required:true,

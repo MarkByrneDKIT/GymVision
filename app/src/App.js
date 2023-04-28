@@ -6,13 +6,13 @@ import Squat from './pages/lift/squat'
 import Homepage from './pages/homepage'
 import History from './pages/lift/history'
 import Session from './pages/lift/session'
-import Recovery from './pages/accountRecovery/recovery'
 import PasswordChange from './pages/accountRecovery/PasswordChange'
+import React from 'react';
 import SquatTut from './pages/tutorials/squat-tut'
 import GraphTut from './pages/tutorials/graph-tut'
 import CamerasTut from './pages/tutorials/cameras-tut'
 import PasswordChangeTwo from './pages/accountRecovery/PasswordChange2'
-
+import AccountSettings from './pages/accountRecovery/AccountSettings'
 
 import{
   BrowserRouter as Router,
@@ -22,6 +22,17 @@ import{
 
 function App() {
   //reactrouter.com quick start
+  const onChange = () => {
+ 
+        const responseMessage = (response) => {
+            console.log(response);
+        };
+        const errorMessage = (error) => {
+            console.log(error);
+        };
+      
+    
+  };
   return(
     <Router>
       <Routes>
@@ -32,12 +43,14 @@ function App() {
         <Route path="/" element={<Homepage />}/>
         <Route path="/history" element={<History />}/>
         <Route path="/session" element={<Session />}/>
-        <Route path="/recovery" element={<Recovery />}/>
         <Route path="/PasswordChange" element={<PasswordChange />}/>
         <Route path="/PasswordChange2" element={<PasswordChangeTwo />}/>
         <Route path="/squatTut" element={<SquatTut />}/>
         <Route path="/camerasTut" element={<CamerasTut />}/>
         <Route path="/graphTut" element={<GraphTut />}/>
+        <Route path="/AccountSettings" element={<AccountSettings />}/>
+        <Route path="/PasswordChange" element={<PasswordChange />}/>
+        <Route path="/PasswordChangeTwo" element={<PasswordChangeTwo />}/>
       </Routes>
      </Router>
   );

@@ -1,43 +1,102 @@
 .container {
-    margin: 0;
-  }
-  
-  .dateLabel {
-    margin-bottom: 20px;
-  }
-  
-  .gridContainer {
-    margin-top: 20px;
-  }
-  
-  .infoCard {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-  
-  .cardTitle {
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .cardValue {
-    font-weight: bold;
-  }
-  .dateCard {
-    margin-bottom: 20px;
-    height: 60px;
-    background: white;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  margin: 0;
+  padding: 20px;
+}
 
-  body {
-    margin: 0;
-    padding: 0;
-  }
+.dateLabel {
+  margin-bottom: 20px;
+}
+
+.gridContainer {
+  margin-top: 20px;
+}
+
+.infoCard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.cardTitle {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cardValue {
+  font-weight: bold;
+}
+
+.dateCard {
+  margin-bottom: 20px;
+  height: 60px;
+  background: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbnail {
+  cursor: pointer;
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  max-height: 300px; /* Add this line to limit the height of the images */
+}
+
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 700px !important; /* Increased from 90% to 80% */
+  max-height: 100%; /* Increased from 90% to 80% */
+  overflow: auto;
+}
+
+.thumbnail-title {
+  text-align: center;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+
+.slideshow {
+  position: relative;
+}
+
+.prev-button,
+.next-button {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background-color: rgba(0,  0, 0, 0.2);
+}
+
+.next-button {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}

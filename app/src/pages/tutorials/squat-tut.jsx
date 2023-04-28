@@ -4,8 +4,9 @@ import './squat-tut.css';
 
 export default function SquatTut() {
   return (
+    <div>
+     <Navbar />
     <div className="container">
-      <Navbar />
       <div className="content-section content">
         <div className="squat-video-container">
           <iframe
@@ -43,6 +44,7 @@ export default function SquatTut() {
           </ul>
         </div>
       </div>
+    </div>
     </div>
   );
 }

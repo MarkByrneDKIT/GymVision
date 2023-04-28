@@ -5,11 +5,14 @@ import './history.css';
 
 export default function History() {
   return (
-    <div className='container'>
-      <Navbar />
+    <div>
+        <Navbar />
+      <div className='container'>
       <div className="session-list-container">
         <SessionList />
       </div>
     </div>
+    </div>
+    
   );
 }

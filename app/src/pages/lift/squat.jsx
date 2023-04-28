@@ -16,6 +16,10 @@ export default function Squat() {
 
   const [status, setStatus] = useState('off');
   const [flash, setFlash] = useState(false);
+  const [imageCapture, setImageCapture] = useState(false);
+
+
+  const [images, setImages] = useState([]);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -24,7 +28,7 @@ export default function Squat() {
       pubnub.publish(
         {
           channel: 'Setstats',
-          message: { status: 'on', username: user.username },
+          message: { status: 'on', username: user.username, capture: imageCapture },
         },
         function (status, response) {
           console.log(status);
@@ -43,22 +47,25 @@ export default function Squat() {
           console.log(response);
         },
       );
-
+  
       const session = {
         username: 'liam',
         repCount: document.getElementById('r').innerHTML,
         setCount: document.getElementById('s').innerHTML,
+        images: images, 
       };
-
+  
       axios.post('/sessions/session', session);
     }
   };
-
+  
   useEffect(() => {
     if (status === 'on') {
       const interval = setInterval(() => {
-        axios.get('https://e91e-109-78-162-60.eu.ngrok.io').then(function (response) {
+        axios.get('http://localhost:5000/').then(function (response) {
           console.log(response.data);
+          var imagesResponse = response.data['Images'];
+          setImages((prevImages) => [...prevImages, ...imagesResponse]); // Store the images in the state
           var rep = response.data['Rep'];
           document.getElementById('r').textContent = rep;
           var set = response.data['Set'];
@@ -66,7 +73,7 @@ export default function Squat() {
           var feedback = response.data['Feedback'];
           document.getElementById('knees').textContent = feedback.Knee;
           document.getElementById('shoulders').textContent = feedback.Shoulder;
-          document.getElementById('tilt').textContent = feedback.tilt;
+          document.getElementById('tilt').textContent = feedback.Tilt;
           setFlash(true);
           setTimeout(() => setFlash(false), 1000);
         });
@@ -74,10 +81,17 @@ export default function Squat() {
       return () => clearInterval(interval);
     }
   }, [status]);
+  
+  const handleImageCaptureToggle = (e) => {
+    setImageCapture(e.target.checked);
+  };
+  
+  
 
   return (
-    <div className="container">
+    <div>
       <Navbar />
+    <div className="container">
       <div className="data-container">
         <div className={`data-box ${flash ? 'flash' : ''}`}>
           <p>
@@ -116,9 +130,9 @@ export default function Squat() {
         >
           {status === 'off' ? 'Start' : 'Stop'} data
         </button>
-        <input type="checkbox" id="lifting" />
+        <input type="checkbox" id="lifting" onChange={handleImageCaptureToggle} />
       </form>
-
+      </div>
     </div>
   );
 }

@@ -5,6 +5,16 @@
   background-color: #e7e7e7;
 }
 
+.welcome {
+  text-align: right;
+}
+
+.welcome h2 {
+  color: #181818;
+  margin-right: 30px;
+  text-transform: none;
+}
+
 .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -40,9 +50,10 @@ h2 {
 .quick-session {
   position: relative;
   background-color: #1465c2;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
   padding: 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.1);
   transition: 0.3s;
   font-size: 1rem;
   font-weight: 600;
@@ -60,8 +71,13 @@ h2 {
 .quick-session:hover {
   background-color: rgb(3, 38, 150);
   color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 8px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+}
+
+.quick-session:active {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
 }
 
 
@@ -109,8 +125,9 @@ h2 {
 .lift-button,
 .start-button {
   display: block;
-  width: 100%;
+  width: 40%;
   padding: 0.75rem 1rem;
+  margin: 0 30%;
   margin-bottom: 1rem;
   font-size: 1rem;
   font-weight: 600;
