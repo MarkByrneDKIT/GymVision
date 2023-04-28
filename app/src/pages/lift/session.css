@@ -44,7 +44,7 @@
   width: 100%;
   height: auto;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 5px;
   margin-bottom: 20px;
   max-height: 300px; /* Add this line to limit the height of the images */
