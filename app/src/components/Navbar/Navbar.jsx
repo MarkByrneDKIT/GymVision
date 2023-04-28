@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 import logo from '../../pages/Images/logo-white.png';
 
 export default function Navbar() {
+  const { dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch({ type: 'LOGOUT' });
+    navigate('/login');
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -18,7 +28,7 @@ export default function Navbar() {
           <li><a className="links" href="/history">History</a></li>
           <li><a className="links" href="/LiftSelection">Lifts</a></li>
           <li><a className="links" href="/AccountSettings">Account Settings</a></li>
-          <li><a className="links" href="/login">Logout</a></li>
+          <li><a className="links" href="/login" onClick={handleLogout}>Logout</a></li>
         </ul>
       </div>
     </nav>
