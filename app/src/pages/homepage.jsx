@@ -1,13 +1,15 @@
 import './homepage.css'
 import Navbar from '../components/Navbar/Navbar'
-import ContactForm from "../components/contactForm/contactForm";
-import Footer from "../components/footer/footer";
 import SessionList from '../components/Sessions/sessionList'
 import { useNavigate } from 'react-router-dom';
 import PreviousSessionDetails from '../components/lastSession/PreviousSessionDetails';
 import PubNub from 'pubnub';
+import { AuthContext } from '../context/AuthContext';
+import React, { useContext } from 'react';
 
 export default function Homepage() {
+    const { user } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const pubnub = new PubNub({
@@ -34,6 +36,13 @@ export default function Homepage() {
         <div>
            <Navbar/> 
         <div className="container">
+        <span className='welcome'>
+            {
+                user ? 
+                <h2>Ready to get started {user.username}?</h2>:
+                <h2>Not logged in</h2>
+            }
+           </span>
             <div className="content">
                 <div className="quick-start">
                     <div className="banner">Quick Start</div>

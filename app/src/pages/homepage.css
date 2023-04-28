@@ -5,6 +5,16 @@
   background-color: #e7e7e7;
 }
 
+.welcome {
+  text-align: right;
+}
+
+.welcome h2 {
+  color: #181818;
+  margin-right: 30px;
+  text-transform: none;
+}
+
 .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -115,8 +125,9 @@ h2 {
 .lift-button,
 .start-button {
   display: block;
-  width: 100%;
+  width: 40%;
   padding: 0.75rem 1rem;
+  margin: 0 30%;
   margin-bottom: 1rem;
   font-size: 1rem;
   font-weight: 600;
