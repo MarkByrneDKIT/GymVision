@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-import threading
+from  threading import Thread, Event
 import math as m
 import time
 import matplotlib.pyplot as plt
@@ -13,6 +13,7 @@ from pubnub.enums import PNStatusCategory, PNOperationType
 from pubnub.pnconfiguration import PNConfiguration
 from pubnub.pubnub import PubNub
 import sys
+from werkzeug.serving import make_server
 
 app = Flask(__name__)
 api = Api(app)
@@ -198,6 +199,9 @@ def side_cam():
                     pass
 
                 if state == True:
+                    cv2.namedWindow('Side cam', cv2.WINDOW_NORMAL)
+                    cv2.moveWindow('Side cam', w // 1, 0)
+                    cv2.resizeWindow('Side cam', w // 1, h)
                     cv2.imshow('Side cam', image)
 
                 if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
@@ -318,6 +322,9 @@ def front_cam():
                 )   
 
                 if state == True:
+                    cv2.namedWindow('Front cam', cv2.WINDOW_NORMAL)
+                    cv2.moveWindow('Front cam', w // 6, 0)
+                    cv2.resizeWindow('Front cam', w // 1, h)
                     cv2.imshow('Front cam', image)
                     
                 if cv2.waitKey(1) & 0xFF == ord('q') or end == True:
@@ -326,27 +333,30 @@ def front_cam():
 cap = cv2.VideoCapture(1)
 cap2 = cv2.VideoCapture(0)
 
+class Server(Thread):
+    def __init__(self, app, host='localhost', port=5000):
+        super(Server, self).__init__()
+        self.server = make_server(host, port, app)
+        self.shutdown_flag = False
+
+    def run(self):
+        self.server.serve_forever()
+
+    def shutdown(self):
+        self.server.shutdown()
+        self.join()
 class PublishData(Resource):
     global message
     def get(self):
         return message
-
-def start_server():
-    pubnub.add_listener(MySubscribeCallback())
-    pubnub.subscribe().channels(my_channel).execute()
-    app.run()
     
 def main():
-    global images
-    run_event = threading.Event()
-    run_event.set()
-    api.add_resource(PublishData, "/")
-    server = threading.Thread(target=start_server)
-    server.setDaemon(True)
-    server.start()
     global state
-    sideCam = threading.Thread(target=side_cam)
-    frontCam = threading.Thread(target=front_cam)
+    api.add_resource(PublishData, "/")
+    server = Server(app)
+    server.start()
+    sideCam = Thread(target=side_cam)
+    frontCam = Thread(target=front_cam)
     sideCam.start()
     frontCam.start()
 
@@ -355,10 +365,9 @@ def main():
             time.sleep(.1)
     except KeyboardInterrupt:
         print("Attempting to close threads.")
-        run_event.clear()     
         sideCam.join()
         frontCam.join()  
-        server.join()
+        server.shutdown()
         print("Threads successfully closed.")
         sys.exit
         
